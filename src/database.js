@@ -1,4 +1,4 @@
-const mysql = require("mysql")
+import mysql from "mysql";
 // https://www.w3schools.com/js/js_class_inheritance.asp
 
 class Database {
@@ -50,7 +50,8 @@ class User extends Database {
             lastname = "",
             email = "",
             phone = [],
-            reports = 0 // Hidden, only visible to Admins
+            reports = 0, // Hidden, only visible to Admins
+            two_step_auth = null // unncesesary if user logs in using discord
         }
     }
 
@@ -73,11 +74,11 @@ class User extends Database {
 
     updateNick() {}
 
-    addReview() {}
+    addReview(item_id, content) {}
 
     getReviews() {}
 
-    removeUser() {}
+    removeUser() {} // Ta bort all reviews (Alla förekomster av en användare i databasen)
 
 }
 
