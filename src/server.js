@@ -1,5 +1,9 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+import express from "express";
+import bodyParser from "body-parser";
+
+// måste användas för att requirea
+// import { createRequire } from 'module';
+// const require = createRequire(import.meta.url); 
 
 const server = express()
 
@@ -11,6 +15,8 @@ let info = {
 }
 
 
+import { authRoute } from "./routes/auth"
+server.use('/', authRoute);
 
 server.get('/', (req, res) => { 
     res.send(`<p>${info.desc}</p>`)
@@ -26,11 +32,7 @@ server.get('/contact', (req, res) => {
   
 })
 
-
-
-
-
-const port = 3000
+const port = 8080
 server.listen(port, () => {
   console.log(`Food is up and running http://localhost:${port}`)
 })
