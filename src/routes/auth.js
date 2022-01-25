@@ -1,3 +1,7 @@
+/*
+    This router will be used to authenticate a User by using the Database class 
+*/
+
 const express = require("express")
 const router = express.Router()
 
