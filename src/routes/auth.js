@@ -1,5 +1,15 @@
 /*
-    This router will be used to authenticate a User by using the Database class 
+    Den här routern kommer användas till autentisering av användare genom att logga in mha Discord
+
+
+    - Genom att logga in med discord så får man en så kallad discord Auth token när en användare loggar in.
+        Denna token kommer man kunna använda för att gå till discord och fråga om information om använaren.
+        Discord svarar med denna information och förhoppningsvis ett user ID som är unikt. 
+        Detta ID kommer jag att skicka in till databasen och göra användare med det. 
+        På så sätt så kommer jag inte behöva spara några lösenord eller liknande utan endast användarens client ID på discord
+
+    - Discord IDt kommer att kopplas till användardatan i databasen tex recenssioner osv
+
 */
 
 
@@ -16,8 +26,11 @@ const DISCORD_ENDPOINT = "https://discord.com/api/v9"
 
 // import {responeMessages as error, log} from './log';
 
+router.get('/login', (req, res) => {
+    res.send("Login Page")
+});
+
 router.get('/login/discord', (req, res) => {
-    // res.send('<form method="POST" action="/login"><button type="submit">submit</button></form>')
     // Query code is deliverd from discord
     let query_string = req.query.code
 
@@ -33,10 +46,10 @@ router.get('/login/discord', (req, res) => {
         console.log("No querycode. Redirect to discord");
         res.redirect(OAUTH_SCOPE)
     }
-})
+});
 
-router.get('/login/discord/refresh', (req, res) => {
-
+router.get('/refresh_login/discord', (req, res) => {
+    discord_refresh_token_exchange()
 });
 
 router.post('/signout', (req, res) => { 
@@ -58,7 +71,6 @@ async function discord_oauth(query_string) {
 }
 
 
-// TODO: LÄGG TILL TOKEN REFRESH EXCHANGE
 async function discord_oauth_me(discord_token_data)
 {
     try {
@@ -77,11 +89,11 @@ async function discord_oauth_me(discord_token_data)
 
 }
 
-
 // Refresh_token kommer orginellt från discord_token_exchange
 // Används för att användaren ska fortsätta vara inloggad utan att behöva logga in igen.
 // https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/
 // TODO: Antingen spara refresh token i cookie/session eller spara i databas (Troligen dålig idé, idée nmr 2)
+// Vet ej om detta fungerar men borde fungera i teorin då man endast behöver ändra body
 async function discord_refresh_token_exchange(refresh_token) {
     const body_data = new URLSearchParams();
     body_data.append('client_id', CLIENT_ID);
@@ -99,7 +111,7 @@ async function discord_refresh_token_exchange(refresh_token) {
         let discord_refresh_response = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
         return await discord_refresh_response.json()
     } catch (err) {
-        return {get_discord_oauth_token: null, error: err}
+        return {discord_refresh_response: null, error: err}
     }
 
 }
