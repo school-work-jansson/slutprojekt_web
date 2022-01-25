@@ -1,8 +1,8 @@
-const express = require("express")
+import express from "express";
 const router = express.Router()
 
 
-server.post('/send_message', (req, res) => { 
+router.post('/send_message', (req, res) => { 
     res.redirect('/contact')
     console.log("User requested to send a mail")
     
