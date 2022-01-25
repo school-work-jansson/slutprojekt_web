@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "rootDir": "./src", 
+      "outDir": "./build",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+
+      "noImplicitAny": false,
+      "removeComments": true,
+      "preserveConstEnums": true,
+
+      "skipLibCheck": true, 
+
+    },
+    "include": ["src/**/*", "node_modules"],
+  }
