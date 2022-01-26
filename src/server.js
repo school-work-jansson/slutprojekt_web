@@ -14,23 +14,21 @@ let info = {
   desc: "Det här projektet kommer att vara lite som trustpilot fast istället för att vara inriktad på företag i sig så kommer den att targeta recenssion av matprodukter från olika företag."
 }
 
+server.get('/', (req, res) => { 
+  res.send(`<p>${info.desc}</p>`)
+})
+
+server.get('/about', (req, res) => { 
+res.send(`<p>${info.desc}</p>`)
+
+})
+
+import { mailRoute } from './routes/mail'
+server.use('/contact', mailRoute)
 
 import { authRoute } from "./routes/auth"
 server.use('/', authRoute);
 
-server.get('/', (req, res) => { 
-    res.send(`<p>${info.desc}</p>`)
-})
-
-server.get('/about', (req, res) => { 
-  res.send(`<p>${info.desc}</p>`)
-  
-})
-
-server.get('/contact', (req, res) => { 
-  res.send(`<p>contact</p>`)
-  
-})
 
 const port = 8080
 server.listen(port, () => {
