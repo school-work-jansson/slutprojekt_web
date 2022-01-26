@@ -19,18 +19,17 @@ server.get('/', (req, res) => {
 })
 
 server.get('/about', (req, res) => { 
-res.send(`<p>${info.desc}</p>`)
-
+  res.send(`<p>${info.desc}</p>`);
 })
 
 import { mailRoute } from './routes/mail'
 server.use('/contact', mailRoute)
 
-import { authRoute } from "./routes/auth"
-server.use('/', authRoute);
+import { authRoute } from "./routes/user"
+server.use('/u', authRoute);
 
 
 const port = 8080
 server.listen(port, () => {
-  console.log(`Food is up and running http://localhost:${port}`)
+  console.log(`Server is up and running http://localhost:${port}`)
 })

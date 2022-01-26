@@ -49,16 +49,29 @@ router.get('/login/discord', (req, res) => {
 });
 
 router.get('/refresh_login/discord', (req, res) => {
-    discord_refresh_token_exchange()
+    //discord_refresh_token_exchange()
 });
 
 router.post('/signout', (req, res) => { 
     console.log("User requested Signout")
-    res.redirect('/')
+    res.render('index')
 })
 
+router.get('/profile', (req, res) => {
+    res.render("profile")
+})
 
-export { router as authRoute };
+router.post('/update_profile', (req, res) => {
+    console.log("User updated profile")
+    res.render('profile')
+})
+
+router.delete('/remove_user', (req, res) => {
+    console.log("User requested account deletion")
+    res.render('index')
+})
+
+export { router as userRoute };
 
 async function discord_oauth(query_string) {
     let discord_auth_data = await discord_token_exchange(query_string)
