@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router()
 import nodemailer from "nodemailer";
 
-/ https://www.w3schools.com/nodejs/nodejs_email.asp
+// https://www.w3schools.com/nodejs/nodejs_email.asp
 
 
 // put into env vars
