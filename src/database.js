@@ -51,7 +51,8 @@ class User extends Database {
             email = "",
             phone = [],
             reports = 0, // Hidden, only visible to Admins
-            two_step_auth = null // unncesesary if user logs in using discord
+            two_step_auth = null, // unncesesary if user logs in using discord
+            refresh_token = null
         }
     }
 
