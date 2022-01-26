@@ -38,7 +38,7 @@ server.use('/u', userRoute);
 
 
 server.all('*', (req, res) => {
-  res.status(404).send('<h1>404! Page not found</h1>');
+  res.render('404');
 });
 
 const port = 8080
