@@ -37,6 +37,10 @@ import { userRoute } from "./routes/user"
 server.use('/u', userRoute);
 
 
+server.all('*', (req, res) => {
+  res.status(404).send('<h1>404! Page not found</h1>');
+});
+
 const port = 8080
 server.listen(port, () => {
   console.log(`Server is up and running http://localhost:${port}`)
