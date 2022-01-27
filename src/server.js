@@ -21,6 +21,7 @@ const server = express()
   That is, two session secrets should be considered valid simultaneously.
   To my knowledge, Express doesn't have support for rotating secrets at this time. 
   https://stackoverflow.com/questions/43887865/what-is-a-secure-session-secret
+  https://www.npmjs.com/package/session-file-store kke den här bara för exempel istället för att spara i minnet
 */
 let time = 36000
 server.use(session({
