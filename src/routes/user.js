@@ -18,11 +18,11 @@ const router = express.Router()
 // const user = require("../database")
 import fetch from "node-fetch";
 
-const CLIENT_ID = '935563184138506330';
-const CLIENT_SECRET = "HiWaoSlp_hOmrLlCl96KpwuybnlrKv3k";
-const REDIRECT_URI = "http://localhost:8080/login/discord";
-const OAUTH_SCOPE = "https://discord.com/api/oauth2/authorize?client_id=935563184138506330&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Flogin%2Fdiscord&response_type=code&scope=identify%20email";
-const DISCORD_ENDPOINT = "https://discord.com/api/v9"
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const OAUTH_SCOPE = process.env.OAUTH_SCOPE;
+const DISCORD_ENDPOINT = process.env.DISCORD_ENDPOINT;
 
 // import {responeMessages as error, log} from './log';
 

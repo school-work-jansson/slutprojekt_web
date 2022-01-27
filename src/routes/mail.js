@@ -9,8 +9,8 @@ import nodemailer from "nodemailer";
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'youremail@gmail.com',
-        pass: 'yourpassword'
+        user: process.env.MAIL_NAME,
+        pass: process.env.MAIL_PASSWORD
     }
 });
 
@@ -41,7 +41,7 @@ router.post('/send_message', (req, res) => {
             res.sendStatus(200).render(`contact`, {response: "200: Success", message: "Mail sent!"})
             console.log('Email sent: ' + info.response);
         }
-      }); 
+    }); 
     console.log("User requested to send a mail")
     
 })
