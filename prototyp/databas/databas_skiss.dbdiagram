@@ -17,6 +17,8 @@ Table reviews as Rv {
   product_id int [not null]
   rating int [not null]
   content varchar 
+  flagged boolean [not null]
+  num_flags int 
 }
 
 Ref: reviews.user_id < U.id
