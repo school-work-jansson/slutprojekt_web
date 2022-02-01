@@ -116,27 +116,29 @@
             console.log("DEBUG: ", stars)
 
             // på något sätt fungerar detta för att ändra mängden stjärnor
-            // Lägg till möjlighet att få ut mängden stjärnor i variabel
+            // När en användare clickar på 
             $(stars).each((star_index) => {
                 $(stars[star_index]).click(() => {
                     let i = star_index;
-                    
+                    review_rating = (star_index + 1) // Index av den stjärnan som användaren klickar på plus ett
+
                     if ( !$(stars[star_index]).hasClass(star_whole) )
                     {
                         for (i; i >= 0; --i)
                             $(stars[i]).attr("class", star_whole)
-                    }
+                        
+                    }   
                     else {
                         for (i; i < stars.length; i++)
                             $(stars[i]).attr("class", star_none)
                         
-                        // review_rating = -1
                     }
-                    
+
+                    console.log("Current rating", review_rating)        
                 })
             })
 
-            console.log(review_rating)
+            console.log("Current rating", review_rating)
 
 
         })
