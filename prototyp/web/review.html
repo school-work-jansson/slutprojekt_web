@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- 
+        Detta exempel används för att simulera en "preview" på en review som en användare ska skicka in. 
+        Så att användaren ser hur posten kommer se ut när den är publicerad.
+     -->
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            margin:10px;
+        }
+        #preview {
+            background-color: grey;
+    
+            border-radius: 5px;
+
+            padding:10px;
+        }
+    </style>
+    
+    <div>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="title" placeholder="Title">
+        <textarea cols="30" rows="10" id="content" placeholder="Content"></textarea>
+    
+    </div>
+    
+    
+
+    <div id="preview">
+        <h1 id="preview-title"></h1> 
+        <span id="preview-name"></span>
+        <span id="preview-date"></span>
+        <p id="preview-content"></p>
+    </div>
+    <script>
+        $(() => {
+            
+            $('#title').on('input', () => {
+                $("#preview-title").html($("#title").val())
+                $("#preview-date").html(getDate())
+            });
+
+            $('#content').on('input', () => {
+                $("#preview-content").html($("#content").val())
+                $("#preview-date").html(getDate())
+            });
+
+            $('#name').on('input', () => {
+                $("#preview-name").html($("#name").val())
+                $("#preview-date").html(getDate())
+            });
+
+        })
+
+        function getDate() {
+            return new Date().toISOString()
+        }
+
+
+    </script>
+</body>
+</html>
