@@ -42,6 +42,13 @@
     </style>
     
     <div id="form">
+        <!-- 
+            Om det användaren skickar är identiskt till något som redan är publicerat så ska det flaggas
+            Om användaren använder massa svordommar i sin text så bör den också flaggas automatiskt
+
+            Om någonting flaggas så ska den inte publiceras utan den ska bli manuellt accepterad av en admin
+            Detta fungerar inte för på en skalad nivå, tex om sidan skulle få 200.000 dagliga användare
+          -->
         <form action="/post_review" method="post">
             <input type="text" id="name" placeholder="Name">
             <input type="text" id="title" placeholder="Title">
