@@ -8,8 +8,12 @@
     box-sizing: border-box;
     /* font-family: Georgia, 'Times New Roman', Times, serif; */
     scroll-behavior: smooth;
-    /* overflow-x: hidden; */
+    
 
+}
+
+body {
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
