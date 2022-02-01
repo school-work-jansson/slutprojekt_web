@@ -19,23 +19,41 @@
             margin: 0;
             margin:10px;
         }
+        
+        textarea
+        {
+            resize: none;
+            
+        }
+
         #preview {
             background-color: grey;
     
             border-radius: 5px;
 
             padding:10px;
+
+            max-width: 750px;
+        }
+
+        #preview  p {
+            word-wrap: break-word;
         }
     </style>
     
-    <div>
-        <input type="text" id="name" placeholder="Name">
-        <input type="text" id="title" placeholder="Title">
-        <textarea cols="30" rows="10" id="content" placeholder="Content"></textarea>
-    
+    <div id="form">
+        <form action="/post_review" method="post">
+            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="title" placeholder="Title">
+            <textarea cols="60" rows="10" id="content" placeholder="Content"></textarea>
+            <!-- 
+                https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
+                https://www.w3schools.com/howto/howto_css_star_rating.asp
+            -->
+            <input type="submit" value="Submit">
+        </form>
+        
     </div>
-    
-    
 
     <div id="preview">
         <h1 id="preview-title"></h1> 
@@ -43,6 +61,7 @@
         <span id="preview-date"></span>
         <p id="preview-content"></p>
     </div>
+    
     <script>
         $(() => {
             
