@@ -98,9 +98,27 @@
                 rating: 0
             }
 
+        
         $(() => {
-            
+            handle_review_form()
+        })
 
+        function handle_review_form() {
+
+            /* Star-rating Inspiration (https://codepen.io/Leoschmittk/pen/OJbQBgb) */
+            const star_whole = "rating__star fas fa-star";
+            const star_half = "raiting__star fas fa-star-half-alt"
+            const star_none = "rating__star far fa-star";
+
+            // Mappar alla raiting__star iconerna till en array
+            let stars = $('.rating__star').map((_, element) => {return element}).get()
+
+            /* När användaren faktiskt skickar reviewn mot servern */
+            $("#send_review_button").click(() => {
+                post_review(review_object)
+            })
+            
+            /* Listner som väntar på ändringar i review formuläret*/
             $('#title').on('input', () => {
                 let title_value = $("#title").val()
                 $("#preview-title").html(title_value)
@@ -111,30 +129,19 @@
             $('#content').on('input', () => {
                 let content_value = $("#content").val()
                 $("#preview-content").html(content_value)
-
                 $("#preview-date").html(getDate())
 
-                review_object.title = content_value
+                review_object.content = content_value
             });
 
             $('#name').on('input', () => {
-                let name_valie = $("#name").val()
-                $("#preview-name").html(name_valie)
+                let name_value = $("#name").val()
+                $("#preview-name").html(name_value)
                 $("#preview-date").html(getDate())
-                review_object.name = name_valie
+                review_object.name = name_value
             });
-
-
-            /* Star-rating Inspiration (https://codepen.io/Leoschmittk/pen/OJbQBgb) */
-            const star_whole = "rating__star fas fa-star";
-            const star_half = "raiting__star fas fa-star-half-alt"
-            const star_none = "rating__star far fa-star";
-
-            // Mappar alla raiting__star iconerna till en array
-            let stars = $('.rating__star').map((_, element) => {return element}).get()
             
-            
-            console.log("DEBUG: ", stars)
+            // console.log("DEBUG: ", stars)
 
             // på något sätt fungerar detta för att ändra mängden stjärnor
             // När en användare clickar på 
@@ -157,27 +164,15 @@
 
                     update_preview_stars(review_object.rating)
                     
-                    console.log("Current rating", review_object.rating)
-                    
+                    // console.log("Current rating", review_object.rating)
 
                 })
             })
-
-
-
-            console.log("Current rating", review_object.rating)
-
-            $("#send_review_button").click(() => {
-                $.post("/send_review", review_object)
-                console.log("posted")
-            })
-
             
-
-        })
+        }
+        
         function update_preview_stars(rating)
         {
-            console.log("update_preview_stars", rating)
 
             const preview_star_whole = "preview__rating__star fas fa-star";
             const preview_star_none = "preview__rating__star far fa-star";
@@ -199,6 +194,24 @@
                 
             })   
 
+        }
+
+        // KAnske använder någon gång
+        // function handleformating(key)
+        // {
+        //     switch (key) {
+        //         case 13:
+        //             return "<br>"
+        //             break;
+            
+        //         default:
+        //             break;
+        //     }
+        // }
+
+        function post_review(review) {
+            $.post("/send_review", review)
+            console.log(review_object)
         }
 
         function getDate() {
