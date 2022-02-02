@@ -80,28 +80,48 @@
         <span id="preview-name"></span>
         <span id="preview-date"></span>
         <p id="preview-content"></p>
+        <div class="rating">
+            <i class="preview__rating__star far fa-star"></i>
+            <i class="preview__rating__star far fa-star"></i>
+            <i class="preview__rating__star far fa-star"></i>
+            <i class="preview__rating__star far fa-star"></i>
+            <i class="preview__rating__star far fa-star"></i>
+        </div>
     </div>
     
     <script>
+        let review_object = {
+                title: "",
+                content: "",
+                name: "",
+                date: getDate(),
+                rating: 0
+            }
+
         $(() => {
-            let review_name = ""
-            let review_content = ""
-            let review_rating = 0
-            let review_title = ""
+            
 
             $('#title').on('input', () => {
-                $("#preview-title").html($("#title").val())
+                let title_value = $("#title").val()
+                $("#preview-title").html(title_value)
                 $("#preview-date").html(getDate())
+                review_object.title = title_value
             });
 
             $('#content').on('input', () => {
-                $("#preview-content").html($("#content").val())
+                let content_value = $("#content").val()
+                $("#preview-content").html(content_value)
+
                 $("#preview-date").html(getDate())
+
+                review_object.title = content_value
             });
 
             $('#name').on('input', () => {
-                $("#preview-name").html($("#name").val())
+                let name_valie = $("#name").val()
+                $("#preview-name").html(name_valie)
                 $("#preview-date").html(getDate())
+                review_object.name = name_valie
             });
 
 
@@ -112,6 +132,8 @@
 
             // Mappar alla raiting__star iconerna till en array
             let stars = $('.rating__star').map((_, element) => {return element}).get()
+            
+            
             console.log("DEBUG: ", stars)
 
             // på något sätt fungerar detta för att ändra mängden stjärnor
@@ -119,7 +141,7 @@
             $(stars).each((star_index) => {
                 $(stars[star_index]).click(() => {
                     let i = star_index;
-                    review_rating = (star_index + 1) // Index av den stjärnan som användaren klickar på plus ett
+                    review_object.rating = (star_index + 1) // Index av den stjärnan som användaren klickar på plus ett
 
                     if ( !$(stars[star_index]).hasClass(star_whole) )
                     {
@@ -133,27 +155,51 @@
                         
                     }
 
-                    console.log("Current rating", review_rating)        
+                    update_preview_stars(review_object.rating)
+                    
+                    console.log("Current rating", review_object.rating)
+                    
+
                 })
             })
 
-            console.log("Current rating", review_rating)
+
+
+            console.log("Current rating", review_object.rating)
 
             $("#send_review_button").click(() => {
-                let review_object = {
-                    title: review_title,
-                    content: review_content,
-                    name: review_name,
-                    date: getDate(),
-                    rating: review_rating
-                }
-
                 $.post("/send_review", review_object)
                 console.log("posted")
             })
 
-        })
+            
 
+        })
+        function update_preview_stars(rating)
+        {
+            console.log("update_preview_stars", rating)
+
+            const preview_star_whole = "preview__rating__star fas fa-star";
+            const preview_star_none = "preview__rating__star far fa-star";
+
+            let preview_stars = $('.preview__rating__star').map((_, element) => {return element}).get()
+            
+            $(preview_stars).each((star_index) => {
+                let i = rating - 1
+                
+                if ( $(preview_stars[i]).hasClass(preview_star_whole) )
+                {
+                    for (i; i < preview_stars.length; i++)
+                        $(preview_stars[i]).attr("class", preview_star_none)
+                }
+                else {
+                    for (i; i >= 0; --i)
+                        $(preview_stars[i]).attr("class", preview_star_whole)
+                }
+                
+            })   
+
+        }
 
         function getDate() {
             return new Date().toISOString()
