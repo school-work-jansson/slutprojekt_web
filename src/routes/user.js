@@ -34,11 +34,18 @@ router.get('/login/discord', (req, res) => {
     // Query code is deliverd from discord
     let query_string = req.query.code
 
+    if (req.session.authenticated) {
+        res.send(req.session.client)
+        return;
+    }
+
     if (query_string) // if querycode is something 
     {   
         console.log("Querycode not null");
         (async () => {
             let client_data = await discord_oauth(query_string)
+            req.session.authenticated = true;
+            req.session.client = client_data
             res.send(client_data);
         })();
     }
