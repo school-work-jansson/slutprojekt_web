@@ -8,7 +8,6 @@
     box-sizing: border-box;
     /* font-family: Georgia, 'Times New Roman', Times, serif; */
     scroll-behavior: smooth;
-    
 
 }
 
@@ -98,7 +97,7 @@ header .menu {
 
     width: 100vw;
     height: 550px;
-    background-image: url(jumbotron.svg);
+    background-image: url(../images/jumbotron.svg);
  
     background-size: 100% 100%;
     -o-background-size: 100% 100%;
