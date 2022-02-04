@@ -1,11 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import seession from 'express-session';
+import session from 'express-session';
 
 import { v4 as uuid } from 'uuid';
 
 import { __dirname } from "./utils";
+
+// import dotenv from "dotenv"
+// dotenv.config()
+// console.log(process.env)
 
 // måste användas för att requirea
 // import { createRequire } from 'module';
@@ -25,7 +29,10 @@ const server = express()
 */
 let time = 36000
 server.use(session({
+  // secret: "Monkey",
   secret: process.env.SESSION_SECRET,
+  saveUninitialized: true,
+  resave: false,
   genid: (req) => {
     return uuid() // use UUIDs for session IDs
   },
@@ -35,10 +42,12 @@ server.use(session({
   }
 }))
 
+
+
 import helmet from 'helmet';
 server.use(helmet())
 
-server.use(bodyParser.urlencoded({ extended: false }))
+server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
 
 
@@ -65,9 +74,20 @@ import { userRoute } from "./routes/user"
 server.use('/u', userRoute);
 
 
-server.all('*', (req, res) => {
-  res.render('404');
+// server.all('*', (req, res) => {
+//   res.render('404');
+// });
+
+// 404
+server.use((req, res, next) => {
+  return res.status(404).render('404');
+})
+
+// Any error
+server.use((err, req, res, next) => {
+  return res.status(500).send({ error: err });
 });
+
 
 let PORT = process.env.PORT || 8080
 server.listen(PORT, () => {
