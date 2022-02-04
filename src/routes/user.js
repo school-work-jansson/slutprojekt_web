@@ -18,6 +18,11 @@ const router = express.Router()
 // const user = require("../database")
 import fetch from "node-fetch";
 
+// import dotenv from "dotenv"
+// dotenv.config()
+
+// console.log(process.env)
+
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
@@ -34,14 +39,15 @@ router.get('/login/discord', (req, res) => {
     // Query code is deliverd from discord
     let query_string = req.query.code
 
+    // If user already has active auth
+    // just proceed
     if (req.session.authenticated) {
-        res.send(req.session.client)
-        return;
+        return res.send(req.session.client)
     }
 
     if (query_string) // if querycode is something 
     {   
-        console.log("Querycode not null");
+        console.log("Querycode not null continuing talk to discord");
         (async () => {
             let client_data = await discord_oauth(query_string)
             req.session.authenticated = true;
@@ -50,7 +56,7 @@ router.get('/login/discord', (req, res) => {
         })();
     }
     else {
-        console.log("No querycode. Redirect to discord");
+        console.log("No querycode. Redirect to discord", OAUTH_SCOPE);
         res.redirect(OAUTH_SCOPE)
     }
 });
