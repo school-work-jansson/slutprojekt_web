@@ -18,7 +18,7 @@ Table reviews as Rv {
   rating int [not null]
   content varchar 
   flagged boolean [not null]
-  num_flags int 
+  reports int 
 }
 
 Ref: reviews.user_id < U.id
