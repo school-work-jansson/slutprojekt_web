@@ -18,10 +18,6 @@ const router = express.Router()
 // const user = require("../database")
 import fetch from "node-fetch";
 
-// import dotenv from "dotenv"
-// dotenv.config()
-
-// console.log(process.env)
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -32,27 +28,31 @@ const DISCORD_ENDPOINT = process.env.DISCORD_ENDPOINT;
 // import {responeMessages as error, log} from './log';
 
 router.get('/login', (req, res) => {
-    res.send("Login Page")
+    res.send("Login Route")
 });
 
 router.get('/login/discord', (req, res) => {
-    // Query code is deliverd from discord
+    // Query string is deliverd from discord in the query
     let query_string = req.query.code
 
-    // If user already has active auth
-    // just proceed
+    // If user already has active auth; Just proceed
     if (req.session.authenticated) {
+        console.log("User already authenticated")
         return res.send(req.session.client)
     }
 
     if (query_string) // if querycode is something 
     {   
-        console.log("Querycode not null continuing talk to discord");
+        console.log("query_string not null; Requesting client data from discord");
         (async () => {
             let client_data = await discord_oauth(query_string)
             req.session.authenticated = true;
             req.session.client = client_data
             res.send(client_data);
+
+            // if user does not exist /signup with client_data
+
+            // if user exists, load user data into session
         })();
     }
     else {
@@ -62,7 +62,8 @@ router.get('/login/discord', (req, res) => {
 });
 
 router.get('/refresh_login/discord', (req, res) => {
-    //discord_refresh_token_exchange()
+    let refresh_token = ""
+    //discord_refresh_token_exchange(refresh_token)
 });
 
 router.post('/signout', (req, res) => { 
@@ -87,8 +88,10 @@ router.delete('/remove_user', (req, res) => {
 export { router as userRoute };
 
 async function discord_oauth(query_string) {
+    // Retrives clients auth token from discord
     let discord_auth_data = await discord_token_exchange(query_string)
 
+    // Retrives clients data from discord
     let client_info = await discord_oauth_me(discord_auth_data)
 
     console.log(discord_auth_data, client_info);
