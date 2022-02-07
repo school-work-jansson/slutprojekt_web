@@ -61,6 +61,10 @@ router.get('/login/discord', (req, res) => {
     }
 });
 
+router.get("/signup", (req, res) => {
+    res.render("signup")
+})
+
 router.get('/refresh_login/discord', (req, res) => {
     let refresh_token = ""
     //discord_refresh_token_exchange(refresh_token)
