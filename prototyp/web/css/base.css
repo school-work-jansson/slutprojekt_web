@@ -27,6 +27,7 @@ p, a {
 a, a:visited {
     color: rgb(255, 51, 0);
     text-decoration: none;
+
 }
 
 /* .navbar > li > a {
@@ -96,11 +97,18 @@ header {
 
 }
 
+
+#nav_links, .navbar {
+    list-style: none;
+    width: 100%;
+}
 #nav_links, .navbar > li > a {
     text-decoration: none;
     font-weight: bolder;
     color: rgb(255, 51, 0);
     font-size: 20px;
+    text-transform: uppercase;
+
 }
 
 /* https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
@@ -172,17 +180,18 @@ header {
         display: inline;
         padding: 10px;
     }
-
-    .navbar {
-        list-style: none;
-        
-        padding: 15px;
-        width: 100%;
-    }
     
     .navbar > li > a:hover {
         border-bottom: 2px solid #1C6EA4;
     }
+    
+    /*     
+    .navbar > li::before {
+        content: "|";
+    }
+    .navbar > li::after {
+        content: "|";
+    } */
 
 
 } 
