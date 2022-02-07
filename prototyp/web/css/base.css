@@ -24,6 +24,20 @@ p, a {
 }
 
 
+a, a:visited {
+    text-decoration: none;
+}
+
+
+.fa-star {
+    color: #dabd18b2;
+}
+
+.fas.fa-star{
+    box-shadow: 0 0 5px #ffee10;
+    text-shadow: 0 0 5px #ffee10;
+}
+
 header { 
     position: fixed;
     z-index: 10;
@@ -96,7 +110,7 @@ header .menu {
     justify-content: center;
 
     width: 100vw;
-    height: 550px;
+    height: 500px;
     background-image: url(../images/jumbotron.svg);
  
     background-size: 100% 100%;
@@ -114,55 +128,25 @@ header .menu {
 }
 
 
-.search input {
-    height: 55px;
-    width: 100%;
-
-    margin: 0px 10px 0px 10px;
-
-    font-size: 40px;
-    padding: 10px;
-
-    border-radius: 20px;
-    border: none;
-    
-    /* Shadow för att göra så att search boxen ser ut att stå ut */
-    box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
-    -moz-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
-}
-
-.search input:focus {
-    outline: none;
-
-    /* Shadow för att göra så att search boxen ser ut att stå ut */
-    box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.5);
-    -webkit-box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.5);
-    -moz-box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.5);
-
-    transition: 0.2s ease-in;
-}
-
-.card {
-    height: auto;
-    width: 100%;
-    max-width: 35vw;
-
+.pagnition {
     margin-top: 50px;
-    margin-bottom: 25px;
+}
+  
+.pagnition_button {
+    display: block;
+    font-size: 24px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #333;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
     padding: 10px;
-
-    border-radius: 15px;
-
-    /* Shadow för att göra så att search boxen ser ut att stå ut */
-    box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
-    -moz-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.6);
+    letter-spacing: 2px;
+    transition: all .25s;
 }
 
-.card-image img {
-    max-width: 100%;
-    height: auto;
+.pagnition_button:hover{
+    letter-spacing: 15px;
 }
 
 section#footer {
@@ -200,30 +184,7 @@ section#footer {
     border-radius: 50%;
 }
 
-.pagnition {
-    margin-top: 50px;
-}
-  
-.pagnition_button {
-    display: block;
-    font-size: 24px;
-    font-family: sans-serif;
-    text-decoration: none;
-    color: #333;
-    border-top: 2px solid #333;
-    border-bottom: 2px solid #333;
-    padding: 10px;
-    letter-spacing: 2px;
-    transition: all .25s;
-}
 
-.pagnition_button:hover{
-    letter-spacing: 15px;
-}
-
-.search-result {
-    margin-top: 10px;
-}
 
 #goto-top {
     display: none;
