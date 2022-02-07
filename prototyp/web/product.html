@@ -15,8 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slutprojekt | webutveckling 2 & webserverprogrammering</title>
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/product.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/3e0ba644be.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
@@ -31,16 +33,13 @@
             <div id="navbar">
                 <ul class="navbar">
                     <li>
+                        <a href="index.html">Hem</a>
+                    </li>
+                    <li>
                         <a href="about.html">Om det här</a>
                     </li>
                     <li>
                         <a href="#">Kontakta</a>
-                    </li>
-                    <li>
-                        <a href="#">test link</a>
-                    </li>
-                    <li>
-                        <a href="#">test link</a>
                     </li>
                 </ul>
             </div>
@@ -59,43 +58,43 @@
     <!-- https://app.haikei.app/ -->
 
     <section id="content">
-        <div class="search">
-            <form action="" method="post">
-                <input id="search-bar" type="text" placeholder="Search...">
-            </form>
-            <div class="search-result">
-                <span>Results: XXX</span>
-            </div>
+        <div>
+            <a href="#">Tillbaka</a>
         </div>
 
-        <!-- När användaren söker så ska bara x antal visas och så ska man ha möjligheten att klicka på en mer knapp för att ladda in fler -->
-        <div class="card">
-            <p>Här kommer listan med produkter komma när du söker i form av "cards"</p>
-        </div>    
+        <div class="product-card">
 
-        <div class="card">
-            <div class="card-image">
+            <div class="product-image">
                 <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
             </div>
-            <div class="card-stars">
-                <span>1/5 stars</span>
+            <div class="product-info">
+                <div class="card-stars">
+                    <span>1/5 stars</span>
+                </div>
+                <div class="description">
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+                </div>
             </div>
-            <div class="description">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
-            </div>
-        </div> 
+
+        </div>
         
-        <div class="card">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
-        </div> 
-
-        <div class="card">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
-        </div> 
-
-        <div class="card">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
-        </div> 
+        <div class="review-cards">
+            <div class="card">
+                <h1 id="review-title">Review Title</h1> 
+                <div class="rating">
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                </div>
+                <span id="review-name">Name</span>
+                <span id="review-date">Date</span>
+                <p id="review-content">Här kommer varje review (15 senaste och sedan kan man klicka visa mer) vara i from av ett card. Dessa reviews kommer laddas in automatiskt on page load och skickas från databsen</p>                
+            </div> 
+    
+        </div>        
+        
 
         <div class="pagnition">
             <!-- Pagnition [Show more] -->
