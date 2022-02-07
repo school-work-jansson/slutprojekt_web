@@ -38,6 +38,33 @@ a, a:visited {
     text-shadow: 0 0 5px #ffee10;
 }
 
+/* FIXA DETTA */
+#page_loader {
+    width: 100vw;
+    height: 100vh;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+
+    z-index: 1000;
+    
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 header { 
     position: fixed;
     z-index: 10;
@@ -63,7 +90,8 @@ header {
     -moz-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.75);
 
 }
-header .menu {
+
+header .desktop_navbar {
     /* 
         Måste sätta height här eftersom att det är en egen container 
         Om jag skulle sätta height i header så skulle den inte placera i mitten
@@ -94,10 +122,67 @@ header .menu {
     color: blueviolet;
     font-size: 15px;
 }
+
+.mobile_navbar {
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* overflow: hidden; */
+    /* background-color: #333; */
+    /* position: relative; */
+}
+
+.mobile_navbar #nav_links {
+    display: none;
+}
+
+.navbar > #nav_links > li > a {
+    color: black;
+    text-decoration: none;
+}
+
+#nav_links {
+    /* width: 100%; */
+    list-style: none;
+}
+
+
+#mobile_navbar {
+    flex: 1 1 100%;
+}
+
+.mobile_navbar a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
 /* https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
-@media only screen and (max-width: 768px) {
-    body{
-        background-color: red;
+@media only screen and (max-width: 950px) {
+    header#desktop {
+        visibility: hidden;
+    }
+
+    header#mobile {
+        visibility: visible;
+    }
+    
+} 
+
+@media only screen and (min-width: 950px) {
+    header#desktop {
+        visibility: visible;
+    }
+
+    header#mobile {
+        visibility: hidden;
     }
     
 } 
