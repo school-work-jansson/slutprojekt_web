@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Produkt sida</title>
 </head>
 <body>
     <!DOCTYPE html>
@@ -22,7 +22,6 @@
 </head>
 <body>
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
-    <!-- Fixed position så att menybaren kommer följa med -->
     <header>
 
         <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
@@ -58,7 +57,7 @@
     <!-- https://app.haikei.app/ -->
 
     <section id="content">
-        <div>
+        <div class="">
             <a href="#">Tillbaka</a>
         </div>
 
@@ -75,8 +74,9 @@
                         <i class="rating__star far fa-star"></i>
                         <i class="rating__star far fa-star"></i>
                         <i class="rating__star far fa-star"></i>
+                        <span>1/5</span>
                     </div>
-                    <span>1/5 stars</span>
+                    
                 </div>
                 <div class="description">
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
@@ -105,7 +105,7 @@
 
         <div class="pagnition">
             <!-- Pagnition [Show more] -->
-            <a href="javascript:void(0)" onclick="pagnitionSearch(10)" class="pagnition_button">Visa Mer!</a>
+            <a href="javascript:void(0)" onclick="more_products(10)" class="pagnition_button">Visa Mer!</a>
         </div>
     </section>
     
@@ -116,7 +116,7 @@
     </section>
     <!-- Fixa detta -->
     <script src="scripts/product.js">
-        loadProducts();
+        load_products();
     </script>
     <script src="scripts/scroll_button.js"></script>
     <script src="scripts/copyright.js"></script>    
