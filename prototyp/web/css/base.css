@@ -25,8 +25,13 @@ p, a {
 
 
 a, a:visited {
+    color: rgb(255, 51, 0);
     text-decoration: none;
 }
+
+/* .navbar > li > a {
+    font-size: 50px;
+} */
 
 
 .fa-star {
@@ -91,6 +96,13 @@ header {
 
 }
 
+#nav_links, .navbar > li > a {
+    text-decoration: none;
+    font-weight: bolder;
+    color: rgb(255, 51, 0);
+    font-size: 20px;
+}
+
 /* https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
 @media only screen and (max-width: 950px) {
     header#desktop {
@@ -124,6 +136,13 @@ header {
     #nav_links li:last-of-type {
         margin-bottom: 20px;
     }
+
+    #nav_links {
+        list-style: none;
+        padding: 15px;
+        width: 100%;
+    }
+    
 } 
 
 @media only screen and (min-width: 950px) {
@@ -149,6 +168,11 @@ header {
         justify-content: space-between;
     }
     
+    .navbar > li {
+        display: inline;
+        padding: 10px;
+    }
+
     .navbar {
         list-style: none;
         
@@ -156,17 +180,10 @@ header {
         width: 100%;
     }
     
-    .navbar > li {
-        display: inline;
-        padding: 10px;
+    .navbar > li > a:hover {
+        border-bottom: 2px solid #1C6EA4;
     }
-    
-    .navbar a, a:visited {
-        text-decoration: none;
-        color: blueviolet;
-        font-size: 15px;
-    }
-    
+
 
 } 
 
