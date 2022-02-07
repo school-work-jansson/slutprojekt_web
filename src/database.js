@@ -44,15 +44,15 @@ class User extends Database {
         super()
         
         this.profile = {
-            profile_picture = "",
-            username = "",
-            firstname = "",
-            lastname = "",
-            email = "",
-            phone = [],
-            reports = 0, // Hidden, only visible to Admins
-            two_step_auth = null, // unncesesary if user logs in using discord
-            refresh_token = null
+            profile_picture: "",
+            username: "",
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: [],
+            created_at: new Date(),
+            reports: 0, // Hidden, only visible to Admins
+            refresh_token: null
         }
     }
 
