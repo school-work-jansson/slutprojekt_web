@@ -61,7 +61,13 @@ class User extends Database {
         // user_content = this.query("", "SELECT profile_picture, username, firstname, lastname, email, phone, reporst FROM user") eller något
     }
 
-    createUser() {}
+    createUser() {
+        try {
+        // this.query("", )    
+        } catch (error) {
+            
+        }
+    }
 
     signIn() {}
 
@@ -83,4 +89,18 @@ class User extends Database {
 
 }
 
+class Product extends Database {
+    constructor() {
+        this.product = {
+            name: "",
+    
+        }
+    }
+
+    getReviews() {
+
+    }
+}
+
 module.exports = User
+export { User }
