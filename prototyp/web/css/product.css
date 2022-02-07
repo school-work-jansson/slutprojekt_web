@@ -1,0 +1,10 @@
+.product-cards > .card{
+    display: flex;
+    flex-direction: column;
+    
+    background-color: aqua;
+}
+
+.review-cards > .card {
+    background-color: aqua;
+}
