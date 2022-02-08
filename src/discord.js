@@ -73,7 +73,7 @@ class DiscordAuth {
 
         # https://stackoverflow.com/questions/38986005/what-is-the-purpose-of-a-refresh-token
     */
-    async get_new_access_token(refresh_token) {
+    async get_new_tokens(refresh_token) {
         const body_data = new URLSearchParams();
         body_data.append('client_id', CLIENT_ID);
         body_data.append('client_secret', CLIENT_SECRET);
@@ -87,9 +87,9 @@ class DiscordAuth {
         }
     
         try {
-            let discord_refresh_response = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
+            let token_reponse = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
             // console.log(discord_refresh_response)
-            return await discord_refresh_response.json()
+            return await token_reponse.json()
     
         } catch (err) {
             return {discord_refresh_response: null, error: err}
