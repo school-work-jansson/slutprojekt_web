@@ -68,12 +68,14 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 
 ### **2.2.3 Databas**
 - Konton
+	- Koll på när en användares session blir ogiltig
 - Produkter
 	- Pris
 	- Företag
 	- Kategori
 	- Miljö märkning
-- Recenssioner 
+- Recenssioner
+- Session storage
 
 ### 2.2.4 Ska göras allmänt
 - Validera frontend CSS med w3schools validator
@@ -82,6 +84,7 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 
 
 ## 2.3 Undersider och DOM-script webbplatsen kommer att använda sig av
+
 
 ### html sidor
 ###### index.html
@@ -106,6 +109,7 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 - Denna kommer att hantera sök requesten från användaren när de söker efter en produkt. Vid en sökning så kontaktar skriptet backend, vilket backend svarar med ett objekt med produkter. Ifall användaren skulle vilja visa fler produkter genom att klicka på "visa mer" knappen, så får användaren tillbaka från backend flera produkter som skriptet appendar till sidan. Antingen så gör jag det här med sockets eller med vanliga HTTP requests
 ###### darkmode.js
 - Detta skript kommer att innehålla en funktion för att kunna byta mellan darkmode och lightmode på sidan. Det är en komfort funktion för användaren för att lätta på ögonen ifall det skulle vara mörkt i omgivningen där användaren befinner sig. Om det även finns möjlighet så ska jag kolla ifall det går att sätta darkmode eller lightmode beroende på användarens system inställningar.
+### Backend
 
 ## 2.4 Kunskaper
 Då jag tidigare har hållt på väldigt mycket med backend programmering så har jag goda kunskaper inom ämnet. Jag har även relativt goda kunskaper innom frontend utveckling. Däremot så har jag inte lika mycket kunskap innom frontend skripts då jag inte har byggt mina projekt på det sättet tidigare. 
