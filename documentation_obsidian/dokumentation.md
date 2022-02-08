@@ -41,11 +41,29 @@ Sen har jag även börjat små skissat hur databasen ska vara uppbyggd och det h
 
   
 
-**26 / 03 / 01 -**
+**06 / 03 / 22 -**
 
 Idag så har jag hållt på att leka lite med funktionallitetn bakom när en användare vill skicka in en review/recenssion. Jag har nämligen sätt på många sidor att ifall man ska skicka in en lång text så kan man ofta kunna se en preview på hur texten kommer se ut när man har publicerat texten. Så jag gjorde en ny fil (”review.html”) som simulerar detta lite. Så att när användaren skriver något i någon i formulären så uppdateras html dokumentet med det som användaren skrivit i olika element. Jag planerar även att lägga till formatering av texten så att användaren kan tex göra linebreaks genom att klicka enter osv osv.. (möjligen även markdown support)
 
 ![[live_preview.png]]
+
+**02-08 / 03 / 01 -**
+
+Jag har nu glömt skriva lite i utförandet lite några dagar medan jag även har gjort ganska mycket. Så jag går igenom ltie av det jag har gjort efter de commits jag har publicerat på github från första feburari till idag.
+
+Jag har lagt till en funktion så att man kan se preview på stjänorna som man väljer i recenssionen. Denna funktion kommer jag sedan kunna använda för att visa recensioners rating på en produkt genom att skicka in en siffra mellan 1 och 5. 
+
+Jag har även delat upp CSS i flera filer för att lättare kunna dela upp och ändra vissa komponenter på flera sidor.
+
+Backend så har jag lagt till ett bibliotek som kallas dotenv för att inte hårdkoda sensitiva alternativ till servern såsom discord API tokens, lösenord till databas och session nycklar. Efter det så la jag till en funktion för att visa en 404 och 500 sida ifall det skulle bli något fel på sidan, eller ifall användaren skulle försöka navigera till en sida som inte existerar. Jag la även till lagt till en basic session hantering. Detta är för att få inloggnings funktionen att fungera. Så att en användare förblir inloggade även ifall de laddar om eller byter sida. 
+
+Jag har även börjat på produkt sidan som sedan kommer innehålla produktens information och styleat den lite. Jag har även lagt till lite style på stjänorna i star ratingen. Har även gjort sökrutan och produktens informations ruta mer reponsiv. Bland anant så flyttas layouten från höger->vänster till upp->ner ifall bredden på skärmen minskar. 
+
+Menybaren har jag även gjort mer responsiv så att ifall användaren använder en skärm med liten bredd så ändras menybaren till en mer mobil vänlig bar där länkarna sitter på varandra istället för ihoptryckta. Det finns då även en knapp man kan klicka på för att dölja och visa länkarna.
+
+![[responsive menybar.png]]
+
+
 
 **1.1 Ändringar utifrån planeringen**
 

@@ -63,6 +63,8 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 	- Kunna publicera recenssioner på nya produkter
 		- *För att kunna publicera nya produkter så måste man ha en viss mängd "karma"*
 	- Kunna publicera recenssioner på existerande produkter
+- Adminpanel
+	- Moderatorer
 
 ### **2.2.3 Databas**
 - Konton
@@ -79,15 +81,40 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 
 
 
-## 2.3 Beskriv vilka undersider webbplatsen kommer att använda sig av samt andra speciella saker, tex extern kod (som DOM-script)
+## 2.3 Undersider och DOM-script webbplatsen kommer att använda sig av
+
+### html sidor
+###### index.html
+- Detta är sidan som kommer ha den huvudsakliga funktionalliteten. Den kommer att innehålla en sök ruta som där man kommer kunna söka efter det som man letar efter. När man har sökt så kommer det komma upp som "cards" med sök resultaten och under det som kommer det finnas en pagnation knapp (Visa mer knapp) som man kommer att kunna klicka på för att leta efter fler sökresultat.  Utöver det så kommer jag möjligtvis slå ihop index.html och about.html så att man kan klicka fram en ruta för att se vad sidan handlar om istället för att man behöver navigera sig till en sida som endast innehåller "om oss". 
+###### about.html
+- Ideeń var att man har en about sida där all information finns ifall användaren vill veta vad sidan handlar om. Jag skulle däremot kunna ha det på index sidan ifall det skulle bli väldigt information på sidan. Detta är för att jag inte vill att det ska vara för tunt med information på sidan. Alternativt ifall jag har väldigt mycket about information så skulle jag kort kunna beskriva vad sidan gör på index och sedan har den långa about texten på about sidan.
+###### contact.html
+- Denna sida har jag tänkt ska innehålla ett kontakt formulär som användaren kan använda ifall de av något behov skulle vilja komma i kontakt med mig. Sidan kommer även innehålla annan kontaktinformation som tex min discord, github länk eller liknande. Det är tänkt att backenden ska ha en listner som tar emot POST requests med innehållet på formuläret som sedan kommer att skicka ett mail till mig med innehållet.
+###### adminpanel.html
+- Denna sida kommer vara gjord till moderatorer på hemsidan för att kunna övervaka ifall det postas något olämpligt, till exempel en recenssion. Projeketets idé är att det ska vara censurfritt men det måste ändå följa lagen. Det är alltså tänkt att "flaggade" recenssioner ska visas och då kan moderatorn välja att dölja den recenssionen för andra användare. Moderatorer ska även ha möjligheten att "återställa" olämpliga namn genom att användaren får ett genererat nickname, samt ett meddelande på något vis över att deras tidigare nickname bröt mot hemsidans policy.
+###### product.html
+- Produkt sidan kommer innehålla produkt information från en produkt. Ett star-rating system där man ser medelbetyget på produkten. Man ska även se andras recenssioner samt en visa mer knapp ifall det skulle finnas fler recenssioner. Man ska även ha möjlighet att klicka på en knapp för att skapa en recenssion om man har ett konto. Klickar man då på den knappen så kommer det komma upp ett formulär och en live preview där man kan skriva sin egna review. Jag har även tänkt att man ska kunna skriva i markdown formattering så att man kan stylea lite som man vill.
+### jquery och DOM-script
+###### base.js
+- Detta skript kommer innehålla de mest basala skripten på sidan. Så som ett copyright skript som skriver in det nuvarande året på sidan så att jag slipper gå in och byta varje år. 
+- Det har även en funktion som gömmer och visar navbaren för mobila enheter eller skärmar med väldigt liten width resolution. 
+- Den innehåller även ett pageloader skript som gömmer en page loader när sidan har laddat klart. 
+- Sidorna har även en "skroll till toppen" knapp. Så jag har även ett skript som kontrollerar hur långt ner användaren har scrollat på sidan så att den sedan antingen visar knappen eller inte.
+###### product.js
+- Denna funktion hanterar allting som har med en produkt att göra. Bland annat att hämta data från backend om en produkt. Hämta recenssioner från en produkt. Den har även alla skript för att hantera nya recenssioner på en produkt och visa en live preview på recenssionen som användaren skriver. 
+###### search.js
+- Denna kommer att hantera sök requesten från användaren när de söker efter en produkt. Vid en sökning så kontaktar skriptet backend, vilket backend svarar med ett objekt med produkter. Ifall användaren skulle vilja visa fler produkter genom att klicka på "visa mer" knappen, så får användaren tillbaka från backend flera produkter som skriptet appendar till sidan. Antingen så gör jag det här med sockets eller med vanliga HTTP requests
+###### darkmode.js
+- Detta skript kommer att innehålla en funktion för att kunna byta mellan darkmode och lightmode på sidan. Det är en komfort funktion för användaren för att lätta på ögonen ifall det skulle vara mörkt i omgivningen där användaren befinner sig. Om det även finns möjlighet så ska jag kolla ifall det går att sätta darkmode eller lightmode beroende på användarens system inställningar.
 
 ## 2.4 Kunskaper
-- Erfaren inom backend
-- Lära mig mer om responsiva sidor och jquery (frontend scripts)
+Då jag tidigare har hållt på väldigt mycket med backend programmering så har jag goda kunskaper inom ämnet. Jag har även relativt goda kunskaper innom frontend utveckling. Däremot så har jag inte lika mycket kunskap innom frontend skripts då jag inte har byggt mina projekt på det sättet tidigare. 
+
+Så under detta projekt så hoppas jag på att lära mig mer om frontend scripts såsom jquery, och även DOM-script generellt. Jag har även en vision att lära mig mer om CSS utveckling för att ska mer responsiva sidor med hjälp av flexbox och @media
 
 ## 2.5 Möjliga utvecklings ideér
 
--  Addon till webläsaren man använder så att man kan se betyget på en produkt när man är på en hemsida och tänker på att köpa/beställa den.    
+- Addon till webläsaren man använder så att man kan se betyget på en produkt när man är på en hemsida och tänker på att köpa/beställa den.    
 - Meddelandesystem mellan administrator och klient (utöver mail service)
 - Flera sätt att kunna logga in på sidan eftersom att jag inte vill tvinga användaren att behöva skaffa ett discord konto för att kunna använda sidan.
 - Främst så "satsar" jag på produkter innom teknik kategorin så som dator komponenter eller liknande. Men om jag skulle vidareutveckla projektet så skulle jag kunna lägga till flera kategorier för att kunna breda ut målgruppen
@@ -117,11 +144,25 @@ Yttligare en risk som skulle kunna uppstå är när jag använder bibliotek med 
 ## 3.1 Deadlines
 
 Vecka 3 – Skriva projektplanering & TODO lista
+
 Vecka 4 – Skriva projektplanering & TODO lista
+
 Vecka 5 – Skriva projektplanering & TODO lista
+
 Vecka 6 – Frontend design, funktionallitet och material (bilder)
-Vecka 7 – Designa Databas
-Vecka 8 – Skapa tabeller till databas
-Vecka 9 – Databas
-Vecka 10 – Backend
-Vecka 11 – Backend
+
+Vecka 7 – Frontend design, funktionallitet och material (bilder)
+
+Vecka 8 - Frontend scripts
+
+Vecka 9 – Designa Databas
+
+Vecka 10 – Skapa tabeller till databas
+
+Vecka 11 – Databas
+
+Vecka 12 – Backend
+
+Vecka 13 – Backend
+
+Vecka 14 - Förhoppningsvis klar
