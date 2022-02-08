@@ -17,7 +17,7 @@ import { __dirname } from "./utils";
 
 const server = express()
 
-
+// https://github.com/chill117/express-mysql-session
 /* 
   The secret should be a random string of characters. 
   Ideally you would also change it periodically in case it has been discovered. 
