@@ -94,12 +94,19 @@ class User extends Database {
     }
 
     // Behövs dessa?
-    async login(discord_id) {
+    async login(discord_id, refresh_token) {
         
 
     }
 
-    async update_refresh(refresh_token, valid_until, discord_id) {
+
+    
+    logout() {
+
+    }
+    //
+
+    async update_refresh_token(discord_id, refresh_token, valid_until) {
         try {
             // Uppdatera refresh token
             let result = await this.query(`UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?`, [refresh_token, valid_until, discord_id])
@@ -112,11 +119,6 @@ class User extends Database {
             
         }
     }
-    
-    logout() {
-
-    }
-    //
 
     update_user() {
 
