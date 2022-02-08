@@ -16,24 +16,18 @@
 import express from "express";
 const router = express.Router()
 // const user = require("../database")
-import fetch from "node-fetch";
+import { User } from "../database";
+import { DiscordAuth } from "../discord";
 
+const Discord = new DiscordAuth()
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const OAUTH_SCOPE = process.env.OAUTH_SCOPE;
-const DISCORD_ENDPOINT = process.env.DISCORD_ENDPOINT;
-
-// import {responeMessages as error, log} from './log';
-
-router.get('/login', (req, res) => {
-    res.send("Login Route")
-});
+// https://stackoverflow.com/questions/60008473/how-to-check-if-user-is-logged-in-with-node-js-and-mongoose
 
 router.get('/login/discord', (req, res) => {
     // Query string is deliverd from discord in the query
     let query_string = req.query.code
+    
+    // let user = new User();
 
     // If user already has active auth; Just proceed
     if (req.session.authenticated) {
@@ -45,19 +39,29 @@ router.get('/login/discord', (req, res) => {
     {   
         console.log("query_string not null; Requesting client data from discord");
         (async () => {
-            let client_data = await discord_oauth(query_string)
+            // Hämtar första datan från discord
+            let [client_data, refresh_token] = await Discord.initial_auth(query_string)
+
+            // Kolla ifall användaren existerar
+            // let user = new User();
+            // if (!user.exists(client_data.id)) res.redirect("/signup")
+
+            // finns inte användaren så ska den skicka vidare till /signup med client_data
+
+            // finns användaren så laddas kritisk data in i session och skickas sedan vidare till index
+
             req.session.authenticated = true;
             req.session.client = client_data
-            res.send(client_data);
-
-            // if user does not exist /signup with client_data
-
-            // if user exists, load user data into session
+            // req.session.valid = client_data.valid_until
+            
+            req.session.refresh_token = refresh_token
+            // console.log(client_data, refresh_token)
+            res.send({user_data: client_data, refresh: refresh_token});
         })();
     }
     else {
-        console.log("No querycode. Redirect to discord", OAUTH_SCOPE);
-        res.redirect(OAUTH_SCOPE)
+        console.log("No querycode. Redirect to discord", Discord.OAUTH_SCOPE);
+        res.redirect(Discord.OAUTH_SCOPE)
     }
 });
 
@@ -65,9 +69,39 @@ router.get("/signup", (req, res) => {
     res.render("signup")
 })
 
-router.get('/refresh_login/discord', (req, res) => {
-    let refresh_token = ""
-    //discord_refresh_token_exchange(refresh_token)
+router.post('/signup', (req, res) => {
+    let user_data = req.query.profile_options;
+
+    // om användaren inte skickar med något användarnamn
+    if (!user_data.nickname) user_data.nickname = "anon"
+
+    (async () => {
+        let user = new User();
+
+        result = await user.create(user_data)
+
+        res.render("index")
+    })
+
+})
+
+router.get('/refresh', (req, res) => {
+    let refresh_token = req.session.refresh_token
+
+    if (!refresh_token) return res.send({err: "no refresh token"})
+    else
+        (async () => {
+            let response = await Discord.get_new_tokens(refresh_token)
+            
+            if (response.refresh_token)
+                req.session.refresh_token = response.refresh_token
+
+            console.log(response)
+            res.send(response)
+
+        })()
+    
+    
 });
 
 router.post('/signout', (req, res) => { 
@@ -90,86 +124,3 @@ router.delete('/remove_user', (req, res) => {
 })
 
 export { router as userRoute };
-
-async function discord_oauth(query_string) {
-    // Retrives clients auth token from discord
-    let discord_auth_data = await discord_token_exchange(query_string)
-
-    // Retrives clients data from discord
-    let client_info = await discord_oauth_me(discord_auth_data)
-
-    console.log(discord_auth_data, client_info);
-
-    return client_info
-}
-
-
-async function discord_oauth_me(discord_token_data)
-{
-    try {
-        // Get user data from the authenticated user
-        let discord_auth_info = await fetch(`${DISCORD_ENDPOINT}/users/@me`, {
-            headers: {
-                authorization: `${discord_token_data.token_type} ${discord_token_data.access_token}`,
-            }
-        });
-        return await discord_auth_info.json()
-
-    } catch (err) {
-        
-        return {client_data: null}
-    }
-
-}
-
-// Refresh_token kommer orginellt från discord_token_exchange
-// Används för att användaren ska fortsätta vara inloggad utan att behöva logga in igen.
-// https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/
-// TODO: Antingen spara refresh token i cookie/session eller spara i databas (Troligen dålig idé, idée nmr 2)
-// Vet ej om detta fungerar men borde fungera i teorin då man endast behöver ändra body
-async function discord_refresh_token_exchange(refresh_token) {
-    const body_data = new URLSearchParams();
-    body_data.append('client_id', CLIENT_ID);
-    body_data.append('client_secret', CLIENT_SECRET);
-    body_data.append('grant_type', 'refresh_token');
-    body_data.append('refresh_token', refresh_token);
-
-    const authData = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'},
-      body: body_data
-    }
-
-    try {
-        let discord_refresh_response = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
-        return await discord_refresh_response.json()
-    } catch (err) {
-        return {discord_refresh_response: null, error: err}
-    }
-
-}
-
-async function discord_token_exchange(query_string) {
-
-    // Data som skickas till discord's post body
-    const body_data = new URLSearchParams();
-    body_data.append('client_id', CLIENT_ID);
-    body_data.append('client_secret', CLIENT_SECRET);
-    body_data.append('grant_type', 'authorization_code');
-    body_data.append('code', query_string);
-    body_data.append('redirect_uri', REDIRECT_URI);
-    body_data.append('scope', 'identify email');
-
-    const authData = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'},
-      body: body_data
-    }
-
-    try {
-        let discord_token_response = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
-        return await discord_token_response.json()
-    } catch (err) {
-        return {get_discord_oauth_token: null, error: err}
-    }
-}
