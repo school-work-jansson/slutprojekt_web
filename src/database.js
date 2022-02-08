@@ -42,7 +42,7 @@ class Database {
 class User extends Database {
     constructor() {
         super()
-        
+        this.id = 0
         this.profile = {
             profile_picture: "",
             username: "",
