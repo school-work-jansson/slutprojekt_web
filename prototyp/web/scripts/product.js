@@ -128,5 +128,5 @@ function getDate() {
 
 function loadProduct()
 {
-
+    
 }
