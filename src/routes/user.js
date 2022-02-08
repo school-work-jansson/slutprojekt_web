@@ -31,8 +31,9 @@ router.get('/login/discord', (req, res) => {
 
     // If user already has active auth; Just proceed
     if (req.session.authenticated) {
+        if (req.session.client_data)
         console.log("User already authenticated")
-        return res.send(req.session.client)
+        return res.send(req.session.client_data)
     }
 
     if (query_string) // if querycode is something 
@@ -44,14 +45,17 @@ router.get('/login/discord', (req, res) => {
 
             // Kolla ifall användaren existerar
             // let user = new User();
-            // if (!user.exists(client_data.id)) res.redirect("/signup")
+            // // if (!user.exists(client_data.id)) res.redirect("/signup")
 
-            // finns inte användaren så ska den skicka vidare till /signup med client_data
+            // // finns inte användaren så ska den skicka vidare till /signup med client_data
 
-            // finns användaren så laddas kritisk data in i session och skickas sedan vidare till index
+            // // finns användaren finns, ladda in nickname, profilbild osv in i session 
+            // // -> spara refresh_token i databasen
+            // let valid_until = 0
+            // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
 
             req.session.authenticated = true;
-            req.session.client = client_data
+            req.session.client_data = client_data
             // req.session.valid = client_data.valid_until
             
             req.session.refresh_token = refresh_token
@@ -106,6 +110,9 @@ router.get('/refresh', (req, res) => {
 
 router.post('/signout', (req, res) => { 
     console.log("User requested Signout")
+    req.session.destroy((err) => {
+        res.send({err: err})
+    })
     res.render('index')
 })
 
