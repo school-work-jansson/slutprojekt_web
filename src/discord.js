@@ -20,12 +20,12 @@ class DiscordAuth {
 
     async initial_auth(query_code) {
         // Hämtar första access_token och refresh_token
-        let access_token = await this.token_exchange(query_code)
+        let tokens = await this.token_exchange(query_code)
 
         // Retrives clients data from discord
-        let client_data = await this.get_user_data(access_token)
+        let client_data = await this.get_user_data(tokens)
 
-        return [client_data, discord_auth_data.refresh_token]
+        return [client_data, tokens.refresh_token]
     }
 
 
@@ -39,11 +39,11 @@ class DiscordAuth {
     */
     async token_exchange(query_code) {
         const body_data = new URLSearchParams();
-        body_data.append('client_id', CLIENT_ID);
-        body_data.append('client_secret', CLIENT_SECRET);
+        body_data.append('client_id', this.CLIENT_ID);
+        body_data.append('client_secret', this.CLIENT_SECRET);
         body_data.append('grant_type', 'authorization_code');
         body_data.append('code', query_code);
-        body_data.append('redirect_uri', REDIRECT_URI);
+        body_data.append('redirect_uri', this.REDIRECT_URI);
         body_data.append('scope', 'identify email');
 
         const authData = {
@@ -53,7 +53,7 @@ class DiscordAuth {
         }
 
         try {
-            let discord_token_response = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
+            let discord_token_response = await fetch(`${this.DISCORD_ENDPOINT}/oauth2/token`, authData);
             return await discord_token_response.json()
         } catch (err) {
             return {get_discord_oauth_token: null, error: err}
@@ -75,8 +75,8 @@ class DiscordAuth {
     */
     async get_new_tokens(refresh_token) {
         const body_data = new URLSearchParams();
-        body_data.append('client_id', CLIENT_ID);
-        body_data.append('client_secret', CLIENT_SECRET);
+        body_data.append('client_id', this.CLIENT_ID);
+        body_data.append('client_secret', this.CLIENT_SECRET);
         body_data.append('grant_type', 'refresh_token');
         body_data.append('refresh_token', refresh_token);
     
@@ -87,7 +87,7 @@ class DiscordAuth {
         }
     
         try {
-            let token_reponse = await fetch(`${DISCORD_ENDPOINT}/oauth2/token`, authData);
+            let token_reponse = await fetch(`${this.DISCORD_ENDPOINT}/oauth2/token`, authData);
             // console.log(discord_refresh_response)
             return await token_reponse.json()
     
@@ -101,15 +101,15 @@ class DiscordAuth {
         Denna metod frågar discord efter användardatan mha access_token.
         Om denna access_token är gilltig så kommer discord att skicka tillbaka användarens data innanför "scope"
     */
-    async get_user_data(access_token) {
+    async get_user_data(token) {
         try {
             // Get user data from the authenticated user
-            let discord_auth_info = await fetch(`${DISCORD_ENDPOINT}/users/@me`, {
+            let client_data = await fetch(`${this.DISCORD_ENDPOINT}/users/@me`, {
                 headers: {
-                    authorization: `${discord_token_data.token_type} ${discord_token_data.access_token}`,
+                    authorization: `${token.token_type} ${token.access_token}`,
                 }
             });
-            return await discord_auth_info.json()
+            return await client_data.json()
     
         } catch (err) {
             
