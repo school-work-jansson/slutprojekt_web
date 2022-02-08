@@ -118,7 +118,7 @@ function update_preview_stars(rating)
 // }
 
 function post_review(review) {
-    $.post("/send_review", review)
+    $.post("/post_review", review)
     console.log(review_object)
 }
 

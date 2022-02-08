@@ -29,7 +29,6 @@ const server = express()
 */
 let time = 36000
 server.use(session({
-  // secret: "Monkey",
   secret: process.env.SESSION_SECRET,
   saveUninitialized: true,
   resave: false,
