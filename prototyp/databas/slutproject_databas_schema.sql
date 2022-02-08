@@ -2,12 +2,11 @@ CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `discord_id` varchar(255) UNIQUE,
   `role_id` int NOT NULL,
-  `nickname` varchar(255),
+  `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
   `created_at` timestamp,
   `reports` int,
-  `refresh_token` varchar(255),
-  `valid_until` timestamp
+  `refresh_token` varchar(255)
 );
 
 CREATE TABLE `reports` (
