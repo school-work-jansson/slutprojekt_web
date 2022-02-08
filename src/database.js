@@ -48,10 +48,10 @@ class User extends Database {
     load_user() {
         // user_content = this.query("", "SELECT profile_picture, username, firstname, lastname, email, phone, reporst FROM user") eller något
     }
-    
-    user_exists() {
+
+    async exists(discord_id) {
         try {
-            let result = await Con.query(
+            let result = await this.query(
                 `SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)`,
                 [discord_id]
             );
@@ -68,31 +68,51 @@ class User extends Database {
         }
     }
 
-    create_user() {
+    create(client_data) {
         this.profile = {
             profile_picture: "",
-            username: "",
-            firstname: "",
-            lastname: "",
-            email: "",
-            phone: [],
+            nickname: client_data.name,
+            email: client_data.email,
             created_at: new Date(),
             reports: 0, // Hidden, only visible to Admins
             refresh_token: null
         }
 
+        this.profile = [
+            "", 
+            client_data.name,
+            client_data.email,
+            new Date(),
+            null
+        ]
+
         try {
-            this.query("INSERT INTO users VALUES (?,?,?,?,?,?,?)", {})    
+            this.query("INSERT INTO users VALUES (?,?,?,?,?,?,?)", [])    
         } catch (error) {
             return error
         }
     }
 
     // Behövs dessa?
-    login() {
+    async login(discord_id) {
+        
 
     }
 
+    async update_refresh(refresh_token, valid_until, discord_id) {
+        try {
+            // Uppdatera refresh token
+            let result = await this.query(`UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?`, [refresh_token, valid_until, discord_id])
+            this.close(); 
+
+
+            return result && result.affectedRows >= 1;
+
+        } catch (error) {
+            
+        }
+    }
+    
     logout() {
 
     }
@@ -102,7 +122,8 @@ class User extends Database {
 
     }
 
-    create_user_review(product_hash, content) {
+    async create_user_review(product_hash, content) {
+        // ?? Vad fan gjorde jag här
         fetched_product = await this.query(`UPDATE products FROM products WHERE hash = ?`, [hash])
     }
 
@@ -160,5 +181,5 @@ class Product extends Database {
     }
 }
 
-module.exports = User
-export { User }
+// module.exports = User
+export { User, Product }
