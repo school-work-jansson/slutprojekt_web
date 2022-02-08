@@ -1,6 +1,7 @@
 import mysql from "mysql";
 // https://www.w3schools.com/js/js_class_inheritance.asp
 
+// https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js
 class Database {
     constructor() {
         
@@ -25,9 +26,6 @@ class Database {
         })
     }
 
-    // open() {
-    // }
-
     close() {
         return new Promise((resolve, reject) => {
             this.connection.end((err) => {
@@ -43,6 +41,34 @@ class User extends Database {
     constructor() {
         super()
         this.id = 0
+
+    }
+
+    // loads existings user when user logs in
+    load_user() {
+        // user_content = this.query("", "SELECT profile_picture, username, firstname, lastname, email, phone, reporst FROM user") eller något
+    }
+    
+    user_exists() {
+        try {
+            let result = await Con.query(
+                `SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)`,
+                [discord_id]
+            );
+    
+            Con.close();
+    
+            // Om resultatet är null och längden inte är större än 0 så finns inte användaren 
+            if (!result[0] && !result.length > 0) return false;
+            
+            return true; // Antar annnars att användaren finns
+                
+        } catch (error) {
+            return error
+        }
+    }
+
+    create_user() {
         this.profile = {
             profile_picture: "",
             username: "",
@@ -54,43 +80,54 @@ class User extends Database {
             reports: 0, // Hidden, only visible to Admins
             refresh_token: null
         }
-    }
 
-    // loads existings user when user logs in
-    loadUser() {
-        // user_content = this.query("", "SELECT profile_picture, username, firstname, lastname, email, phone, reporst FROM user") eller något
-    }
-
-    createUser() {
         try {
-        // this.query("", )    
+            this.query("INSERT INTO users VALUES (?,?,?,?,?,?,?)", {})    
         } catch (error) {
-            
+            return error
         }
     }
 
-    signIn() {}
+    // Behövs dessa?
+    login() {
 
-    signOut() {}
+    }
 
-    // updateUser() {} Vet ej om man ska ha en updateUser funktion eller om man ska ha mass olika funktioner
+    logout() {
 
-    updatePhone() {}
+    }
+    //
 
-    updateEmail() {}
+    update_user() {
 
-    updateNick() {}
+    }
 
-    addReview(item_id, content) {}
+    create_user_review(product_hash, content) {
+        fetched_product = await this.query(`UPDATE products FROM products WHERE hash = ?`, [hash])
+    }
 
-    getReviews() {}
+    get_user_reviews() {
 
-    removeUser() {} // Ta bort all reviews (Alla förekomster av en användare i databasen)
+    }
+
+    edit_user_review() {
+
+    }
+
+    remove_user_review() {
+
+    }
+
+    // Ta bort all reviews (Alla förekomster av en användare i databasen)
+    delete_user() {
+
+    } 
 
 }
 
 class Product extends Database {
     constructor() {
+        super()
         this.product = {
             name: "",
     
@@ -99,6 +136,27 @@ class Product extends Database {
 
     getReviews() {
 
+    }
+
+    search_for_products() {
+
+    }
+    
+    async get_product(hash){
+        let fetched_product, fetched_reviews, return_error;
+        fetched_product = await this.query(`SELECT * FROM products WHERE hash = ?`, [hash])
+
+        if (!fetched_product && fetched_product.length < 1) 
+        {
+            return_error = "Product does not exist"
+            return fetched_product, fetched_reviews, return_error
+        }
+
+        
+        fetched_reviews = await this.query(`SELECT * FROM reviews WHERE product_id=${fetched_product[0].id}`, "")
+
+        return fetched_product, fetched_reviews, return_error
+     
     }
 }
 
