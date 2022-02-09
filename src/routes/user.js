@@ -25,7 +25,7 @@ const Discord = new DiscordAuth()
 
 router.get('/login/discord', (req, res) => {
     // Query string is deliverd from discord in the query
-    let query_string = req.query.code
+    let query_code = req.query.code
     
     // let user = new User();
 
@@ -36,41 +36,41 @@ router.get('/login/discord', (req, res) => {
         return res.send(req.session.client_data)
     }
 
-    if (query_string) // if querycode is something 
+    if (!query_code) // if querycode is something 
     {   
-        console.log("query_string not null; Requesting client data from discord");
-        (async () => {
-            // Hämtar första datan från discord
-
-            let tokens = await Discord.token_exchange(query_code)
-
-            // Retrives clients data from discord
-            let client_data = await Discord.get_user_data(tokens)
-
-            // Kolla ifall användaren existerar
-            // let user = new User();
-            // // if (!user.exists(client_data.id)) res.redirect("/signup")
-
-            // // finns inte användaren så ska den skicka vidare till /signup med client_data
-
-            // // finns användaren finns, ladda in nickname, profilbild osv in i session 
-            // // -> spara refresh_token i databasen
-            // let valid_until = 0
-            // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
-
-            req.session.authenticated = true;
-            req.session.client_data = client_data
-            // req.session.valid = client_data.valid_until
-            
-            req.session.refresh_token = tokens.refresh_token
-            // console.log(client_data, refresh_token)
-            res.send({user_data: client_data, refresh: refresh_token});
-        })();
-    }
-    else {
         console.log("No querycode. Redirect to discord", Discord.OAUTH_SCOPE);
-        res.redirect(Discord.OAUTH_SCOPE)
+        return res.redirect(Discord.OAUTH_SCOPE)
     }
+    
+    console.log("query_string not null; Requesting client data from discord");
+    (async () => {
+        // Hämtar första datan från discord
+
+        let tokens = await Discord.token_exchange(query_code)
+
+        // Retrives clients data from discord
+        let client_data = await Discord.get_user_data(tokens)
+
+        // Kolla ifall användaren existerar
+        // let user = new User();
+        // if (!user.exists(client_data.id)) return res.redirect("/signup");
+
+        // finns inte användaren så ska den skicka vidare till /signup med client_data
+
+        // // finns användaren finns, ladda in nickname, profilbild osv in i session 
+        // -> spara refresh_token i databasen
+        // let valid_until = 0
+        // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
+
+        req.session.authenticated = true;
+        req.session.client_data = client_data;
+        // req.session.valid = client_data.valid_until
+        
+        req.session.refresh_token = tokens.refresh_token;
+        // console.log(client_data, refresh_token)
+        res.send({user_data: client_data, refresh: tokens.refresh_token});
+    })();
+
 });
 
 router.get("/signup", (req, res) => {
