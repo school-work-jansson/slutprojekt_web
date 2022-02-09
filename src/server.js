@@ -46,20 +46,22 @@ server.use(session({
 
 
 import helmet from 'helmet';
-server.use(helmet({crossOriginResourcePolicy: { policy: "cross-origin" }} ) )
-server.use(helmet.contentSecurityPolicy({
-    directives: {
-      "default-src": ["'self'"],
-      "base-uri": "'self'",
-      "font-src": ["'self'","https:","data:"],
-      "frame-ancestors": ["'self'"],
-      "img-src": ["'self'","https://cdn.discordapp.com/"],
-      "object-src": ["'none'"],
-      "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
-      "script-src-attr": "'none'",
-      "style-src": ["'self'","https://cdnjs.cloudflare.com"],
+server.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: {
+      directives: {
+        "default-src": ["'self'"],
+        "base-uri": "'self'",
+        "font-src": ["'self'","https:","data:"],
+        "frame-ancestors": ["'self'"],
+        "img-src": ["'self'", "https://cdn.discordapp.com/"],
+        "object-src": ["'none'"],
+        "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
+        "script-src-attr": "'none'",
+        "style-src": ["'self'","https://cdnjs.cloudflare.com"],
+      }
     }
-  })
+  }) 
 );
 
 
