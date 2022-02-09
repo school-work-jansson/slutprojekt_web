@@ -69,14 +69,14 @@ class User extends Database {
     }
 
     create(client_data, refresh_token) {
-        this.profile = {
-            profile_picture: "",
-            nickname: client_data.name,
-            email: client_data.email,
-            created_at: new Date(),
-            reports: 0, // Hidden, only visible to Admins
-            refresh_token: null
-        }
+        // this.profile = {
+        //     profile_picture: "",
+        //     nickname: client_data.name,
+        //     email: client_data.email,
+        //     created_at: new Date(),
+        //     reports: 0, // Hidden, only visible to Admins
+        //     refresh_token: null
+        // }
 
         this.profile = [
             client_data.id,
@@ -91,7 +91,7 @@ class User extends Database {
         // INSERT INTO table_name (column1, column2, column3, ...)
         // VALUES (value1, value2, value3, ...); 
         try {
-            this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
+            await this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
         } catch (error) {
             return error
         }
@@ -120,7 +120,7 @@ class User extends Database {
             return result && result.affectedRows >= 1;
 
         } catch (error) {
-            
+            console.log(error)
         }
     }
 
@@ -141,13 +141,13 @@ class User extends Database {
 
     }
 
-    remove_user_review() {
+    remove_user_review(review_id) {
 
     }
 
     // Ta bort all reviews (Alla förekomster av en användare i databasen)
     delete_user() {
-
+        
     } 
 
 }

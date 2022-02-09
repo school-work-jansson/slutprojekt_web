@@ -33,7 +33,7 @@ router.get('/login/discord', (req, res) => {
 
     // Om klienten redan har en activ session så behöver den inte 
     if (req.session.authenticated) {
-        if (req.session.client_data)
+        // if (req.session.client_data)
         console.log("User already authenticated")
         return res.redirect('/')
     }
@@ -93,20 +93,21 @@ router.get('/refresh', session_check, (req, res) => {
     let refresh_token = req.session.refresh_token
 
     if (!refresh_token) return res.send({err: "no refresh token"});
-    else
-        (async () => {
-            let response = await Discord.get_new_tokens(refresh_token)
-            let user = new User()
-            if (response.refresh_token)
-            {
-                req.session.refresh_token = response.refresh_token
-                await user.update_refresh_token(res.session.client_data.id, response.refresh_token)
-            }
 
-            console.log(response)
-            res.send(response)
+    (async () => {
+        let response = await Discord.get_new_tokens(refresh_token)
+        let user = new User()
 
-        })()
+        if (response.refresh_token)
+        {
+            req.session.refresh_token = response.refresh_token
+            await user.update_refresh_token(res.session.client_data.id, response.refresh_token)
+        }
+
+        console.log(response)
+        res.send(response)
+
+    })()
     
     
 });
@@ -160,7 +161,7 @@ async function login_user(query_code) {
 
 function session_check(req, res, next) {
     if (!req.session.authenticated && !req.session.client_data)
-        return res.redirect('/')
+        return res.redirect('/');
 
     next();
 
