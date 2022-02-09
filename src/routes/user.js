@@ -23,6 +23,8 @@ const Discord = new DiscordAuth()
 
 // https://stackoverflow.com/questions/60008473/how-to-check-if-user-is-logged-in-with-node-js-and-mongoose
 
+
+
 router.get('/login/discord', (req, res) => {
     // Query string is deliverd from discord in the query
     let query_code = req.query.code
@@ -86,7 +88,8 @@ router.post('/signup', (req, res) => {
 
 })
 
-router.get('/refresh', (req, res) => {
+
+router.get('/refresh', session_check, (req, res) => {
     let refresh_token = req.session.refresh_token
 
     if (!refresh_token) return res.send({err: "no refresh token"});
@@ -108,7 +111,7 @@ router.get('/refresh', (req, res) => {
     
 });
 
-router.post('/signout', (req, res) => { 
+router.post('/signout', session_check, (req, res) => { 
     console.log("User requested Signout")
     req.session.destroy((err) => {
         res.send({err: err})
@@ -116,16 +119,16 @@ router.post('/signout', (req, res) => {
     res.redirect('/')
 })
 
-router.get('/profile', (req, res) => {
+router.get('/profile', session_check, (req, res) => {
     res.send(req.session.client_data)
 })
 
-router.post('/update_profile', (req, res) => {
+router.post('/update_profile', session_check, (req, res) => {
     console.log("User updated profile")
     res.render('profile')
 })
 
-router.delete('/remove_user', (req, res) => {
+router.delete('/remove_user', session_check, (req, res) => {
     console.log("User requested account deletion")
     res.redirect('index')
 })
@@ -153,4 +156,12 @@ async function login_user(query_code) {
         // console.log(client_data, refresh_token)
 
         return [client_data, tokens.refresh_token, true]
+}
+
+function session_check(req, res, next) {
+    if (!req.session.authenticated && !req.session.client_data)
+        return res.redirect('/')
+
+    next();
+
 }
