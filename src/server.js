@@ -58,7 +58,7 @@ server.use(helmet({
         "object-src": ["'none'"],
         "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
         "script-src-attr": "'none'",
-        "style-src": ["'self'","https://cdnjs.cloudflare.com"],
+        "style-src": ["'self'"],
       }
     }
   }) 
