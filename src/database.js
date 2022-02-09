@@ -94,16 +94,16 @@ class User extends Database {
     }
 
     // Behövs dessa?
-    async login(discord_id, refresh_token) {
+    // async login(discord_id, refresh_token) {
         
 
-    }
+    // }
 
 
     
-    logout() {
+    // logout() {
 
-    }
+    // }
     //
 
     async update_refresh_token(discord_id, refresh_token, valid_until) {
@@ -184,4 +184,4 @@ class Product extends Database {
 }
 
 // module.exports = User
-export { User, Product }
+export { User, Product } 
