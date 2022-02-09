@@ -18,15 +18,17 @@ class DiscordAuth {
 
     }
 
-    async initial_auth(query_code) {
-        // Hämtar första access_token och refresh_token
-        let tokens = await this.token_exchange(query_code)
 
-        // Retrives clients data from discord
-        let client_data = await this.get_user_data(tokens)
+    // onödigt
+    // async initial_auth(query_code) {
+    //     // Hämtar första access_token och refresh_token
+    //     let tokens = await this.token_exchange(query_code)
 
-        return [client_data, tokens.refresh_token]
-    }
+    //     // Retrives clients data from discord
+    //     let client_data = await this.get_user_data(tokens)
+
+    //     return [client_data, tokens.refresh_token]
+    // }
 
 
     

@@ -41,7 +41,11 @@ router.get('/login/discord', (req, res) => {
         console.log("query_string not null; Requesting client data from discord");
         (async () => {
             // Hämtar första datan från discord
-            let [client_data, refresh_token] = await Discord.initial_auth(query_string)
+
+            let tokens = await Discord.token_exchange(query_code)
+
+            // Retrives clients data from discord
+            let client_data = await Discord.get_user_data(tokens)
 
             // Kolla ifall användaren existerar
             // let user = new User();
@@ -58,7 +62,7 @@ router.get('/login/discord', (req, res) => {
             req.session.client_data = client_data
             // req.session.valid = client_data.valid_until
             
-            req.session.refresh_token = refresh_token
+            req.session.refresh_token = tokens.refresh_token
             // console.log(client_data, refresh_token)
             res.send({user_data: client_data, refresh: refresh_token});
         })();
