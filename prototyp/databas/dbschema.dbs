@@ -34,6 +34,7 @@
 				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="optional" type="varchar" length="255" jt="12" />
+			<column name="discord_id" type="int" jt="4" mandatory="y" />
 			<index name="pk_reports" unique="UNIQUE_KEY" >
 				<column name="id" />
 			</index>
@@ -69,7 +70,7 @@
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 			</column>
 			<column name="profile_picture" type="varchar" length="255" jt="12" />
-			<column name="discord_id" type="varchar" length="255" jt="12" />
+			<column name="discord_id" type="int" jt="4" />
 			<column name="moderator" type="boolean" jt="16" >
 				<defo><![CDATA[false]]></defo>
 			</column>
@@ -95,18 +96,19 @@
 		<entity schema="public" name="products" color="BED3F4" x="64" y="320" />
 		<entity schema="public" name="reports" color="BED3F4" x="272" y="48" />
 		<entity schema="public" name="reviews" color="BED3F4" x="48" y="48" />
-		<entity schema="public" name="users" color="BED3F4" x="496" y="48" />
+		<entity schema="public" name="users" color="BED3F4" x="640" y="48" />
 		<script name="slutproject_databas_schema.sql" id="Editor-2ba" language="SQL" >
 			<string><![CDATA[CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `profile_picture` varchar(255),
-  `discord_id` varchar(255) UNIQUE,
+  `discord_id` int UNIQUE,
   `moderator` boolean DEFAULT false,
   `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
   `created_at` timestamp NOT NULL,
   `reports` int,
   `refresh_token` varchar(255)
+
 );
 
 CREATE TABLE `reports` ( `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -115,8 +117,7 @@ CREATE TABLE `reports` ( `id` int PRIMARY KEY AUTO_INCREMENT,
          `receiver_id` int NOT NULL,
          `review_id` int NOT NULL,
          `resolved` boolean DEFAULT false,
-         `optional` varchar(255),
-         UNIQUE(discord_id)
+         `content` varchar(255),
 );
 
 CREATE TABLE `reviews` (
