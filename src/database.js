@@ -68,7 +68,7 @@ class User extends Database {
         }
     }
 
-    create(client_data) {
+    create(client_data, refresh_token) {
         this.profile = {
             profile_picture: "",
             nickname: client_data.name,
@@ -79,15 +79,19 @@ class User extends Database {
         }
 
         this.profile = [
-            "", 
-            client_data.name,
+            client_data.id,
+            null, 
+            client_data.nickname,
             client_data.email,
             new Date(),
-            null
+            refresh_token
         ]
 
+
+        // INSERT INTO table_name (column1, column2, column3, ...)
+        // VALUES (value1, value2, value3, ...); 
         try {
-            this.query("INSERT INTO users VALUES (?,?,?,?,?,?,?)", [])    
+            this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
         } catch (error) {
             return error
         }
