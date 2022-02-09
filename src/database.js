@@ -91,7 +91,7 @@ class User extends Database {
         // INSERT INTO table_name (column1, column2, column3, ...)
         // VALUES (value1, value2, value3, ...); 
         try {
-            await this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
+            this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
         } catch (error) {
             return error
         }
@@ -147,7 +147,7 @@ class User extends Database {
 
     // Ta bort all reviews (Alla förekomster av en användare i databasen)
     delete_user() {
-        
+
     } 
 
 }
