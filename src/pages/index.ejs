@@ -9,5 +9,11 @@
 </head>
 <body>
     <p><%= description %></p>
+
+    <% if (user) { %>
+        <p>User logged in</p>
+    <% } else { %>
+        <a href="/u/login/discord">Click here to login</a>
+    <% } %>
 </body>
 </html>

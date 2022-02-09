@@ -61,7 +61,7 @@ let info = {
 }
 
 server.get('/', (req, res) => { 
-  res.render('index', {description: info.desc})
+  res.render('index', {description: info.desc, user: req.session.client_data})
 })
 
 server.get('/about', (req, res) => { 
