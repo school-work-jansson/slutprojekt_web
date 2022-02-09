@@ -4,15 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "ec3ee3956885bff1",
+        "id": "1c11298054a903eb",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "dokumentation.md",
-            "mode": "source",
-            "source": false
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -69,7 +65,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dokumentation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -87,7 +82,7 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "ec3ee3956885bff1",
+  "active": "1c11298054a903eb",
   "lastOpenFiles": [
     "dokumentation.md",
     "images/responsive menybar.png",
