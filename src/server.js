@@ -56,17 +56,13 @@ server.use(express.static(path.join(__dirname, 'static'))); // Static files as s
 server.set('views', path.join(__dirname, 'pages')); // SSR webpages (index, contact, profile, login)
 server.set('view engine', 'ejs');
 
-let info = {
-  desc: "Det här projektet kommer att vara lite som trustpilot fast istället för att vara inriktad på företag i sig så kommer den att targeta recenssion av matprodukter från olika företag."
-}
-
 server.get('/', (req, res) => { 
-  res.render('index', {description: info.desc, user: req.session.client_data})
+  res.render('index', {user: req.session.client_data})
 })
 
-server.get('/about', (req, res) => { 
-  res.send(`<p>${info.desc}</p>`);
-})
+// server.get('/about', (req, res) => { 
+//   res.send(`<p>${info.desc}</p>`);
+// })
 
 import { mailRoute } from './routes/mail'
 server.use('/contact', mailRoute)
