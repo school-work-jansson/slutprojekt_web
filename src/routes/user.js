@@ -29,47 +29,40 @@ router.get('/login/discord', (req, res) => {
     
     // let user = new User();
 
-    // If user already has active auth; Just proceed
+    // Om klienten redan har en activ session så behöver den inte 
     if (req.session.authenticated) {
         if (req.session.client_data)
         console.log("User already authenticated")
-        return res.send(req.session.client_data)
+        return res.redirect('/')
     }
 
-    if (!query_code) // if querycode is something 
+    // Om det inte finns någon query_code så kommer inte klienten från discord
+    if (!query_code)
     {   
         console.log("No querycode. Redirect to discord", Discord.OAUTH_SCOPE);
         return res.redirect(Discord.OAUTH_SCOPE)
     }
+
+    console.log("query_code not null; Requesting client data from discord");
     
-    console.log("query_string not null; Requesting client data from discord");
     (async () => {
-        // Hämtar första datan från discord
+        let [client_data, refresh_token, exists] = await login_user(query_code);
 
-        let tokens = await Discord.token_exchange(query_code)
-
-        // Retrives clients data from discord
-        let client_data = await Discord.get_user_data(tokens)
-
-        // Kolla ifall användaren existerar
-        // let user = new User();
-        // if (!user.exists(client_data.id)) return res.redirect("/signup");
-
-        // finns inte användaren så ska den skicka vidare till /signup med client_data
-
-        // // finns användaren finns, ladda in nickname, profilbild osv in i session 
-        // -> spara refresh_token i databasen
-        // let valid_until = 0
-        // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
+        
+        // req.session.cookie.maxAge = client_data.valid_until vet inte
+        req.session.client_data = client_data;
+        req.session.refresh_token = refresh_token;
+        
+        if (!exists) return res.redirect('/u/signup');
+        
 
         req.session.authenticated = true;
-        req.session.client_data = client_data;
-        // req.session.valid = client_data.valid_until
+        // res.send({user_data: client_data, refresh: tokens.refresh_token});
         
-        req.session.refresh_token = tokens.refresh_token;
-        // console.log(client_data, refresh_token)
-        res.send({user_data: client_data, refresh: tokens.refresh_token});
+        res.redirect('/')
     })();
+
+    
 
 });
 
@@ -96,13 +89,16 @@ router.post('/signup', (req, res) => {
 router.get('/refresh', (req, res) => {
     let refresh_token = req.session.refresh_token
 
-    if (!refresh_token) return res.send({err: "no refresh token"})
+    if (!refresh_token) return res.send({err: "no refresh token"});
     else
         (async () => {
             let response = await Discord.get_new_tokens(refresh_token)
-            
+            let user = new User()
             if (response.refresh_token)
+            {
                 req.session.refresh_token = response.refresh_token
+                await user.update_refresh_token(res.session.client_data.id, response.refresh_token)
+            }
 
             console.log(response)
             res.send(response)
@@ -117,11 +113,11 @@ router.post('/signout', (req, res) => {
     req.session.destroy((err) => {
         res.send({err: err})
     })
-    res.render('index')
+    res.redirect('/')
 })
 
 router.get('/profile', (req, res) => {
-    res.render("profile")
+    res.send(req.session.client_data)
 })
 
 router.post('/update_profile', (req, res) => {
@@ -131,7 +127,30 @@ router.post('/update_profile', (req, res) => {
 
 router.delete('/remove_user', (req, res) => {
     console.log("User requested account deletion")
-    res.render('index')
+    res.redirect('index')
 })
 
 export { router as userRoute };
+
+
+async function login_user(query_code) {
+        // Hämtar första datan från discord
+
+        let tokens = await Discord.token_exchange(query_code)
+
+        // Retrives clients data from discord
+        let client_data = await Discord.get_user_data(tokens)
+
+        // Kolla ifall användaren existerar
+        // let user = new User();
+        // if (!user.exists(client_data.id)) return [null, null, false];
+
+        // // finns användaren finns, ladda in nickname, profilbild osv in i session 
+        // // -> spara refresh_token i databasen
+        // let valid_until = 0
+        // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
+
+        // console.log(client_data, refresh_token)
+
+        return [client_data, tokens.refresh_token, true]
+}
