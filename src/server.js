@@ -46,7 +46,22 @@ server.use(session({
 
 
 import helmet from 'helmet';
-server.use(helmet())
+server.use(helmet({crossOriginResourcePolicy: { policy: "cross-origin" }} ) )
+server.use(helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": ["'self'"],
+      "base-uri": "'self'",
+      "font-src": ["'self'","https:","data:"],
+      "frame-ancestors": ["'self'"],
+      "img-src": ["'self'","https://cdn.discordapp.com/"],
+      "object-src": ["'none'"],
+      "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
+      "script-src-attr": "'none'",
+      "style-src": ["'self'","https://cdnjs.cloudflare.com"],
+    }
+  })
+);
+
 
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
@@ -57,6 +72,8 @@ server.set('views', path.join(__dirname, 'pages')); // SSR webpages (index, cont
 server.set('view engine', 'ejs');
 
 server.get('/', (req, res) => { 
+  // https://discord.com/developers/docs/reference#image-formatting
+  console.log(req.session.client_data)
   res.render('index', {user: req.session.client_data})
 })
 
