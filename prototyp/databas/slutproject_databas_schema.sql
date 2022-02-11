@@ -2,7 +2,6 @@ CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `profile_picture` varchar(255),
   `discord_id` varchar(255) UNIQUE,
-  -- `role_id` int NOT NULL,
   `moderator` boolean DEFAULT false,
   `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
@@ -32,6 +31,7 @@ CREATE TABLE `reviews` (
 
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `product_picture` varchar(255),
   `name` varchar(255) NOT NULL,
   `category_id` int NOT NULL
 );
@@ -41,10 +41,6 @@ CREATE TABLE `categories` (
   `category` varchar(255) NOT NULL
 );
 
--- CREATE TABLE `roles` (
---   `id` int PRIMARY KEY AUTO_INCREMENT,
---   `role` varchar(255) NOT NULL
--- );
 
 ALTER TABLE `reports` ADD FOREIGN KEY (`reporter_id`) REFERENCES `users` (`id`);
 
@@ -55,7 +51,5 @@ ALTER TABLE `reports` ADD FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`);
 ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `reviews` (`user_id`);
 
 ALTER TABLE `reviews` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
-
--- ALTER TABLE `users` ADD FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 
 ALTER TABLE `products` ADD FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
