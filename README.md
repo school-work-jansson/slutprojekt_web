@@ -25,3 +25,6 @@ MAIL_NAME=
 MAIL_PASSWORD=
 
 ```
+
+# Database
+`docker run --name some-mysql1 --restart unless-stopped -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 -p 33060:33060 -v ~/test-mysql:/var/lib/mysql mysql`
