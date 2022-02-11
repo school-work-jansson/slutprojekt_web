@@ -146,8 +146,8 @@ async function login_user(query_code) {
         let client_data = await Discord.get_user_data(tokens)
 
         // Kolla ifall användaren existerar
-        // let user = new User();
-        // if (!user.exists(client_data.id)) return [null, null, false];
+        let user = new User();
+        if (!user.exists(client_data.id)) return [null, null, false];
 
         // // finns användaren finns, ladda in nickname, profilbild osv in i session 
         // // -> spara refresh_token i databasen
