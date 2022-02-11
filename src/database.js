@@ -12,9 +12,28 @@ class Database {
             password: process.env.DB_PWD,
             database: process.env.DB_NAME,
         }
-
         this.connection = mysql.createConnection(this.options);
-        this.connection_type = "";
+
+        this.queries = {
+            user: {
+                user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
+                get_user: "SELECT * FROM users WHERE discord_id = ?",
+                create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)",
+                remove_user: "",
+                update_refresh_token: "UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?",
+            },
+            product: {
+                get_product: "SELECT * FROM products WHERE product_has = ?",
+                post_product: "INSERT INTO PRODUCTS (,,,) VALUES (?,?,?,)",
+                remove_product: ""
+            },
+            review: {
+                get_review: "SELECT * FROM reviews WHERE product_id ",
+                post_review: "",
+                remove_review: "",
+                edit_review: ""
+            }
+        }
     }
 
     query(sql, args) {
@@ -40,19 +59,6 @@ class Database {
 class User extends Database {
     constructor() {
         super()
-        this.id = 0
-        this.queries = {
-            user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
-            create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)",
-            remove_user: "",
-            update_refresh_token: "UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?",
-            post_review: "",
-            remove_review: "",
-            edit_review: "",
-            get_product: "",
-            get_review: ""
-        }
-
     }
 
     // loads existings user when user logs in
@@ -75,7 +81,8 @@ class User extends Database {
             return true; // Antar annnars att användaren finns
                 
         } catch (error) {
-            return error
+            console.log("error")
+            return -1
         }
     }
 
@@ -166,10 +173,6 @@ class User extends Database {
 class Product extends Database {
     constructor() {
         super()
-        this.product = {
-            name: "",
-    
-        }
     }
 
     getReviews() {
