@@ -63,6 +63,7 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 	- Kunna publicera recenssioner på nya produkter
 		- *För att kunna publicera nya produkter så måste man ha en viss mängd "karma"*
 	- Kunna publicera recenssioner på existerande produkter
+		- Flaggnings funktion
 - Adminpanel
 	- Moderatorer
 

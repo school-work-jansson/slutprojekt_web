@@ -7,8 +7,12 @@
         "id": "1c11298054a903eb",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "projektplannering.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -65,6 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "projektplannering.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -84,9 +89,9 @@
   },
   "active": "1c11298054a903eb",
   "lastOpenFiles": [
+    "projektplannering.md",
     "dokumentation.md",
     "images/responsive menybar.png",
-    "projektplannering.md",
     "images/sida1.png",
     "images/Formaterad_navbar1.png",
     "images/live_preview.png"
