@@ -134,7 +134,157 @@
             </div>
 
         </div>
+        <style>
+            .popup-background{
+                background:rgba(0,0,0,.4);
+                cursor: pointer;
+                display: none;
+                height: 100%;
+                position: fixed;
+                text-align: center;
+                top: 0;
+                width: 100%;
+                z-index: 100;
+            }
+
+            .popup-background .helper{
+                display:inline-block;
+                height:100%;
+                vertical-align:middle;
+            }
+
+            .popup-background > .popup-window {
+                background-color: #ebebeb;
+                box-shadow: 10px 10px 60px #555;
+                display: inline-block;
+                height: auto;
+                max-width: 551px;
+                min-height: 100px;
+                vertical-align: middle;
+                width: 60%;
+                position: relative;
+                border-radius: 8px;
+                padding: 15px 5%;
+            }
+
+            .review-input {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                border-radius: 8px;
+                border: none;
+
+
+                box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+                -webkit-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+                -moz-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+            }
+
+            .popup-window textarea {
+                max-width: 90%;
+                resize: none;
+            }
+
+            .close-popup-button {
+                background-color: #fff;
+                border: 3px solid #999;
+                border-radius: 50px;
+                cursor: pointer;
+                display: inline-block;
+                font-family: arial;
+                font-weight: bold;
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                font-size: 25px;
+                line-height: 30px;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+            }
+
+            .close-popup-button:hover {
+                background-color: #ccc;
+            }
+
+            .popup-button {
+                cursor: pointer;
+                font-size: 20px;
+                margin: 20px;
+                display: inline-block;
+                font-weight: bold;
+            }
+
+        </style>
         
+        <div class="">
+            <a class="popup-button">Skriv en review!</a>
+        </div>  
+
+        <div class="popup-background">
+            <span class="helper"></span>
+            <div class="popup-window">
+                <div class="close-popup-button">&times;</div>
+                <p>Skriv en review</p>
+                <div id="review-form">
+                    <!-- 
+                        Om det användaren skickar är identiskt till något som redan är publicerat så ska det flaggas
+                        Om användaren använder massa svordommar i sin text så bör den också flaggas automatiskt
+            
+                        Om någonting flaggas så ska den inte publiceras utan den ska bli manuellt accepterad av en admin
+                        Detta fungerar inte för på en skalad nivå, tex om sidan skulle få 200.000 dagliga användare
+                      -->
+                      
+                    <input type="text" id="title" placeholder="Title" class="review-input">
+                    <input type="text" id="name" placeholder="Name" class="review-input">
+                    <textarea cols="60" rows="10" id="content" placeholder="Content" class="review-input"></textarea>
+                    <!-- 
+                        https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
+                        https://www.w3schools.com/howto/howto_css_star_rating.asp
+                    -->
+            
+                    <div class="rating">
+                        <i class="rating__star far fa-star"></i>
+                        <i class="rating__star far fa-star"></i>
+                        <i class="rating__star far fa-star"></i>
+                        <i class="rating__star far fa-star"></i>
+                        <i class="rating__star far fa-star"></i>
+                    </div>
+            
+                    <input type="submit" id="send_review_button" value="Submit">
+                    
+                </div>
+                <p>Förhandsvisning</p>
+            <!-- Formatering ? -->
+                <div class="card">
+                    <h1 id="preview-title"></h1> 
+                    <div class="rating">
+                        <i class="preview__rating__star far fa-star"></i>
+                        <i class="preview__rating__star far fa-star"></i>
+                        <i class="preview__rating__star far fa-star"></i>
+                        <i class="preview__rating__star far fa-star"></i>
+                        <i class="preview__rating__star far fa-star"></i>
+                    </div>
+                    <span id="preview-name"></span>
+                    <span id="preview-date"></span>
+                    <p id="preview-content"></p>
+                </div> 
+            </div>
+
+        </div>
+
+        <script>
+            $(() => {
+                $(".popup-button").click( () => {
+                    $('.popup-background').show();
+                });
+                $('.close-popup-button').click( () => {
+                    $('.popup-background').hide();
+                });
+            })();
+            
+
+        </script>
+
         <div class="review-cards">
             <div class="card">
                 <h1 id="review-title">Review Title</h1> 
