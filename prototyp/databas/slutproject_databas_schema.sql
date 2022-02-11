@@ -33,6 +33,7 @@ CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `product_picture` varchar(255),
   `name` varchar(255) NOT NULL,
+  `product_hash` varchar(255) NOT NULL,
   `category_id` int NOT NULL
 );
 
