@@ -41,6 +41,17 @@ class User extends Database {
     constructor() {
         super()
         this.id = 0
+        this.queries = {
+            user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
+            create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)",
+            remove_user: "",
+            update_refresh_token: "UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?",
+            post_review: "",
+            remove_review: "",
+            edit_review: "",
+            get_product: "",
+            get_review: ""
+        }
 
     }
 
