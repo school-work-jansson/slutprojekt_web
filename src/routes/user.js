@@ -147,7 +147,8 @@ async function login_user(query_code) {
 
         // Kolla ifall användaren existerar
         let user = new User();
-        if (!user.exists(client_data.id)) return [null, null, false];
+        // if (!user.exists(client_data.id)) return [null, null, false];
+        console.log(await user.exists(client_data.id))
 
         // // finns användaren finns, ladda in nickname, profilbild osv in i session 
         // // -> spara refresh_token i databasen
