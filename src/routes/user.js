@@ -14,6 +14,7 @@
 
 
 import express from "express";
+import req from "express/lib/request";
 import { isRedirect } from "node-fetch";
 const router = express.Router()
 // const user = require("../database")
@@ -49,16 +50,24 @@ router.get('/login/discord', (req, res) => {
     console.log("query_code not null; Requesting client data from discord");
     
     (async () => {
-        let [client_data, refresh_token, exists] = await login_user(query_code);
+        let [loaded_data, refresh_token, exists] = await login_user(query_code);
+
+        // req.session.cookie.maxAge = client_data.valid_until vet inte
+        req.session.client_data = {
+            id: loaded_data.discord_id,
+            avatar: loaded_data.profile_picture,
+            username: loaded_data.nickname,
+            email: loaded_data.email,
+            refresh_token: loaded_data.refresh_token
+        }
 
         
-        // req.session.cookie.maxAge = client_data.valid_until vet inte
-        req.session.client_data = client_data;
-        req.session.refresh_token = refresh_token;
+        
+        // req.session.client_data = client_data;
+        // req.session.refresh_token = refresh_token;
         
         if (!exists) return res.redirect('/u/signup');
         
-
         req.session.authenticated = true;
         // res.send({user_data: client_data, refresh: tokens.refresh_token});
         
@@ -91,7 +100,7 @@ router.post('/signup', (req, res) => {
 
 
 router.get('/refresh', session_check, (req, res) => {
-    let refresh_token = req.session.refresh_token
+    let refresh_token = req.session.client_data.refresh_token
 
     if (!refresh_token) return res.send({err: "no refresh token"});
 
@@ -151,7 +160,17 @@ async function login_user(query_code) {
         if (await user.exists(client_data.id) == false) {
             await user.create(client_data, tokens.refresh_token);
         }
+
+        let loaded_data = await user.load_user(client_data.id)
+
         
+        if (loaded_data.refresh_token != tokens.refresh_token) {
+            let user = new User()
+            await user.update_refresh_token(loaded_data.id, refresh_token)
+        }
+
+        loaded_data.refresh_token = tokens.refresh_token;
+
         // console.log(await user.exists(client_data.id))
 
         // // finns användaren finns, ladda in nickname, profilbild osv in i session 
@@ -161,7 +180,7 @@ async function login_user(query_code) {
 
         // console.log(client_data, refresh_token)
 
-        return [client_data, tokens.refresh_token, true]
+        return [loaded_data, tokens.refresh_token, true]
 }
 
 function session_check(req, res, next) {
