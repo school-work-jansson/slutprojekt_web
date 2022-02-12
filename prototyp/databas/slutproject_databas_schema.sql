@@ -1,13 +1,14 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `profile_picture` varchar(255),
-  `discord_id` varchar(255) UNIQUE,
+  `discord_id` varchar(255) UNIQUE NOT NULL,
   `moderator` boolean DEFAULT false,
   `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
   `created_at` timestamp NOT NULL,
   `reports` int,
-  `refresh_token` varchar(255)
+  `refresh_token` varchar(255) NOT NULL,
+  `refresh_valid_until` timestamp NOT NULL
 );
 
 CREATE TABLE `reports` (
