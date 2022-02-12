@@ -18,8 +18,8 @@ class Database {
             user: {
                 user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
                 get_user: "SELECT * FROM users WHERE discord_id = ?",
-                create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, created_at, refresh_token) VALUES (?, ?, ?, ?, ?, ?)",
-                remove_user: "",
+                create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, created_at, refresh_token, refresh_valid_until) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                remove_user: "DELETE FROM users WHERE discord_id = ?",
                 update_user: "UPDATTE users SET profle_picture = ?, nickname = ?, email = ? WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
             },
@@ -65,14 +65,16 @@ class User extends Database {
     }
 
     // loads existings user when user logs in
-    load_user(discord_id) {
+    async load_user(discord_id) {
         try {
             let result = await this.query(
                 this.queries.user.get_user,
                 [discord_id]
             )
-    
-            console.log(result)    
+            
+            console.log("user data from database\n", result) 
+            return result[0]
+               
         } catch (error) {
             console.log(error)
             return error            
@@ -109,13 +111,16 @@ class User extends Database {
 
     async create(client_data, refresh_token) {
         console.log("Cration of new user")
+        let one_day = 1000 * 60 * 24
+
         this.profile = [
             client_data.id,
             client_data.avatar, 
             client_data.username,
             client_data.email,
             new Date(),
-            refresh_token
+            refresh_token,
+            new Date()
         ]
 
         try {
