@@ -18,9 +18,10 @@ class Database {
             user: {
                 user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
                 get_user: "SELECT * FROM users WHERE discord_id = ?",
-                create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)",
+                create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, created_at, refresh_token) VALUES (?, ?, ?, ?, ?, ?)",
                 remove_user: "",
-                update_refresh_token: "UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?",
+                update_user: "UPDATTE users SET profle_picture = ?, nickname = ?, email = ? WHERE discord_id = ?",
+                update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
             },
             product: {
                 get_product: "SELECT * FROM products WHERE product_hash = ?",
@@ -40,18 +41,13 @@ class Database {
     async query(sql, args) {
         return new Promise((resolve, reject) => {
             this.connection.query(sql, args, (err, result) => {
-                if (err) { 
-                    return reject(err); 
-                }
-                else {
-                    this.close();
-                    return resolve(result);
-                }
-                
+                if (err) return reject(err); 
+                else return resolve(result);
             })
         })
     }
 
+    // Vet inte om man behöver köra denna manuellt http://sidorares.github.io/node-mysql2/#documentation
     async close() {
         return new Promise((resolve, reject) => {
             this.connection.end((err) => {
@@ -69,8 +65,18 @@ class User extends Database {
     }
 
     // loads existings user when user logs in
-    load_user() {
-        // user_content = this.query("", "SELECT profile_picture, username, firstname, lastname, email, phone, reporst FROM user") eller något
+    load_user(discord_id) {
+        try {
+            let result = await this.query(
+                this.queries.user.get_user,
+                [discord_id]
+            )
+    
+            console.log(result)    
+        } catch (error) {
+            console.log(error)
+            return error            
+        }
     }
 
     async exists(discord_id) {
@@ -79,6 +85,8 @@ class User extends Database {
                 this.queries.user.user_exists,
                 [discord_id]
             );
+
+            // await this.close();
 
             for (const key in result[0]) {
                 if (Object.hasOwnProperty.call(result[0], key)) {
@@ -99,31 +107,29 @@ class User extends Database {
         }
     }
 
-    create(client_data, refresh_token) {
-        // this.profile = {
-        //     profile_picture: "",
-        //     nickname: client_data.name,
-        //     email: client_data.email,
-        //     created_at: new Date(),
-        //     reports: 0, // Hidden, only visible to Admins
-        //     refresh_token: null
-        // }
-
+    async create(client_data, refresh_token) {
+        console.log("Cration of new user")
         this.profile = [
             client_data.id,
-            null, 
-            client_data.nickname,
+            client_data.avatar, 
+            client_data.username,
             client_data.email,
             new Date(),
             refresh_token
         ]
 
-
-        // INSERT INTO table_name (column1, column2, column3, ...)
-        // VALUES (value1, value2, value3, ...); 
         try {
-            this.query("INSERT INTO users (discord_id, profile_picture, nickname, email, create_at, refresh_token) VALUES (?, ?, ?, ?, ?)", this.profile)  
+            let r = await this.query(
+                this.queries.user.create_user, 
+                this.profile
+            ).finally(() => {
+                console.log("Done with qurey!")
+            });  
+            
+            console.log("result from user creation", r)
+            // await this.close();
         } catch (error) {
+            console.log(error)
             return error
         }
     }
@@ -144,7 +150,7 @@ class User extends Database {
     async update_refresh_token(discord_id, refresh_token, valid_until) {
         try {
             // Uppdatera refresh token
-            let result = await this.query(`UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?`, [refresh_token, valid_until, discord_id])
+            let result = await this.query(`UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?`, [refresh_token, valid_until, discord_id])
             this.close(); 
 
 
@@ -155,8 +161,19 @@ class User extends Database {
         }
     }
 
-    update_user() {
+    update_user(new_values, discord_Id) {
+        let update_values = [
+            new_values.profile_picture,
+            new_values.nickname,
+            new_values.email,
+            discord_Id
+        ]
 
+        try {
+            let result = this.query(this.queries.user.update_user, update_values)
+        } catch (error) {
+            
+        }
     }
 
     async create_user_review(product_hash, content) {
