@@ -150,9 +150,7 @@ class User extends Database {
     async update_refresh_token(discord_id, refresh_token, valid_until) {
         try {
             // Uppdatera refresh token
-            let result = await this.query(`UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?`, [refresh_token, valid_until, discord_id])
-            this.close(); 
-
+            let result = await this.query(this.queries.user.update_refresh_token, [refresh_token, valid_until, discord_id])
 
             return result && result.affectedRows >= 1;
 
