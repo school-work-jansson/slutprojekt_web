@@ -126,11 +126,11 @@ class User extends Database {
                 console.log("Done with qurey!")
             });  
             
-            console.log("result from user creation", r)
+            console.log("result from user creation\n", r)
             // await this.close();
         } catch (error) {
-            console.log(error)
-            return error
+            console.log("Error while creating user\n", error)
+            return -1
         }
     }
 
@@ -157,7 +157,8 @@ class User extends Database {
             return result && result.affectedRows >= 1;
 
         } catch (error) {
-            console.log(error)
+            console.log("error while updating user refresh_token\n", error)
+            return -1
         }
     }
 
@@ -172,7 +173,8 @@ class User extends Database {
         try {
             let result = this.query(this.queries.user.update_user, update_values)
         } catch (error) {
-            
+            console.log("Error while updating user\n", error)
+            return -1
         }
     }
 
