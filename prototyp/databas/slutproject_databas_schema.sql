@@ -21,9 +21,10 @@ CREATE TABLE `reports` (
 
 CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `product_id` int NOT NULL,
+  `discord_id` int NOT NULL,
+  `product_hash` varchar(255) NOT NULL,
   `rating` int NOT NULL,
+  `title` varchar(255) NOT NULL,
   `content` varchar(255),
   `flagged` boolean NOT NULL,
   `reports` int
@@ -31,9 +32,10 @@ CREATE TABLE `reviews` (
 
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `product_hash` varchar(255) NOT NULL,
   `product_picture` varchar(255),
   `name` varchar(255) NOT NULL,
-  `product_hash` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `category_id` int NOT NULL
 );
 
@@ -49,8 +51,8 @@ ALTER TABLE `reports` ADD FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `reports` ADD FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`);
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `reviews` (`user_id`);
+ALTER TABLE `users` ADD FOREIGN KEY (`discord_id`) REFERENCES `reviews` (`discord_id`);
 
-ALTER TABLE `reviews` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `reviews` ADD FOREIGN KEY (`product_hash`) REFERENCES `products` (`product_hash`);
 
 ALTER TABLE `products` ADD FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
