@@ -85,7 +85,7 @@ class User extends Database {
                     const element = result[0][key]; 
                     // om element(result) från databasen är 0 så finna inte användaren
                     // om result är 1 (element == true) så finns användaren
-                    return (element == true)
+                    return (element == 1)
                 }
             }            
                
