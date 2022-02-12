@@ -29,11 +29,11 @@ Idag så fortsatte jag lite kort med frontend och fixade till Navbaren litegrann
 
 Idag så försökte jag fixa en footer med copyright som var positionerad vid botten av hemsidan. Upptäckte problemet då att den blev satt på ett visst sätt pga att jag satte display:flex; i bodyn vilket gjorde så att jag var tvungen att ändra om lite i CSSn. Vilket i sin tur gjorde så att navbaren blev dragen till vänster så jag var tvungen att försöka lösa det också. Det slutade med att jag satte navbarens width på 90vw och sedan så drog jag den åt höger 5vw för att få den centrerad igen.
 
-**25 / 02 / 22 -**
+**25 / 01 / 22 -**
 
 Jag har nu lagt till en knapp som man kommer senare klicka på för att visa mer resultat. Antingen att den hämtar mer data från servern eller att det ligger gömt i bakgrunden. Jag har även lagt till en knapp som man klicka på för att scrolla upp til toppen om man scrollar ner en viss längd på sidan. Jag har även kollat lite på backend och lagt till lite klasser samt funktioner lite som en template över hur jag vill ha det senare. (psudeo kod) Som jag senare kommer kunna fylla i.
 
-**26 / 02 / 22 -**
+**26 / 01 / 22 -**
 
 Nu har jag hålit på lite med backend ( sedan igår kväll ). Då jag har implementerat lite klasser som jag kommer använda senare för att querya till databasen. Jag har även implementerat inloggnings funktionen. Jag beslutade mig för att använda Discord oAuth2.0 API då jag inte behöver ta hand om några lösenord då och det är även gratis. Jag har även lagt till fler template routes så att man får en liten överblick på backenden kommer vara uppbyggd. Vilket gör det lite lättare för mig senare att bara stoppa in den koden jag behöver.
 
@@ -41,13 +41,13 @@ Sen har jag även börjat små skissat hur databasen ska vara uppbyggd och det h
 
   
 
-**06 / 03 / 22 -**
+**06 / 02 / 22 -**
 
 Idag så har jag hållt på att leka lite med funktionallitetn bakom när en användare vill skicka in en review/recenssion. Jag har nämligen sätt på många sidor att ifall man ska skicka in en lång text så kan man ofta kunna se en preview på hur texten kommer se ut när man har publicerat texten. Så jag gjorde en ny fil (”review.html”) som simulerar detta lite. Så att när användaren skriver något i någon i formulären så uppdateras html dokumentet med det som användaren skrivit i olika element. Jag planerar även att lägga till formatering av texten så att användaren kan tex göra linebreaks genom att klicka enter osv osv.. (möjligen även markdown support)
 
 ![[live_preview.png]]
 
-**02-08 / 03 / 01 -**
+**(02-08) / 02 / 22 -**
 
 Jag har nu glömt skriva lite i utförandet lite några dagar medan jag även har gjort ganska mycket. Så jag går igenom ltie av det jag har gjort efter de commits jag har publicerat på github från första feburari till idag.
 
@@ -63,7 +63,11 @@ Menybaren har jag även gjort mer responsiv så att ifall användaren använder 
 
 ![[responsive menybar.png]]
 
+**12/02/22** -
+Jag har nu pillat lite med både databas och backend. Jag har suttit upp en mysql databas med Docker som körs i bakgrunden på datorn. Jag har även fixat ett Databas Schema så att jag lätt kan gå in och ändra, ta bort databasen och testa igen nu medan jag testar.
 
+Sedan har jag lagt till lite i klasserna som hanterar användarna som loggar. Bland annat så har jag lagt till en metod som skapar en ny användare i databasen. Även en metod som kollar ifall en användare finns. Jag har även skrivit mycket psuedo kod i dessa klasser (tex tomma metoder) för att jag vet lite ungefär vad jag behöver.
+	
 
 **1.1 Ändringar utifrån planeringen**
 
