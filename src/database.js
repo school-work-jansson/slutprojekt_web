@@ -1,4 +1,4 @@
-import mysql from "mysql";
+import mysql from "mysql2";
 // https://www.w3schools.com/js/js_class_inheritance.asp
 
 // https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js
@@ -23,29 +23,36 @@ class Database {
                 update_refresh_token: "UPDATE users SET refresh_token = ?, valid_until = ? WHERE discord_id = ?",
             },
             product: {
-                get_product: "SELECT * FROM products WHERE product_has = ?",
-                post_product: "INSERT INTO PRODUCTS (,,,) VALUES (?,?,?,)",
+                get_product: "SELECT * FROM products WHERE product_hash = ?",
+                post_product: "INSERT INTO products (,,,) VALUES (?,?,?,)",
                 remove_product: ""
             },
             review: {
-                get_review: "SELECT * FROM reviews WHERE product_id ",
+                get_reviews: "SELECT * FROM reviews WHERE product_hash = ? ",
                 post_review: "",
                 remove_review: "",
                 edit_review: ""
-            }
+            },
+            admin: {}
         }
     }
 
-    query(sql, args) {
+    async query(sql, args) {
         return new Promise((resolve, reject) => {
-            this.connection.query(sql, args, (err, rows) => {
-                if (err) return reject(err);
-                else return resolve();
+            this.connection.query(sql, args, (err, result) => {
+                if (err) { 
+                    return reject(err); 
+                }
+                else {
+                    this.close();
+                    return resolve(result);
+                }
+                
             })
         })
     }
 
-    close() {
+    async close() {
         return new Promise((resolve, reject) => {
             this.connection.end((err) => {
                 if (err) return reject(err);
@@ -69,19 +76,25 @@ class User extends Database {
     async exists(discord_id) {
         try {
             let result = await this.query(
-                `SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)`,
+                this.queries.user.user_exists,
                 [discord_id]
             );
-    
-            Con.close();
-    
-            // Om resultatet är null och längden inte är större än 0 så finns inte användaren 
-            if (!result[0] && !result.length > 0) return false;
-            
-            return true; // Antar annnars att användaren finns
-                
+
+            for (const key in result[0]) {
+                if (Object.hasOwnProperty.call(result[0], key)) {
+                    const element = result[0][key]; 
+                    // om element(result) från databasen är 0 så finna inte användaren
+                    // om result är 1 (element == true) så finns användaren
+                    return (element == true)
+                }
+            }            
+               
         } catch (error) {
-            console.log("error")
+            // Vad ska den returna om det blir något fel?
+            // true betyder att användern existerar
+            // false = användaren finns inte och klienten blir redirectad till /signup
+            // BYT UT MED LOG FUNKTIOn
+            console.log("error", error)
             return -1
         }
     }
