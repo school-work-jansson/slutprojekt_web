@@ -50,7 +50,7 @@ router.get('/login/discord', (req, res) => {
     console.log("query_code not null; Requesting client data from discord");
     
     (async () => {
-        let [loaded_data, refresh_token, exists] = await login_user(query_code);
+        let [loaded_data, exists] = await login_user(query_code);
 
         // req.session.cookie.maxAge = client_data.valid_until vet inte
         req.session.client_data = {
@@ -58,10 +58,8 @@ router.get('/login/discord', (req, res) => {
             avatar: loaded_data.profile_picture,
             username: loaded_data.nickname,
             email: loaded_data.email,
-            refresh_token: loaded_data.refresh_token
         }
-
-        
+    
         
         // req.session.client_data = client_data;
         // req.session.refresh_token = refresh_token;
@@ -99,27 +97,24 @@ router.post('/signup', (req, res) => {
 })
 
 
-router.get('/refresh', session_check, (req, res) => {
-    let refresh_token = req.session.client_data.refresh_token
+router.get('/refresh', session_check, async (req, res) => {
+    let user = new User()
+
+    // Hämtar nuvarande refresh_token från databasen
+    let db_response = await user.get_refresh_token(req.session.client_data.id)
+    let refresh_token = db_response.refresh_token
 
     if (!refresh_token) return res.send({err: "no refresh token"});
 
-    (async () => {
-        let response = await Discord.get_new_tokens(refresh_token)
-        let user = new User()
-
-        if (response.refresh_token)
-        {
-            req.session.refresh_token = response.refresh_token
-            await user.update_refresh_token(res.session.client_data.id, response.refresh_token)
-        }
-
-        console.log(response)
-        res.send(response)
-
-    })()
+    // Frågar efter ett nytt från discord
+    let discord_response = await Discord.get_new_tokens(refresh_token)
     
-    
+    // Uppdaterar nuvarande refresh token med det nya
+    if (discord_response.refresh_token)
+        await user.update_refresh_token(res.session.client_data.id, discord_response.refresh_token)
+
+    console.log(discord_response)
+    return res.send(discord_response)
 });
 
 router.post('/signout', session_check, (req, res) => { 
@@ -130,8 +125,10 @@ router.post('/signout', session_check, (req, res) => {
     res.redirect('/')
 })
 
-router.get('/profile', session_check, (req, res) => {
+router.get('/profile', session_check, async (req, res) => {
     res.send(req.session.client_data)
+    let user = new User()
+    console.log(await user.get_refresh_token(req.session.client_data.id))
 })
 
 router.post('/update_profile', session_check, (req, res) => {
@@ -148,39 +145,30 @@ export { router as userRoute };
 
 
 async function login_user(query_code) {
-        // Hämtar första datan från discord
+        // Skapar ett objekt av User klassen
+        let user = new User();
 
+        // Hämtar första datan från discord
         let tokens = await Discord.token_exchange(query_code)
 
         // Retrives clients data from discord
         let client_data = await Discord.get_user_data(tokens)
 
-        // Kolla ifall användaren existerar
-        let user = new User();
+        // Kolla ifall användaren existerar finns den inte så skapar den en
+        
         if (await user.exists(client_data.id) == false) {
             await user.create(client_data, tokens.refresh_token);
         }
 
+        // Laddar in user data
         let loaded_data = await user.load_user(client_data.id)
 
         
-        if (loaded_data.refresh_token != tokens.refresh_token) {
-            let user = new User()
-            await user.update_refresh_token(loaded_data.id, refresh_token)
-        }
+        // kollar ifall refresh_token i databasen är samma som den discord skickar
+        await user.update_refresh_token(loaded_data.id, tokens.refresh_token)
+        // Sätt loaded_datas refresh_token till det nya
 
-        loaded_data.refresh_token = tokens.refresh_token;
-
-        // console.log(await user.exists(client_data.id))
-
-        // // finns användaren finns, ladda in nickname, profilbild osv in i session 
-        // // -> spara refresh_token i databasen
-        // let valid_until = 0
-        // await user.update_refresh_token(client_data.id, refresh_token, valid_until);
-
-        // console.log(client_data, refresh_token)
-
-        return [loaded_data, tokens.refresh_token, true]
+        return [loaded_data, true]
 }
 
 function session_check(req, res, next) {
