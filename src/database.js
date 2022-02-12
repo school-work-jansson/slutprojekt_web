@@ -22,6 +22,7 @@ class Database {
                 remove_user: "DELETE FROM users WHERE discord_id = ?",
                 update_user: "UPDATTE users SET profle_picture = ?, nickname = ?, email = ? WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
+                get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
             product: {
                 get_product: "SELECT * FROM products WHERE product_hash = ?",
@@ -162,6 +163,17 @@ class User extends Database {
         } catch (error) {
             console.log("error while updating user refresh_token\n", error)
             return -1
+        }
+    }
+
+    // Hämtar både refresh_token och valid_unil av ett discord_id
+    async get_refresh_token(discord_id) {
+        try {
+            let result = await this.query(this.queries.user.get_refresh_token, [discord_id])
+
+            return result[0]
+        } catch (error) {
+            console.log("error while trying to get refresh tokens\n", error)
         }
     }
 
