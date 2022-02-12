@@ -14,6 +14,7 @@
 
 
 import express from "express";
+import { isRedirect } from "node-fetch";
 const router = express.Router()
 // const user = require("../database")
 import { User } from "../database";
@@ -147,7 +148,9 @@ async function login_user(query_code) {
 
         // Kolla ifall användaren existerar
         let user = new User();
-        // if (!user.exists(client_data.id)) return [null, null, false];
+        if (!await user.exists(client_data.id)) 
+            await user.create(client_data, tokens.refresh_token);
+        
         console.log(await user.exists(client_data.id))
 
         // // finns användaren finns, ladda in nickname, profilbild osv in i session 
