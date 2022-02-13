@@ -64,6 +64,11 @@ router.get('/login/discord', (req, res) => {
         
         if (!exists) return res.redirect(`/u/signup`);
         
+
+        // Om den inte är valid längre så ska den refreshas.
+        // if (!loaded_data.valid_until) await user.update_refresh_token()
+
+        req.session.cookie.maxAge = (1000 * 60 * 24)
         req.session.authenticated = true;
         // res.send({user_data: client_data, refresh: tokens.refresh_token});
         
