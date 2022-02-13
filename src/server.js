@@ -29,17 +29,18 @@ const server = express()
 
   https://expressjs.com/en/resources/middleware/session.html
 */
-let time = 36000
+let session_age = 1000 * 60 * 24
 server.use(session({
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: true,
+  saveUninitialized: false,
   resave: false,
   genid: (req) => {
     return uuid() // use UUIDs for session IDs
   },
   // store: 
   cookie: {
-    maxAge: time
+    maxAge: session_age,
+    // expires: false // Note The expires option should not be set directly; instead only use the maxAge option.
   }
 }))
 
@@ -76,6 +77,7 @@ server.set('view engine', 'ejs');
 server.get('/', (req, res) => { 
   // https://discord.com/developers/docs/reference#image-formatting
   console.log(req.session.client_data)
+  console.log(req.session.cookie.expires, req.session.cookie.maxAge)
   res.render('index', {user: req.session.client_data})
 })
 
