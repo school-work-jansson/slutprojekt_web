@@ -101,6 +101,7 @@ server.use((req, res, next) => {
 
 // Any error
 server.use((err, req, res, next) => {
+  console.log(err)
   return res.status(500).send({ error: err });
 });
 
