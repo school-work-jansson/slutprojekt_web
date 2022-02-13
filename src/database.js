@@ -20,7 +20,7 @@ class Database {
                 get_user: "SELECT * FROM users WHERE discord_id = ?",
                 create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, created_at, refresh_token, refresh_valid_until) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 remove_user: "DELETE FROM users WHERE discord_id = ?",
-                update_user: "UPDATTE users SET profle_picture = ?, nickname = ?, email = ? WHERE discord_id = ?",
+                update_user: "UPDATE users SET nickname = ?, email = ? WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
@@ -63,6 +63,11 @@ class Database {
 class User extends Database {
     constructor() {
         super()
+    }
+
+    generate_username() {
+        let username = "anonymous"
+        return username;
     }
 
     // loads existings user when user logs in
@@ -177,10 +182,11 @@ class User extends Database {
         }
     }
 
-    update_user(new_values, discord_Id) {
+    update(new_values, discord_Id) {
+
+        if (new_values.username == '') new_values.username = this.generate_username();
         let update_values = [
-            new_values.profile_picture,
-            new_values.nickname,
+            new_values.username,
             new_values.email,
             discord_Id
         ]

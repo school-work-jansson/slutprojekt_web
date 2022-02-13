@@ -14,8 +14,6 @@
 
 
 import express from "express";
-import req from "express/lib/request";
-import { isRedirect } from "node-fetch";
 const router = express.Router()
 // const user = require("../database")
 import { User } from "../database";
@@ -64,7 +62,7 @@ router.get('/login/discord', (req, res) => {
         // req.session.client_data = client_data;
         // req.session.refresh_token = refresh_token;
         
-        if (!exists) return res.redirect('/u/signup');
+        if (!exists) return res.redirect(`/u/signup`);
         
         req.session.authenticated = true;
         // res.send({user_data: client_data, refresh: tokens.refresh_token});
@@ -76,24 +74,31 @@ router.get('/login/discord', (req, res) => {
 
 });
 
-router.get("/signup", (req, res) => {
-    res.render("signup")
+router.get("/u_profile", session_check, (req, res) => {
+    res.render("profile", {user: req.session.client_data})
 })
 
-router.post('/signup', (req, res) => {
-    let user_data = req.query.profile_options;
+router.post('/update_profile', session_check, (req, res) => {
+    let user_data = req.body;
 
     // om användaren inte skickar med något användarnamn
-    if (!user_data.nickname) user_data.nickname = "anon"
+    req.session.client_data.username = user_data.username;
+    req.session.client_data.email = user_data.email;
+
+    console.log(user_data);
 
     (async () => {
         let user = new User();
+        // Eftersom att jag måste lagra refresh_token så "initlizar" jag användaren
+        // sedan uppdaterar jag databasen med ny data ifall användaren vill byta namn eller epost
+        let result = await user.update(req.session.client_data, req.session.client_data.id)
+        
+        console.log(result)
 
-        result = await user.create(user_data)
-
-        res.render("index")
-    })
-
+        res.redirect("/")
+    })();
+    
+    // res.redirect("/u/signup")
 })
 
 
@@ -131,11 +136,6 @@ router.get('/profile', session_check, async (req, res) => {
     console.log(await user.get_refresh_token(req.session.client_data.id))
 })
 
-router.post('/update_profile', session_check, (req, res) => {
-    console.log("User updated profile")
-    res.render('profile')
-})
-
 router.delete('/remove_user', session_check, (req, res) => {
     console.log("User requested account deletion")
     res.redirect('index')
@@ -158,6 +158,7 @@ async function login_user(query_code) {
         
         if (await user.exists(client_data.id) == false) {
             await user.create(client_data, tokens.refresh_token);
+            return [null, false]
         }
 
         // Laddar in user data
