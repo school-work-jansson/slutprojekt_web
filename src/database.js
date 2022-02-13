@@ -117,7 +117,8 @@ class User extends Database {
 
     async create(client_data, refresh_token) {
         console.log("Cration of new user")
-        let one_day = 1000 * 60 * 24
+        // Refresh_token ska refreshas varje dag
+        let expires_time = 1000 * 60 * 24
 
         this.profile = [
             client_data.id,
@@ -126,8 +127,8 @@ class User extends Database {
             client_data.email,
             new Date(),
             refresh_token,
-            new Date()
-        ]
+            new Date(Date.now() + expires_time)
+         ]
 
         try {
             let r = await this.query(
