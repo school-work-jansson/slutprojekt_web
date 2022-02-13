@@ -64,10 +64,18 @@ Menybaren har jag även gjort mer responsiv så att ifall användaren använder 
 ![[responsive menybar.png]]
 
 **12/02/22** -
+
 Jag har nu pillat lite med både databas och backend. Jag har suttit upp en mysql databas med Docker som körs i bakgrunden på datorn. Jag har även fixat ett Databas Schema så att jag lätt kan gå in och ändra, ta bort databasen och testa igen nu medan jag testar.
 
 Sedan har jag lagt till lite i klasserna som hanterar användarna som loggar. Bland annat så har jag lagt till en metod som skapar en ny användare i databasen. Även en metod som kollar ifall en användare finns. Jag har även skrivit mycket psuedo kod i dessa klasser (tex tomma metoder) för att jag vet lite ungefär vad jag behöver.
-	
+
+**13 / 02 / 22 -**
+
+Nu har jag lagt till möjlighet för användaren att byta lite innehåll på sin profil. Rättare sagt så kan användaren byta namn och epost adress och den uppdateras då i databasen. Jag hade tidigare även planerat att när en ny användare "registrerar" sig så ska man få komma till en registrerings sida. Däremot så insåg jag att det blir för krångligt att transportera runt refresh_token till olika sidor samt att skapa en ny entry i databsen med massa tom data. Så jag istället sätter default datan som kommer ifrån discord så har användaren sen möjlighet att ändra användarnamn och epost ifall de så väl skulle vilja det. 
+
+På frontend sidan har jag även lagt till en knapp som man kan klicka på för att få upp en en ruta där man kan skriva en review på en produkt. Denna knapp och ruta ska endast komma upp ifall en användare är inloggad. 
+
+Jag har även pillat lite med session och cookies så att använadren inte blir utloggad direkt utan nu efter en viss tidsperiod. Däremot så vet jag inte om detta fungerar eftersom att det strulat förut och jag har inte lyckats testa. Ska testa detta någon dag framöver.
 
 **1.1 Ändringar utifrån planeringen**
 
