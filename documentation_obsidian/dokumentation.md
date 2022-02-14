@@ -114,6 +114,7 @@ Under projektets gång så vägde jag mellan att använda mig av egen lösenord 
 Backend och frontend så har jag även använt mig utav öppen källkod vilket ökar trovärdiheten för den kod jag har använt från andra personer. Detta minskar riskan för kryphål eftersom det är så pass många som har laddat ner de bibliotek jag har använt och som även kan flagg till ifall det är något som inte stämmer, tex att det skulle ligga något fult i bakgrunden som skulle skada mitt projekt.
 
 **5 Utvärdering**
+- Detta projekt hade ett litet problem med inloggnings funktionen av discord. Javscript har inte stöd för 64Bitars tal vilket discord's användar ID består av. detta gör att jag lätt inte kunde hantera dessa ID's som integers utan var tvungen att lagra dem som antingen BigInt() [vilket jag inte fick att fungera] eller strängar. 
 
 **5.1 Projektplaneringen**
 
