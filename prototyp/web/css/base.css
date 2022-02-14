@@ -39,6 +39,10 @@ a, a:visited {
     color: #dabd18b2;
 }
 
+.rating-changable {
+    cursor: pointer;
+}
+
 .fas.fa-star{
     box-shadow: 0 0 5px #ffee10;
     text-shadow: 0 0 5px #ffee10;

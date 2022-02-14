@@ -9,17 +9,26 @@ let review_object = {
 
 $(() => {
     handle_review_form()
+
+    $(() => {
+        $(".popup-button").click( () => {
+            $('.popup-background').show();
+        });
+        $('.close-popup-button').click( () => {
+            $('.popup-background').hide();
+        });
+    })();
 })
 
 function handle_review_form() {
 
     /* Star-rating Inspiration (https://codepen.io/Leoschmittk/pen/OJbQBgb) */
-    const star_whole = "rating__star fas fa-star";
-    const star_half = "raiting__star fas fa-star-half-alt"
-    const star_none = "rating__star far fa-star";
+    const star_whole = "rating__star rating-changable fas fa-star";
+    const star_half = "raiting__star rating-changable fas fa-star-half-alt"
+    const star_none = "rating__star rating-changable far fa-star";
 
     // Mappar alla raiting__star iconerna till en array
-    let stars = $('.rating__star').map((_, element) => {return element}).get()
+    let stars = $('.rating__star.rating-changable').map((_, element) => {return element}).get()
 
     /* När användaren faktiskt skickar reviewn mot servern */
     $("#send_review_button").click(() => {
@@ -104,19 +113,6 @@ function update_preview_stars(rating)
 
 }
 
-// KAnske använder någon gång
-// function handleformating(key)
-// {
-//     switch (key) {
-//         case 13:
-//             return "<br>"
-//             break;
-
-//         default:
-//             break;
-//     }
-// }
-
 function post_review(review) {
     $.post("/post_review", review)
     console.log(review_object)
@@ -126,7 +122,3 @@ function getDate() {
     return new Date().toISOString()
 }
 
-function loadProduct()
-{
-    
-}
