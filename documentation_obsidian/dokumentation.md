@@ -89,6 +89,9 @@ Jag har även pillat lite med session och cookies så att använadren inte blir 
 
 Under projektets gång så har jag både använt mig utav linting program för backend och frontend som talar om ifall det är något slarvfel osv som jag gör. Backenden crashar även (Validera koden på ngt sätt) ifall det är något syntax fel man skrivit.
 
+- https://www.eversql.com/sql-syntax-check-validator/
+
+
 Frontenden har jag validerat på w3 schools validator, för html och css validering...
 
 **3.2 Test på personer ur målgruppen**
