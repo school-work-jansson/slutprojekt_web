@@ -11,6 +11,7 @@
     <% if (user) { %>
         <p>User logged in</p>
         <p>hello <%= user.username %></p> <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Discord Image" crossorigin="anonymous">
+        <a href="/u/logout">Click here to sign out</a>
 
     <% } else { %>
         <a href="/u/login/discord">Click here to login</a>
