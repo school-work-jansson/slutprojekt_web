@@ -4,7 +4,7 @@ import mysql from "mysql2";
 // https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js
 class Database {
     constructor() {
-        
+
         this.options = {
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
@@ -14,6 +14,24 @@ class Database {
         }
         this.connection = mysql.createConnection(this.options);
 
+        // https://www.codeproject.com/Articles/33052/Visual-Representation-of-SQL-Joins
+        // Queryn för att hämta en product från databasen bör returnera producterna och även reviewsen
+
+        // SELECT * FROM products
+        // LEFT JOIN reviews ON products.id = reviews.product_id
+        // UNION ALL
+        // SELECT * FROM products
+        // RIGHT JOIN reviews ON products.id = reviews.product_id
+        // WHERE products.id IS NULL AND MATCH(products.name, products.description) AGAINST ('hello' IN NATURAL LANGUAGE MODE);
+
+        // SELECT * FROM products
+        // LEFT JOIN reviews ON products.id = reviews.product_id
+        // UNION ALL
+        // SELECT * FROM products
+        // RIGHT JOIN reviews ON products.id = reviews.product_id
+        // WHERE products.id IS NULL AND products.name = ?;
+
+        // https://stackoverflow.com/questions/4796872/how-can-i-do-a-full-outer-join-in-mysql#4796911
         this.queries = {
             user: {
                 user_exists: "SELECT EXISTS(SELECT id FROM users WHERE discord_ID = ?)",
@@ -25,8 +43,8 @@ class Database {
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
             product: {
-                get_product: "SELECT * FROM products WHERE product_hash = ?",
-                post_product: "INSERT INTO products (,,,) VALUES (?,?,?,)",
+                get_product: "SELECT * FROM products p WHERE MATCH(name, description) AGAINST (? IN NATURAL LANGUAGE MODE) FULL OUTER JOIN reviews r ON p.id, = r.product_id",
+                post_product: "INSERT INTO products (name, description) VALUES (?, ?)",
                 remove_product: ""
             },
             review: {
@@ -42,7 +60,7 @@ class Database {
     async query(sql, args) {
         return new Promise((resolve, reject) => {
             this.connection.query(sql, args, (err, result) => {
-                if (err) return reject(err); 
+                if (err) return reject(err);
                 else return resolve(result);
             })
         })
@@ -57,7 +75,7 @@ class Database {
             });
         });
     }
-    
+
 }
 
 class User extends Database {
@@ -77,13 +95,13 @@ class User extends Database {
                 this.queries.user.get_user,
                 [discord_id]
             )
-            
-            console.log("user data from database\n", result) 
+
+            console.log("user data from database\n", result)
             return result[0]
-               
+
         } catch (error) {
             console.log(error)
-            return error            
+            return error
         }
     }
 
@@ -98,13 +116,13 @@ class User extends Database {
 
             for (const key in result[0]) {
                 if (Object.hasOwnProperty.call(result[0], key)) {
-                    const element = result[0][key]; 
+                    const element = result[0][key];
                     // om element(result) från databasen är 0 så finna inte användaren
                     // om result är 1 (element == true) så finns användaren
                     return (element == 1)
                 }
-            }            
-               
+            }
+
         } catch (error) {
             // Vad ska den returna om det blir något fel?
             // true betyder att användern existerar
@@ -122,7 +140,7 @@ class User extends Database {
 
         this.profile = [
             client_data.id,
-            client_data.avatar, 
+            client_data.avatar,
             client_data.username,
             client_data.email,
             new Date(),
@@ -132,12 +150,12 @@ class User extends Database {
 
         try {
             let r = await this.query(
-                this.queries.user.create_user, 
+                this.queries.user.create_user,
                 this.profile
             ).finally(() => {
                 console.log("Done with qurey!")
-            });  
-            
+            });
+
             console.log("result from user creation\n", r)
             // await this.close();
         } catch (error) {
@@ -148,12 +166,12 @@ class User extends Database {
 
     // Behövs dessa?
     // async login(discord_id, refresh_token) {
-        
+
 
     // }
 
 
-    
+
     // logout() {
 
     // }
@@ -220,7 +238,7 @@ class User extends Database {
     // Ta bort all reviews (Alla förekomster av en användare i databasen)
     delete_user() {
 
-    } 
+    }
 
 }
 
@@ -236,24 +254,41 @@ class Product extends Database {
     search_for_products() {
 
     }
-    
+
+    async post_product(form_body) {
+        try {
+            // post_product: "INSERT INTO products (discord_id, title, content, timestamp) VALUES (?, ?, ?, ?)",
+            let product_options = [
+                // 1,
+                form_body.product_name,
+                form_body.product_description,
+                // new Date()
+            ]
+
+            let result = await this.query(this.queries.product.post_product, product_options)            
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     async get_product(hash){
         let fetched_product, fetched_reviews, return_error;
         fetched_product = await this.query(`SELECT * FROM products WHERE hash = ?`, [hash])
 
-        if (!fetched_product && fetched_product.length < 1) 
+        if (!fetched_product && fetched_product.length < 1)
         {
             return_error = "Product does not exist"
             return fetched_product, fetched_reviews, return_error
         }
 
-        
+
         fetched_reviews = await this.query(`SELECT * FROM reviews WHERE product_id=${fetched_product[0].id}`, "")
 
         return fetched_product, fetched_reviews, return_error
-     
+
     }
 }
 
 // module.exports = User
-export { User, Product } 
+export { User, Product }
