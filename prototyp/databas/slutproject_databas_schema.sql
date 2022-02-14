@@ -13,8 +13,8 @@ CREATE TABLE `users` (
 
 CREATE TABLE `reports` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `reporter_id` int NOT NULL,
-  `receiver_id` int NOT NULL,
+  `reporter_id` varchar(255) NOT NULL,
+  `receiver_id` varchar(255) NOT NULL,
   `review_id` int NOT NULL,
   `resolved` boolean DEFAULT false,
   `optional` varchar(255)
@@ -22,7 +22,7 @@ CREATE TABLE `reports` (
 
 CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `discord_id` int NOT NULL,
+  `discord_id` varchar(255) NOT NULL,
   `product_id` int NOT NULL,
   `rating` int NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `reviews` (
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `product_picture` varchar(255),
-  `discord_id` int NOT NULL,
+  `discord_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `category_id` int
