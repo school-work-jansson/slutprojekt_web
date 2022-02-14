@@ -163,7 +163,7 @@ async function login_user(query_code) {
         
         if (await user.exists(client_data.id) == false) {
             await user.create(client_data, tokens.refresh_token);
-            return [null, false]
+            // return [null, false]
         }
 
         // Laddar in user data
