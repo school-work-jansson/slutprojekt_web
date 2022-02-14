@@ -18,6 +18,7 @@ const router = express.Router()
 // const user = require("../database")
 import { User } from "../database";
 import { DiscordAuth } from "../discord";
+import { session_check } from "../middleware";
 
 const Discord = new DiscordAuth()
 
@@ -175,12 +176,4 @@ async function login_user(query_code) {
         // Sätt loaded_datas refresh_token till det nya
 
         return [loaded_data, true]
-}
-
-function session_check(req, res, next) {
-    if (!req.session.authenticated && !req.session.client_data)
-        return res.redirect('/');
-
-    next();
-
 }

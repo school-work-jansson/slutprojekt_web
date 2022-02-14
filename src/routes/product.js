@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router()
 import { Product } from '../database';
-
+import { session_check } from "../middleware";
 
 /* PÅ något sätt ska den ha ett unikt "id" för att kunna separera två olika typer av samma produkt */
 // router.get("/:name", (req, res) => {
@@ -16,7 +16,7 @@ import { Product } from '../database';
 
 
 
-router.get('/p_product', (req, res) => {
+router.get('/p_product', session_check, (req, res) => {
     res.render('product')
 })
 
