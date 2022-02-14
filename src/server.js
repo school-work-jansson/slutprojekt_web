@@ -91,6 +91,8 @@ server.use('/contact', mailRoute)
 import { userRoute } from "./routes/user"
 server.use('/u', userRoute);
 
+import { productRoute } from "./routes/product"
+server.use('/p', productRoute)
 
 // server.all('*', (req, res) => {
 //   res.render('404');
