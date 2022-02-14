@@ -29,10 +29,10 @@ router.post("/post_review", async (req, res) => {
     
 });
 
-router.post('/post_product', async (req, res) => {
+router.post('/post_product', session_check, async (req, res) => {
     let product = new Product();
     console.log(req.body)
-    await product.post_product(req.body);
+    await product.post_product(req.body, req.session.client_data.id);
     res.redirect('/p/p_product')
 })
 
