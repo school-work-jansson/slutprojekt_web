@@ -46,6 +46,7 @@ router.get('/login/discord', (req, res) => {
         return res.redirect(Discord.OAUTH_SCOPE)
     }
 
+
     console.log("query_code not null; Requesting client data from discord");
     
     (async () => {
@@ -128,12 +129,14 @@ router.get('/refresh', session_check, async (req, res) => {
     return res.send(discord_response)
 });
 
-router.post('/signout', session_check, (req, res) => { 
+router.get('/logout', session_check, (req, res) => { 
     console.log("User requested Signout")
     req.session.destroy((err) => {
-        res.send({err: err})
+        if (err) return res.send({err: err});
+        return res.redirect('/');
     })
-    res.redirect('/')
+
+
 })
 
 router.get('/profile', session_check, async (req, res) => {
@@ -159,7 +162,7 @@ async function login_user(query_code) {
 
         // Retrives clients data from discord
         let client_data = await Discord.get_user_data(tokens)
-
+        console.log("Client_data", client_data)
         // Kolla ifall användaren existerar finns den inte så skapar den en
         
         if (await user.exists(client_data.id) == false) {
@@ -169,7 +172,6 @@ async function login_user(query_code) {
 
         // Laddar in user data
         let loaded_data = await user.load_user(client_data.id)
-
         
         // kollar ifall refresh_token i databasen är samma som den discord skickar
         await user.update_refresh_token(loaded_data.id, tokens.refresh_token)
