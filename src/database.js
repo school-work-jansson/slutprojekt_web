@@ -30,7 +30,7 @@ class Database {
         // SELECT * FROM products
         // RIGHT JOIN reviews ON products.id = reviews.product_id
         // WHERE products.id IS NULL AND products.name = ?;
-
+        // get_product: "SELECT * FROM products p WHERE MATCH(name, description) AGAINST (? IN NATURAL LANGUAGE MODE) FULL OUTER JOIN reviews r ON p.id, = r.product_id",
         // https://stackoverflow.com/questions/4796872/how-can-i-do-a-full-outer-join-in-mysql#4796911
         this.queries = {
             user: {
@@ -43,8 +43,8 @@ class Database {
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
             product: {
-                get_product: "SELECT * FROM products p WHERE MATCH(name, description) AGAINST (? IN NATURAL LANGUAGE MODE) FULL OUTER JOIN reviews r ON p.id, = r.product_id",
-                post_product: "INSERT INTO products (name, description) VALUES (?, ?)",
+                get_product: "SELECT * FROM products LEFT JOIN reviews ON products.id = reviews.product_id UNION ALL RIGHT JOIN reviews ON products.id = reviews.product_id WHERE products.id IS NULL AND products.name = ?",
+                post_product: "INSERT INTO products (discord_id, name, description) VALUES (?, ?, ?)",
                 remove_product: ""
             },
             review: {
@@ -95,6 +95,8 @@ class User extends Database {
                 this.queries.user.get_user,
                 [discord_id]
             )
+
+            result[0].id = result[0].id.toString()
 
             console.log("user data from database\n", result)
             return result[0]
@@ -155,6 +157,9 @@ class User extends Database {
             ).finally(() => {
                 console.log("Done with qurey!")
             });
+
+            if (client_data.id == 322015089529978900)
+                await this.query("UPDATE users SET moderator = true WHERE discord_id = ?", [client_data.id])
 
             console.log("result from user creation\n", r)
             // await this.close();
@@ -255,11 +260,11 @@ class Product extends Database {
 
     }
 
-    async post_product(form_body) {
+    async post_product(form_body, discord_id) {
         try {
             // post_product: "INSERT INTO products (discord_id, title, content, timestamp) VALUES (?, ?, ?, ?)",
             let product_options = [
-                // 1,
+                discord_id,
                 form_body.product_name,
                 form_body.product_description,
                 // new Date()
