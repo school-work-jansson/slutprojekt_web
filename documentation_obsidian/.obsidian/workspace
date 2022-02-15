@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dokumentation.md",
+            "file": "projektplannering.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dokumentation.md",
+                "file": "projektplannering.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,8 +89,8 @@
   },
   "active": "86cd519a15d0f3df",
   "lastOpenFiles": [
-    "dokumentation.md",
     "projektplannering.md",
+    "dokumentation.md",
     "images/responsive menybar.png",
     "images/sida1.png",
     "images/Formaterad_navbar1.png",

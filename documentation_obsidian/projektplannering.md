@@ -24,7 +24,7 @@ Detta projekt är tänkt att underlätta för användaren att hitta rätt produk
 Min idé är att sidan ska vara ganska simpel eftersom att det ska vara lätt att navigera sig runt på sidan och hitta just det man letar efter. 
 
 
-## 2.2 Lista allt som skall göras för att projektet skall bli til
+## 2.2 Lista på allt som ska ingå i projektet
 
 En sammanfattad punkt-lista på vad som behöver göras för att projektet ska bli klart. Uppdelade i tre olika delar Backend, Frontend och Databas
 
@@ -98,6 +98,8 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 - Denna sida kommer vara gjord till moderatorer på hemsidan för att kunna övervaka ifall det postas något olämpligt, till exempel en recenssion. Projeketets idé är att det ska vara censurfritt men det måste ändå följa lagen. Det är alltså tänkt att "flaggade" recenssioner ska visas och då kan moderatorn välja att dölja den recenssionen för andra användare. Moderatorer ska även ha möjligheten att "återställa" olämpliga namn genom att användaren får ett genererat nickname, samt ett meddelande på något vis över att deras tidigare nickname bröt mot hemsidans policy.
 ###### product.html
 - Produkt sidan kommer innehålla produkt information från en produkt. Ett star-rating system där man ser medelbetyget på produkten. Man ska även se andras recenssioner samt en visa mer knapp ifall det skulle finnas fler recenssioner. Man ska även ha möjlighet att klicka på en knapp för att skapa en recenssion om man har ett konto. Klickar man då på den knappen så kommer det komma upp ett formulär och en live preview där man kan skriva sin egna review. Jag har även tänkt att man ska kunna skriva i markdown formattering så att man kan stylea lite som man vill.
+###### profile.html
+- Denna sida kommer att finnas så att anävndaren kan se vilka recenssioner de har publicerat. På denna sida kommer de även ha möjlighet att redigera sin profil. Det vill säga kunna ändra användarnamn och alternativt sin epostadress. Om jag även kommer på något bra sätt så ska användaren även ha möjlighet att ladda upp en egen profilbild. Däremot så är detta en säkerhetsrisk eftersom filuppladning kan skapa massa kryphål om man inte är skarp på vad man gör.
 ### jquery och DOM-script
 ###### base.js
 - Detta skript kommer innehålla de mest basala skripten på sidan. Så som ett copyright skript som skriver in det nuvarande året på sidan så att jag slipper gå in och byta varje år. 
@@ -116,6 +118,8 @@ En sammanfattad punkt-lista på vad som behöver göras för att projektet ska b
 Då jag tidigare har hållt på väldigt mycket med backend programmering så har jag goda kunskaper inom ämnet. Jag har även relativt goda kunskaper innom frontend utveckling. Däremot så har jag inte lika mycket kunskap innom frontend skripts då jag inte har byggt mina projekt på det sättet tidigare. 
 
 Så under detta projekt så hoppas jag på att lära mig mer om frontend scripts såsom jquery, och även DOM-script generellt. Jag har även en vision att lära mig mer om CSS utveckling för att ska mer responsiva sidor med hjälp av flexbox och @media
+
+Under projektetsgång kommer jag troligtvis stöta på logiska problem som jag behöver lösa. När jag stöter på dessa kommer jag försöka stegvis lösa detta med problemlösning. Jag kommer även fråga ansvariga lärare om hjälp och även besöka programmeringsforum som har förhoppningsvis stött på samma problem som mig.
 
 ## 2.5 Möjliga utvecklings ideér
 
