@@ -57,6 +57,9 @@ ALTER TABLE `reports`
     REFERENCES users(id) 
   ON DELETE NO ACTION 
   ON UPDATE NO ACTION;
+-- ERROR 3780 (HY000): Referencing column 'reporter_id' and referenced column 'id' in foreign key constraint 'fk_reports_reporter' are incompatible.
+
+
 
 -- reports har en review som är raporterad
 ALTER TABLE `reports` 
@@ -84,6 +87,8 @@ ALTER TABLE `users`
     REFERENCES reviews(poster_id) 
   ON DELETE NO ACTION 
   ON UPDATE NO ACTION;
+-- https://stackoverflow.com/questions/43511183/mysql-error-1822-failed-to-add-foreign-key-constraint-missing-index-for-contra
+-- ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'fk_user_review' in the referenced table 'reviews'
 
 
 -- Testing values
