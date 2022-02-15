@@ -2,6 +2,7 @@ import mysql from "mysql2";
 // https://www.w3schools.com/js/js_class_inheritance.asp
 
 // https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js
+// http://sidorares.github.io/node-mysql2/#using-prepared-statements
 class Database {
     constructor() {
 
@@ -15,22 +16,6 @@ class Database {
         this.connection = mysql.createConnection(this.options);
 
         // https://www.codeproject.com/Articles/33052/Visual-Representation-of-SQL-Joins
-        // Queryn för att hämta en product från databasen bör returnera producterna och även reviewsen
-
-        // SELECT * FROM products
-        // LEFT JOIN reviews ON products.id = reviews.product_id
-        // UNION ALL
-        // SELECT * FROM products
-        // RIGHT JOIN reviews ON products.id = reviews.product_id
-        // WHERE products.id IS NULL AND MATCH(products.name, products.description) AGAINST ('hello' IN NATURAL LANGUAGE MODE);
-
-        // SELECT * FROM products
-        // LEFT JOIN reviews ON products.id = reviews.product_id
-        // UNION ALL
-        // SELECT * FROM products
-        // RIGHT JOIN reviews ON products.id = reviews.product_id
-        // WHERE products.id IS NULL AND products.name = ?;
-        // get_product: "SELECT * FROM products p WHERE MATCH(name, description) AGAINST (? IN NATURAL LANGUAGE MODE) FULL OUTER JOIN reviews r ON p.id, = r.product_id",
         // https://stackoverflow.com/questions/4796872/how-can-i-do-a-full-outer-join-in-mysql#4796911
         this.queries = {
             user: {
@@ -49,11 +34,13 @@ class Database {
             },
             review: {
                 get_reviews: "SELECT * FROM reviews WHERE product_hash = ? ",
-                post_review: "INSERT INTO `reviews` (`discord_id`, `product_id`, `rating`, `title`, `content`, `created_at`, `flagged`) VALUES (?, ?, ?, ?, ?, ?);",
+                post_review: "START TRANSACTION; INSERT INTO `reviews` (`rating`, `title`, `content`, `created_at`) VALUES (?, ?, ?, ?); INSERT INTO `user_reviews` (`user_id`, `review_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() )); COMMIT;",
                 remove_review: "",
                 edit_review: ""
             },
-            admin: {}
+            moderator: {
+                is_moderator: "SELECT is_moderator FROM users WHERE discord_id = ?"
+            }
         }
     }
 
@@ -79,8 +66,10 @@ class Database {
 }
 
 class User extends Database {
-    constructor() {
+
+    constructor(discord_Id) {
         super()
+        this.discord_Id = discord_Id
     }
 
     generate_username() {
@@ -89,11 +78,11 @@ class User extends Database {
     }
 
     // loads existings user when user logs in
-    async load_user(discord_id) {
+    async load_user() {
         try {
             let result = await this.query(
                 this.queries.user.get_user,
-                [discord_id]
+                [this.discord_Id]
             )
 
             result[0].id = result[0].id.toString()
@@ -106,12 +95,20 @@ class User extends Database {
             return error
         }
     }
+    // returns if the user is a moderator
+    async is_moderator() {
+        try {
+            let result = await this.query()
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-    async exists(discord_id) {
+    async exists() {
         try {
             let result = await this.query(
                 this.queries.user.user_exists,
-                [discord_id]
+                [this.discord_Id]
             );
 
             // await this.close();
@@ -206,13 +203,13 @@ class User extends Database {
         }
     }
 
-    update(new_values, discord_Id) {
+    update(new_values) {
 
         if (new_values.username == '') new_values.username = this.generate_username();
         let update_values = [
             new_values.username,
             new_values.email,
-            discord_Id
+            this.discord_Id
         ]
 
         try {

@@ -95,10 +95,10 @@ router.post('/update_profile', session_check, (req, res) => {
     console.log(user_data);
 
     (async () => {
-        let user = new User();
+        let user = new User(req.session.client_data.id);
         // Eftersom att jag måste lagra refresh_token så "initlizar" jag användaren
         // sedan uppdaterar jag databasen med ny data ifall användaren vill byta namn eller epost
-        let result = await user.update(req.session.client_data, req.session.client_data.id)
+        let result = await user.update(req.session.client_data)
         
         console.log(result)
 
@@ -141,7 +141,7 @@ router.get('/logout', session_check, (req, res) => {
 
 router.get('/profile', session_check, async (req, res) => {
     res.send(req.session.client_data)
-    let user = new User()
+    let user = new User(req.session.client_data.id)
     console.log(await user.get_refresh_token(req.session.client_data.id))
 })
 
@@ -155,7 +155,7 @@ export { router as userRoute };
 
 async function login_user(query_code) {
         // Skapar ett objekt av User klassen
-        let user = new User();
+        
 
         // Hämtar första datan från discord
         let tokens = await Discord.token_exchange(query_code)
@@ -165,13 +165,15 @@ async function login_user(query_code) {
         console.log("Client_data", client_data)
         // Kolla ifall användaren existerar finns den inte så skapar den en
         
-        if (await user.exists(client_data.id) == false) {
+        let user = new User(client_data.id);
+
+        if (await user.exists() == false) {
             await user.create(client_data, tokens.refresh_token);
             // return [null, false]
         }
 
         // Laddar in user data
-        let loaded_data = await user.load_user(client_data.id)
+        let loaded_data = await user.load_user()
         
         // kollar ifall refresh_token i databasen är samma som den discord skickar
         await user.update_refresh_token(loaded_data.id, tokens.refresh_token)
