@@ -26,8 +26,8 @@ CREATE TABLE `reviews` (
   `rating` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` varchar(255),
-  `created_at` timestamp NOT NULL,
-  `flagged` boolean DEFAULT false NOT NULL,
+  `created_at` timestamp DEFAULT NOW() NOT NULL,
+  `flagged` boolean DEFAULT false,
   `reports` int
 );
 
@@ -38,11 +38,6 @@ CREATE TABLE `products` (
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `category_id` int
-);
-
-CREATE TABLE `categories` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `category` varchar(255) NOT NULL
 );
 
 -- Refererar till att att en product har en poster id från users
@@ -85,7 +80,7 @@ ALTER TABLE `reviews`
 ALTER TABLE `users` 
   ADD 
     CONSTRAINT fk_user_review 
-    FOREIGN KEY (`id`) 
+    FOREIGN KEY (id) 
     REFERENCES reviews(poster_id) 
   ON DELETE NO ACTION 
   ON UPDATE NO ACTION;
