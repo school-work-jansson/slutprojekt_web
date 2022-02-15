@@ -38,7 +38,7 @@ class Database {
                 get_user: "SELECT * FROM users WHERE discord_id = ?",
                 create_user: "INSERT INTO users (discord_id, profile_picture, nickname, email, created_at, refresh_token, refresh_valid_until) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 remove_user: "DELETE FROM users WHERE discord_id = ?",
-                update_user: "UPDATE users SET nickname = ?, email = ? WHERE discord_id = ?",
+                update_user: "UPDATE users SET nickname = COALESCE(NULLIF(?, ''), nickname), email = COALESCE(NULLIF(?, ''), email) WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
@@ -49,7 +49,7 @@ class Database {
             },
             review: {
                 get_reviews: "SELECT * FROM reviews WHERE product_hash = ? ",
-                post_review: "",
+                post_review: "INSERT INTO `reviews` (`discord_id`, `product_id`, `rating`, `title`, `content`, `created_at`, `flagged`) VALUES (?, ?, ?, ?, ?, ?);",
                 remove_review: "",
                 edit_review: ""
             },
