@@ -34,6 +34,9 @@ a, a:visited {
     font-size: 50px;
 } */
 
+.title {
+    
+}
 
 .fa-star {
     color: #dabd18b2;
@@ -242,12 +245,16 @@ header {
 
 @media only screen and (min-width: 950px) {
     .card {
+        display: flex;
         height: auto;
+        flex-direction: row;
         max-width: 35vw;
     }
 }
 @media only screen and (max-width: 950px) {
     .card {
+        display: flex;
+        flex-direction: column;
         height: auto;
         max-width: 50vw;
     }
