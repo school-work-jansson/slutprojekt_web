@@ -2,7 +2,7 @@ CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `discord_id` varchar(255) UNIQUE NOT NULL,
   `profile_picture` varchar(255),
-  `moderator` boolean DEFAULT false,
+  `is_moderator` boolean DEFAULT false,
   `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
   `created_at` timestamp NOT NULL,
@@ -31,7 +31,6 @@ CREATE TABLE `reviews` (
 
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL,
   `product_picture` varchar(255),
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL
@@ -48,8 +47,6 @@ CREATE TABLE `product_reviews` (
   `review_id` int NOT NULL REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   `product_id`int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
-
-
 
 -- Refererar till att att en product har en poster id från users
 ALTER TABLE `products` 
@@ -81,15 +78,3 @@ ALTER TABLE `reports`
 
 
 
--- Testing values
-INSERT 
-  INTO `products` (`user_id`, `name`, `description`) 
-  VALUES (1, 'Test product name', 'lorem ipsum');
-
-INSERT 
-  INTO `reviews` (`user_id`, `product_id`, `rating`, `title`, `content`, `created_at`) 
-  VALUES (1, 1, 5, 'Test product review title', 'lorem ipsum', NOW());
-
-INSERT 
-  INTO `reviews` (`user_id`, `product_id`, `rating`, `title`, `content`, `created_at`) 
-  VALUES (1, 1, 5, 'Test product review title2', 'lorem ipsum2', NOW());
