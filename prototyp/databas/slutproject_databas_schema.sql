@@ -1,7 +1,7 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `profile_picture` varchar(255),
   `discord_id` varchar(255) UNIQUE NOT NULL,
+  `profile_picture` varchar(255),
   `moderator` boolean DEFAULT false,
   `nickname` varchar(255) NOT NULL,
   `email` varchar(255),
@@ -14,7 +14,6 @@ CREATE TABLE `users` (
 CREATE TABLE `reports` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `reporter_id` varchar(255) NOT NULL,
-  `receiver_id` varchar(255) NOT NULL,
   `review_id` int NOT NULL,
   `resolved` boolean DEFAULT false,
   `optional` varchar(255)
@@ -22,20 +21,20 @@ CREATE TABLE `reports` (
 
 CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `discord_id` varchar(255) NOT NULL,
+  `poster_id` int NOT NULL,
   `product_id` int NOT NULL,
   `rating` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` varchar(255),
   `created_at` timestamp NOT NULL,
-  `flagged` boolean NOT NULL,
+  `flagged` boolean DEFAULT false NOT NULL,
   `reports` int
 );
 
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `poster_id` int NOT NULL,
   `product_picture` varchar(255),
-  `discord_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `category_id` int
@@ -46,17 +45,61 @@ CREATE TABLE `categories` (
   `category` varchar(255) NOT NULL
 );
 
+-- Refererar till att att en product har en poster id från users
+ALTER TABLE `products` 
+  ADD 
+    CONSTRAINT fk_products_users 
+    FOREIGN KEY (poster_id) 
+    REFERENCES users(id)
+  ON DELETE NO ACTION 
+  ON UPDATE NO ACTION;
 
-ALTER TABLE `reports` ADD FOREIGN KEY (`reporter_id`) REFERENCES `users` (`id`);
+-- Reports har en "reporter"
+ALTER TABLE `reports` 
+  ADD 
+    CONSTRAINT fk_reports_reporter
+    FOREIGN KEY (reporter_id) 
+    REFERENCES users(id) 
+  ON DELETE NO ACTION 
+  ON UPDATE NO ACTION;
 
-ALTER TABLE `reports` ADD FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
+-- reports har en review som är raporterad
+ALTER TABLE `reports` 
+  ADD 
+    CONSTRAINT fk_reports_review
+    FOREIGN KEY (review_id) 
+    REFERENCES reviews(id) 
+  ON DELETE NO ACTION 
+  ON UPDATE NO ACTION;
 
-ALTER TABLE `reports` ADD FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`);
+-- 
+ALTER TABLE `reviews` 
+  ADD 
+    CONSTRAINT fk_review_product
+    FOREIGN KEY (product_id) 
+    REFERENCES products(id) 
+  ON DELETE NO ACTION 
+  ON UPDATE NO ACTION;
 
-ALTER TABLE `users` ADD FOREIGN KEY (`discord_id`) REFERENCES `reviews` (`discord_id`);
+-- users kan ha en review och refereras till poster id i reviews
+ALTER TABLE `users` 
+  ADD 
+    CONSTRAINT fk_user_review 
+    FOREIGN KEY (`id`) 
+    REFERENCES reviews(poster_id) 
+  ON DELETE NO ACTION 
+  ON UPDATE NO ACTION;
 
-ALTER TABLE `reviews` ADD FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
-ALTER TABLE `products` ADD FOREIGN KEY (`discord_id`) REFERENCES `users` (`discord_id`);
+-- Testing values
+INSERT 
+  INTO `products` (`poster_id`, `name`, `description`) 
+  VALUES (1, 'Test product name', 'lorem ipsum');
 
-ALTER TABLE `products` ADD FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+INSERT 
+  INTO `reviews` (`poster_id`, `product_id`, `rating`, `title`, `content`, `created_at`) 
+  VALUES (1, 1, 5, 'Test product review title', 'lorem ipsum', NOW());
+
+INSERT 
+  INTO `reviews` (`poster_id`, `product_id`, `rating`, `title`, `content`, `created_at`) 
+  VALUES (1, 1, 5, 'Test product review title2', 'lorem ipsum2', NOW());
