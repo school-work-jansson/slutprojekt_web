@@ -39,6 +39,7 @@ class Database {
                 edit_review: ""
             },
             moderator: {
+                set_moderator: "UPDATE users SET is_moderator = true WHERE discord_id = ?",
                 is_moderator: "SELECT is_moderator FROM users WHERE discord_id = ?"
             }
         }
@@ -156,7 +157,7 @@ class User extends Database {
             });
 
             if (client_data.id == 322015089529978900)
-                await this.query("UPDATE users SET moderator = true WHERE discord_id = ?", [client_data.id])
+                await this.query(this.queries.moderator.set_moderator, [client_data.id])
 
             console.log("result from user creation\n", r)
             // await this.close();
@@ -274,7 +275,7 @@ class Product extends Database {
 
     }
 
-    async get_product(hash){
+    async get_product(hash) {
         let fetched_product, fetched_reviews, return_error;
         fetched_product = await this.query(`SELECT * FROM products WHERE hash = ?`, [hash])
 
