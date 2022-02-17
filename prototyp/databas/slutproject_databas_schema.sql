@@ -10,13 +10,7 @@ CREATE TABLE `users` (
   `refresh_valid_until` timestamp NOT NULL
 );
 
-CREATE TABLE `reports` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `review_id` int NOT NULL,
-  `resolved` boolean DEFAULT false,
-  `optional` varchar(255)
-);
+
 
 CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -35,11 +29,8 @@ CREATE TABLE `products` (
   `description` varchar(255) NOT NULL
 );
 
-CREATE TABLE `user_reviews` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `review_id` int NOT NULL REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION
-);
+
+-- Fixa det här på ngt  sätt med Refrences product -> review -> skapad av en user
 
 CREATE TABLE `product_reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -47,33 +38,25 @@ CREATE TABLE `product_reviews` (
   `product_id`int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
--- Refererar till att att en product har en poster id från users
-ALTER TABLE `products` 
-  ADD 
-    CONSTRAINT fk_products_poster_id
-    FOREIGN KEY (user_id) 
-    REFERENCES users(id)
-  ON DELETE NO ACTION 
-  ON UPDATE NO ACTION;
+CREATE TABLE `user_reviews` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `review_id` int NOT NULL REFERENCES product_reviews(review_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
 
--- Reports har en "reporter"
-ALTER TABLE `reports` 
-  ADD 
-    CONSTRAINT fk_reports_reporter
-    FOREIGN KEY (user_id) 
-    REFERENCES users(id) 
-  ON DELETE NO ACTION 
-  ON UPDATE NO ACTION;
+-- en user kan skapa en ny product med en review? Bra att hålla koll på 
+create TABLE `user_products` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `product_id` int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+  
+);
 
-
--- reports har en review som är raporterad
-ALTER TABLE `reports` 
-  ADD 
-    CONSTRAINT fk_reports_review
-    FOREIGN KEY (review_id) 
-    REFERENCES reviews(id) 
-  ON DELETE NO ACTION 
-  ON UPDATE NO ACTION;
-
+CREATE TABLE `reports` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_review` int NOT NULL REFERENCES user_reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `resolved` boolean DEFAULT false,
+  `optional` varchar(255)
+);
 
 
