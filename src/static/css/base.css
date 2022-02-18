@@ -1,0 +1,367 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap');
+
+
+
+* {
+    
+    margin: 0;
+    box-sizing: border-box;
+    /* font-family: Georgia, 'Times New Roman', Times, serif; */
+    scroll-behavior: smooth;
+
+}
+
+body {
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Bakbak One', cursive;
+}
+
+p, a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+a, a:visited {
+    color: rgb(255, 51, 0);
+    text-decoration: none;
+
+}
+
+/* .navbar > li > a {
+    font-size: 50px;
+} */
+
+.title {
+    
+}
+
+.fa-star {
+    color: #dabd18b2;
+}
+
+.rating-changable {
+    cursor: pointer;
+}
+
+.fas.fa-star{
+    box-shadow: 0 0 5px #ffee10;
+    text-shadow: 0 0 5px #ffee10;
+}
+
+
+.full-screen  {
+    background-color: rgba(39, 39, 39, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+
+}
+
+/* FIXA DETTA */
+#page_loader {
+
+    border: 16px solid #f3f3f300;
+    border-radius: 50%;
+    border-top: 16px solid #34db34;
+    width: 120px;
+    height: 120px;
+    
+    -webkit-animation: spin 2.5s linear infinite; /* Safari */
+    animation: spin 2.5s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+header { 
+    position: fixed;
+    z-index: 10;
+    display: block;
+
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 0 40px 0 40px;
+    
+    /* Något sketchy sätt att få menybaren i mitten?? */
+    width: 90vw;
+    left: 5vw;
+
+    border-radius: 15px;
+
+    background-color: #e3e3e3;
+
+    /* Shadow för att göra så att search boxen ser ut att stå ut */
+    box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 40px -10px rgba(0,0,0,0.75);
+
+}
+
+
+#nav_links, .navbar {
+    list-style: none;
+    width: 100%;
+}
+#nav_links, .navbar > li > a {
+    text-decoration: none;
+    font-weight: bolder;
+    color: rgb(255, 51, 0);
+    font-size: 20px;
+    text-transform: uppercase;
+
+}
+
+/* https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
+@media only screen and (max-width: 950px) {
+    header#desktop {
+        visibility: hidden;
+    }
+
+    header#mobile {
+        visibility: visible;
+    }
+
+    .header-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        
+    }
+    
+    .mobile_navbar #nav_links {
+        display: none;
+    }
+    
+    #nav_links {
+        /* width: 100%; */
+        list-style: none;
+    }
+    
+    #nav_links li {
+        margin-top: 10px;
+    }
+
+    #nav_links li:last-of-type {
+        margin-bottom: 20px;
+    }
+
+    #nav_links {
+        list-style: none;
+        padding: 15px;
+        width: 100%;
+    }
+    
+} 
+
+@media only screen and (min-width: 950px) {
+    header#desktop {
+        visibility: visible;
+    }
+
+    header#mobile {
+        visibility: hidden;
+    }
+    
+    header .desktop_navbar {
+        /* 
+            Måste sätta height här eftersom att det är en egen container 
+            Om jag skulle sätta height i header så skulle den inte placera i mitten
+        */
+        height: 70px;
+    
+        display: flex;
+        flex-direction: row;
+    
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .navbar > li {
+        display: inline;
+        padding: 10px;
+    }
+    
+    .navbar > li > a:hover {
+        border-bottom: 3px solid #00000098;
+    }
+    
+    /*     
+    .navbar > li::before {
+        content: "|";
+    }
+    .navbar > li::after {
+        content: "|";
+    } */
+
+
+} 
+
+
+.jumbotron {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 500px;
+    background-image: url(../images/jumbotron.svg);
+ 
+    background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+ 
+    background-size:cover;
+}
+
+.content {
+    margin-top: 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.card {
+    padding: 10px;
+    
+    border-radius: 15px;
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    /* Shadow för att göra så att search boxen ser ut att stå ut */
+    box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* .card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-width: 50vw;
+} */
+.card {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    max-width: 35vw;
+}
+
+.card-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* @media only screen and (min-width: 950px) {
+    .card {
+        display: flex;
+        height: auto;
+        flex-direction: row;
+        max-width: 35vw;
+    }
+} */
+    
+
+.pagnition {
+    margin-top: 50px;
+}
+  
+.pagnition_button {
+    display: block;
+    font-size: 24px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #333;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+    padding: 10px;
+    letter-spacing: 2px;
+    transition: all .25s;
+}
+
+.pagnition_button:hover{
+    letter-spacing: 15px;
+}
+
+section#footer {
+    margin-top: 5vw;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 100px;
+
+    width: 100vw;
+    bottom: 0;
+
+    overflow: hidden;
+    
+    background-color: #e3e3e3;
+}
+
+#profile-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#profile-options :first-child {
+    margin-right: 5px;
+}
+
+.profile_picture {
+    max-width: 40px;
+    max-height: 40px;
+
+    border-radius: 50%;
+}
+
+#goto-top {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 15px;
+}
+  
+#goto-top:hover {
+    background-color: #555;
+}
+
+.discord-button {
+    background-color:#5865F2;
+}

@@ -1,0 +1,40 @@
+.profile-image {
+    width: 200px;
+    height: auto;
+    border-radius: 50%;
+}
+
+#profile-content {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 950px) {
+    
+    #profile-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;   
+    }
+    
+    #profile-card-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+
+    #profile-content {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    
+}
+
+@media only screen and (max-width: 950px) {
+    #profile-content {
+        flex-direction: column-reverse;
+    }
+}

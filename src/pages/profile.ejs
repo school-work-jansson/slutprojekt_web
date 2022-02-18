@@ -4,18 +4,152 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Slutprojekt | webutveckling 2 & webserverprogrammering</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/3e0ba644be.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <form action="/u/update_profile" method="POST">
-        <input type="text" name="username" placeholder="username">
-        <input type="email" name="email" placeholder="email">
-        <input type="submit" value="Register">
-    </form>
-</body>
 
-<script>
-    // Lägg till form validation
-    // skicka via jquery? 
-</script>
+    <div class="full-screen">
+        <div id="page_loader"></div>
+    </div>
+
+    <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
+    <!-- Fixed position så att menybaren kommer följa med -->
+    <header id="mobile">
+<!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
+        <div class="header-navbar">
+            <div id="logo">
+                <h1 style="color:red;">LOGO</h1>
+            </div>
+            <!-- <a href="#home" class="active">Logo</a> -->
+
+            <div class="mobile-button">
+                <a href="javascript:void(0);" class="icon" onclick="navbar_button()">
+                    <i class="fa fa-bars fa-lg"></i>
+                </a>
+            </div>
+
+            <div id="profile-options">
+                <div>
+                    <p>|<a href="/u/login/">login</a>|<a href="/u/signout">Logout</a>|</p>
+                </div>
+                <div>
+                    <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mobile_navbar">
+            <ul id="nav_links">
+                <li>
+                    <a href="index.html">Hem</a>
+                </li>
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+                <li>
+                    <a href="contact.html">Kontakta</a>
+                </li>
+                <li>
+                    <a href="product.html">product page</a>
+                </li>
+                <li>
+                    <a href="review.html">review page</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <header id="desktop">
+        <div class="desktop_navbar">
+            <div id="logo">
+                <h1 style="color:red;">LOGO</h1>
+            </div>
+            <div id="navbar">
+                <ul class="navbar">
+                    <li>
+                        <a href="index.html">Hem</a>
+                    </li>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Kontakta</a>
+                    </li>
+                    <li>
+                        <a href="product.html">product page</a>
+                    </li>
+                    <li>
+                        <a href="review.html">review page</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profile-options">
+                <!-- https://www.w3schools.com/howto/howto_js_popup_form.asp pop up för login -->
+                <p>|<a href="/u/login/">login</a> | <a href="/u/signout">Logout</a>|</p>
+                <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp">
+            </div>
+        </div>
+    </header>
+
+    <section class="jumbotron" style="background-image: url('https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif'); background-position: center;">
+        <h1 style="background-color: brown;color: aquamarine;">Bild kanske och logo</h1>
+    </section>
+    
+    <!-- https://app.haikei.app/ -->
+    <section class="content" id="profile-content">
+        <div class="review-cards">
+            <div>
+                <h1>Här har du dina postade reviews</h1>
+            </div>
+            <div class="card">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+            </div> 
+            <div class="card">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+            </div> 
+            <div class="card">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+            </div> 
+        </div>
+
+        <div class="card" id="profile-card">
+            <div class="title">
+                <h1>Redigera profilen</h1>
+            </div>
+            <div id="profile-card-content">
+                <div class="profile-image">
+                    <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile-image">
+                </div>
+                <div>
+                    <form action="" method="post">
+                        <input type="text" name="username" placeholder="username">
+                        <input type="text" name="email" placeholder="email">
+                    </form>
+                    <span>Created at: 02102022</span>
+                </div>
+
+            </div>
+        </div> 
+    
+    </section>
+    
+    <section id="footer">
+        <div class="footer">
+            <p id="copyright">Copyright &copy; Linus J</p>
+        </div>
+        
+    </section>
+    <script src="scripts/base.js"></script>
+    <script src="scripts/scroll_button.js"></script>
+    <script src="scripts/copyright.js"></script>
+</body>
 </html>

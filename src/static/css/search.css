@@ -1,0 +1,51 @@
+.search {
+    min-width: 50vw;
+    height: auto;
+}
+
+.search input {
+    height: 55px;
+    width: 100%;
+
+    margin: 0px 10px 0px 10px;
+
+    font-size: 40px;
+    padding: 10px;
+
+    border-radius: 20px;
+    border: none;
+    
+    /* Shadow för att göra så att search boxen ser ut att stå ut */
+    box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
+
+
+}
+
+
+
+.search input:focus {
+    outline: none;
+
+    /* Shadow för att göra så att search boxen ser ut att stå ut */
+    box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 40px -10px rgba(255, 0, 0, 0.6);
+
+    transition: 0.3s ease-in-out;
+
+    caret-color: rgb(255, 38, 0);
+}
+
+.search input::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+    color: red;
+}
+
+.search-result {
+    margin-top: 10px;
+    margin-left:50px;   
+}

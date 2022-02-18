@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <a href="javascript:void(0)" onclick="test_get()">Testa en GET request</a>
+
+    <p id="test"></p>
+    <script>
+        function test_get() {
+            console.log("test 1");
+            $.get("http://localhost:8080/api/hello_world", (data) => {
+                console.log("test 2");
+                console.log(data);
+
+                $('#test').text(data.status);
+            });
+        }
+    </script>
+</body>
+</html>
