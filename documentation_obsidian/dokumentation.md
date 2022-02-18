@@ -77,6 +77,11 @@ På frontend sidan har jag även lagt till en knapp som man kan klicka på för 
 
 Jag har även pillat lite med session och cookies så att använadren inte blir utloggad direkt utan nu efter en viss tidsperiod. Däremot så vet jag inte om detta fungerar eftersom att det strulat förut och jag har inte lyckats testa. Ska testa detta någon dag framöver.
 
+**18 / 02 / 22 -**
+- https://github.com/Splidejs/splide
+eller 
+- https://github.com/kenwheeler/slick/
+
 **1.1 Ändringar utifrån planeringen**
 
 **2** **Funktionalitet**
