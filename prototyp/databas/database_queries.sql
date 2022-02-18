@@ -48,3 +48,8 @@ FROM product_reviews pr
 	INNER JOIN reviews r ON ( pr.review_id = r.id  )  
 	INNER JOIN products p ON ( pr.product_id = p.id  ) 
 WHERE (p.id = ?)
+
+SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)
+
+
+-- GET user_profile
