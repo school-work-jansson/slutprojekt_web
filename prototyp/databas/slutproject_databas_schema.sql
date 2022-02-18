@@ -24,7 +24,6 @@ CREATE TABLE `reviews` (
 
 CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `product_picture` varchar(255),
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL
 );
@@ -34,29 +33,21 @@ CREATE TABLE `products` (
 
 CREATE TABLE `product_reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   `review_id` int NOT NULL REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   `product_id`int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE TABLE `user_reviews` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `review_id` int NOT NULL REFERENCES product_reviews(review_id) ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-
--- en user kan skapa en ny product med en review? Bra att hålla koll på 
-create TABLE `user_products` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `product_id` int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
-  
-);
 
 CREATE TABLE `reports` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_review` int NOT NULL REFERENCES user_reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `user_review` int NOT NULL REFERENCES product_reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
   `resolved` boolean DEFAULT false,
   `optional` varchar(255)
 );
 
-
+CREATE TABLE `product_pictures` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `product_id` int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `picture` varchar(255)
+);
