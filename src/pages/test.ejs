@@ -12,14 +12,13 @@
 <body>
     <a href="javascript:void(0)" onclick="test_get()">Testa en GET request</a>
 
-    <p id="test"></p>
+    <pre id="test"></pre>
     <script>
         function test_get() {
             console.log("test 1");
             $.get("http://localhost:8080/api/hello_world", (data) => {
                 console.log("test 2");
                 console.log(data);
-
                 $('#test').text(data.status);
             });
         }
