@@ -28,7 +28,7 @@ class Database {
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
             },
             product: {
-                get_product: "SELECT * FROM products LEFT JOIN reviews ON products.id = reviews.product_id UNION ALL RIGHT JOIN reviews ON products.id = reviews.product_id WHERE products.id IS NULL AND products.name = ?",
+                get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
                 post_product: "INSERT INTO products (discord_id, name, description) VALUES (?, ?, ?)",
                 remove_product: ""
             },
