@@ -115,20 +115,13 @@ input {
         padding: 10px;
     }
     
-    .product-card > * > img {
+    .product-image {
         max-width: 100%;
+        width: 100%;
         height: auto;
         border-radius: 15px 15px 0px 0px;
         /* border-radius: 15px; */
     
-    }
-    
-    .product-card > .card{
-        background-color: aqua;
-    }
-    
-    .review-cards > .card {
-        background-color: aqua;
     }
 
 }
@@ -164,7 +157,7 @@ input {
     
     }
     
-    .product-card > * > img {
+    .product-image {
         max-width: 100%;
         height: auto;
         border-radius: 15px 0px 0px 15px;
@@ -172,12 +165,4 @@ input {
     
     }
     
-    .product-card > .card{
-        background-color: aqua;
-    }
-    
-    .review-cards > .card {
-        background-color: aqua;
-    }
-
 }

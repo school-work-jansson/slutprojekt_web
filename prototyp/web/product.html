@@ -19,6 +19,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3e0ba644be.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/vendor/splide.min.css">
 </head>
 <body>
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
@@ -112,9 +114,20 @@
         </div>
 
         <div class="product-card">
-
-            <div class="product-image">
-                <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
+        
+            <div>
+                <div id="product-carousel" class="splide">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <img class="product-image" src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
+                            </li>
+                            <li class="splide__slide">
+                                <img class="product-image" src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="product-info">
                 <div class="card-stars">
@@ -224,7 +237,22 @@
     <script src="scripts/base.js"></script>
     <script src="scripts/product.js"></script>
     <script src="scripts/scroll_button.js"></script>
-    <script src="scripts/copyright.js"></script>    
+    <script src="scripts/copyright.js"></script> 
+    
+    <!-- Outsource -->
+
+    <!-- Script imported from https://splidejs.com/ (MIT LICENSE) -->
+    <script src="scripts/vendor/splide.min.js"></script>
+    <script>
+        new Splide( '#product-carousel', {
+            type         : 'loop',
+            autoplay     : 'pause',
+            arrows       : 'slider',
+            perPage      : 1,
+            pauseOnHover : true,
+            resetProgress: false,
+        }).mount();
+    </script>
 </body>
 </html>
 </body>

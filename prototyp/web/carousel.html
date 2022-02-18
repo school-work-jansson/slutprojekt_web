@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>shrek karusell</title>
-    <link rel="stylesheet" href="splide.min.css">
+    <link rel="stylesheet" href="css/vendor/splide.min.css">
 </head>
 <body>
     <!-- https://splidejs.com/ -->
@@ -14,38 +14,37 @@
         {
             background-color: grey;
         }
+        .container {
+            width:500px;
+        }
         .splide__slide img {
-            width: 25%;
+            width: 100%;
             height: auto;
         }
     </style>
-    <img src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
     
-    <div>
-        <div id="image-slider" class="splide">
+    <div class="container">
+        <div id="product-carousel" class="splide">
             <div class="splide__track">
-                  <ul class="splide__list">
+                <ul class="splide__list">
                     <li class="splide__slide">
                         <img src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
-                        <h1>1</h1>    
                     </li>
                     <li class="splide__slide">
                         <img src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
-                        <h1>2</h1>    
                     </li>
                     <li class="splide__slide">
                         <img src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
-                        <h1>3</h1>    
                     </li>
-                  </ul>
+                </ul>
             </div>
         </div>
     </div>
     
 </body>
-<script src="splide.min.js"></script>
+<script src="scripts/vendor/splide.min.js"></script>
 <script>
-    new Splide( '#image-slider', {
+    new Splide( '#product-carousel', {
         type         : 'loop',
         autoplay     : 'pause',
         arrows       : 'slider',

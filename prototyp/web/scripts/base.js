@@ -1,5 +1,8 @@
 ($().ready(()  => {
-    $('#page_loader').hide();
+    setTimeout(() => {
+        $('.full-screen').hide()
+    }, 250)
+    
 }))
 
 

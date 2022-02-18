@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap');
 
 
+
 * {
     
     margin: 0;
@@ -51,20 +52,31 @@ a, a:visited {
     text-shadow: 0 0 5px #ffee10;
 }
 
+
+.full-screen  {
+    background-color: rgba(39, 39, 39, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+
+}
+
 /* FIXA DETTA */
 #page_loader {
-    width: 100vw;
-    height: 100vh;
-    border: 16px solid #f3f3f3;
+
+    border: 16px solid #f3f3f300;
     border-radius: 50%;
-    border-top: 16px solid #3498db;
+    border-top: 16px solid #34db34;
     width: 120px;
     height: 120px;
-
-    z-index: 1000;
     
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
+    -webkit-animation: spin 2.5s linear infinite; /* Safari */
+    animation: spin 2.5s linear infinite;
   }
   
   /* Safari */
@@ -189,7 +201,7 @@ header {
     }
     
     .navbar > li > a:hover {
-        border-bottom: 2px solid #1C6EA4;
+        border-bottom: 3px solid #00000098;
     }
     
     /*     
@@ -252,8 +264,13 @@ header {
 .card {
     display: flex;
     height: auto;
-    flex-direction: row;
+    flex-direction: column;
     max-width: 35vw;
+}
+
+.card-image img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* @media only screen and (min-width: 950px) {

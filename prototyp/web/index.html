@@ -14,8 +14,9 @@
 
 </head>
 <body>
-
-    <div id="page_loader"></div>
+    <div class="full-screen">
+        <div id="page_loader"></div>
+    </div>
 
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
     <!-- Fixed position så att menybaren kommer följa med -->
@@ -35,7 +36,11 @@
 
             <div id="profile-options">
                 <div>
-                    <p>|<a href="/u/login/">login</a>|<a href="/u/signout">Logout</a>|</p>
+                    <p>
+                        <a href="/u/login/">login</a> 
+                        <a href="/u/signout">Logout</a>
+                        <a href="profile.html">Profil</a>
+                    </p>
                 </div>
                 <div>
                     <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp">
@@ -91,7 +96,11 @@
             </div>
             <div id="profile-options">
                 <!-- https://www.w3schools.com/howto/howto_js_popup_form.asp pop up för login -->
-                <p>|<a href="/u/login/">login</a> | <a href="/u/signout">Logout</a>| <a href="profile.html">Profil</a></p>
+                <p>
+                    <a href="/u/login/">login</a> 
+                    <a href="/u/signout">Logout</a>
+                    <a href="profile.html">Profil</a>
+                </p>
                 <a href="profile.html"><img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp"></a>
                 
             </div>
@@ -105,9 +114,15 @@
     <!-- https://app.haikei.app/ -->
 
     <section class="content">
+        <div class="card">
+            <p>Här kommer listan med produkter komma när du söker i form av "cards"</p>
+        </div>
         <div class="search">
+            <h1>
+                Något speciellt du letar efter? 
+            </h1>
             <form action="" method="post">
-                <input id="search-bar" type="text" placeholder="Search...">
+                <input id="search-bar" type="text" placeholder="Sök här!">
             </form>
             <div class="search-result">
                 <span>Results: XXX</span>
@@ -115,20 +130,29 @@
         </div>
 
         <!-- När användaren söker så ska bara x antal visas och så ska man ha möjligheten att klicka på en mer knapp för att ladda in fler -->
-        <div class="card">
-            <p>Här kommer listan med produkter komma när du söker i form av "cards"</p>
-        </div>    
+
 
         <div class="card">
             <div class="card-image">
-                <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
+                <a href="#">
+                    <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
+                </a>
             </div>
             <div>
-                <div class="card-stars">
-                    <span>1/5 stars</span>
+                <div class="card-title">
+                    <h1><a href="#">Product Name</a></h1> 
+                </div>
+                <div class="average-rating">
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <i class="rating__star far fa-star"></i>
+                    <span>1/5</span>
                 </div>
                 <div class="description">
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+                    <a href="#">Visa mer...</a>
                 </div>
             </div>
         </div> 
