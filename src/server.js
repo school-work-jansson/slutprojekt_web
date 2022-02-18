@@ -45,26 +45,27 @@ server.use(session({
 }))
 
 
+// Sätter CORS headers
+// import helmet from 'helmet';
+// server.use(helmet() 
+// );
 
-import helmet from 'helmet';
-server.use(helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-    contentSecurityPolicy: {
-      directives: {
-        "default-src": ["'self'"],
-        "base-uri": "'self'",
-        "font-src": ["'self'","https:","data:"],
-        "frame-ancestors": ["'self'"],
-        "img-src": ["'self'", "https://cdn.discordapp.com/"],
-        "object-src": ["'none'"],
-        "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
-        "script-src-attr": "'none'",
-        "style-src": ["'self'"],
-      }
-    }
-  }) 
-);
-
+// {
+//   crossOriginResourcePolicy: { policy: "cross-origin" },
+//   contentSecurityPolicy: {
+//     directives: {
+//       "default-src": ["'self'"],
+//       "base-uri": "'self'",
+//       "font-src": ["'self'","https:","data:"],
+//       "frame-ancestors": ["'self'"],
+//       "img-src": ["'self'", "https://cdn.discordapp.com/", "https://media1.tenor.com/"],
+//       "object-src": ["'none'"],
+//       "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
+//       "script-src-attr": ["'self'", "https://code.jquery.com/","https://kit.fontawesome.com/"],
+//       "style-src": ["'self'", "https://fonts.googleapis.com/"],
+//     }
+//   }
+// }
 
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
@@ -81,6 +82,10 @@ server.get('/', (req, res) => {
   res.render('index', {user: req.session.client_data})
 })
 
+server.get('/test', (req, res) => { 
+  res.render('test')
+})
+
 // server.get('/about', (req, res) => { 
 //   res.send(`<p>${info.desc}</p>`);
 // })
@@ -93,6 +98,9 @@ server.use('/u', userRoute);
 
 import { productRoute } from "./routes/product"
 server.use('/p', productRoute)
+
+import { apiRoute } from "./routes/api"
+server.use('/api', apiRoute)
 
 // server.all('*', (req, res) => {
 //   res.render('404');
