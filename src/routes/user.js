@@ -81,33 +81,6 @@ router.get('/login/discord', (req, res) => {
 
 });
 
-router.get("/u_profile", session_check, (req, res) => {
-    res.render("profile", {user: req.session.client_data})
-})
-
-router.post('/update_profile', session_check, (req, res) => {
-    let user_data = req.body;
-
-    // om användaren inte skickar med något användarnamn
-    req.session.client_data.username = user_data.username;
-    req.session.client_data.email = user_data.email;
-
-    console.log(user_data);
-
-    (async () => {
-        let user = new User(req.session.client_data.id);
-        // Eftersom att jag måste lagra refresh_token så "initlizar" jag användaren
-        // sedan uppdaterar jag databasen med ny data ifall användaren vill byta namn eller epost
-        let result = await user.update(req.session.client_data)
-        
-        console.log(result)
-
-        res.redirect("/")
-    })();
-    
-    // res.redirect("/u/signup")
-})
-
 
 router.get('/refresh', session_check, async (req, res) => {
     let user = new User()
@@ -140,14 +113,15 @@ router.get('/logout', session_check, (req, res) => {
 })
 
 router.get('/profile', session_check, async (req, res) => {
-    res.send(req.session.client_data)
+    console.log(req.session.client_data)
     let user = new User(req.session.client_data.id)
-    console.log(await user.get_refresh_token(req.session.client_data.id))
-})
 
-router.delete('/remove_user', session_check, (req, res) => {
-    console.log("User requested account deletion")
-    res.redirect('index')
+    let user_reviews = await user.get_user_reviews()
+    console.log(user_reviews)
+    res.render("profile", {user: req.session.client_data, reviews: user_reviews})
+
+    
+    console.log(await user.get_refresh_token(req.session.client_data.id))
 })
 
 export { router as userRoute };
