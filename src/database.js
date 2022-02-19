@@ -29,6 +29,7 @@ class Database {
                 get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?)"
             },
             product: {
+                search: "",
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
                 post_product: "INSERT INTO products (discord_id, name, description) VALUES (?, ?, ?)",
                 remove_product: ""
@@ -260,8 +261,11 @@ class Product extends Database {
 
     }
 
-    search_for_products() {
+    async search(search, lim) {
+        let result = await this.query(this.queries.product.search, [search, lim])
 
+        console.log(result)
+        
     }
 
     async post_product(form_body, discord_id) {
