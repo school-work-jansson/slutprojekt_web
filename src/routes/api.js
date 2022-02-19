@@ -38,4 +38,9 @@ router.delete('/remove_user', session_check, (req, res) => {
     res.redirect('index')
 })
 
+router.post('/search', (req, res) => {
+    res.send("Recieved");
+})
+
+
 export {router as apiRoute}
