@@ -56,7 +56,7 @@ SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at
 -- GET user_profile
 
 
--- GET SEARCH ngt fel Variables funkar inte i limit eller OFFSET?
+-- GET SEARCH ngt fel Variables funkar inte i limit eller OFFSET? Returnerar samma produkt 2 gånger
 SET @SEARCHVALUE:='tmp product';
 SET @LOWLIM:=0;
 SET @HIGHLIM:=100;
