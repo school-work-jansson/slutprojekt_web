@@ -6,7 +6,7 @@ START TRANSACTION;
   SET @PRODUCT_ID =(SELECT LAST_INSERT_ID() );    
   INSERT 
     INTO `reviews` (`rating`, `title`, `content`, `created_at`) 
-    VALUES (1, 'Sämst', 'lorem ipsum', NOW());
+    VALUES (5, 'Bäst', 'lorem ipsum', NOW());
   SET @REVIEW_ID = (SELECT LAST_INSERT_ID() );    
   INSERT 
     INTO `product_reviews` (`user_id`, `review_id`, `product_id`) 
@@ -26,9 +26,6 @@ START TRANSACTION;
 COMMIT;
 
 -- Hämta user reviews
-SET @anyVariableName=(SELECT yourColumnName FROM yourTableName WHERE yourCondition);
-SET @anyVariableName=(SELECT yourColumnName FROM yourTableName WHERE yourCondition);
-SET @anyVariableName=(SELECT yourColumnName FROM yourTableName WHERE yourCondition);
 SELECT 
     u.profile_picture, u.nickname, 
     r.rating, r.title, r.content, r.created_at, 
@@ -57,3 +54,18 @@ SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at
 
 
 -- GET user_profile
+
+
+-- GET SEARCH ngt fel Variables funkar inte i limit eller OFFSET?
+SET @SEARCHVALUE:='tmp product';
+SET @LOWLIM:=0;
+SET @HIGHLIM:=100;
+SELECT 
+  p.name, p.description,
+  (SELECT AVG(rating) as AverageRating FROM reviews)
+FROM product_reviews pr
+  INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+  INNER JOIN products p ON ( pr.product_id = p.id  ) 
+WHERE (p.name = @SEARCHVALUE OR p.description = @SEARCHVALUE)
+ORDER BY pr.id
+LIMIT 100 OFFSET 0;
