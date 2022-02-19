@@ -25,7 +25,8 @@ class Database {
                 remove_user: "DELETE FROM users WHERE discord_id = ?",
                 update_user: "UPDATE users SET nickname = COALESCE(NULLIF(?, ''), nickname), email = COALESCE(NULLIF(?, ''), email) WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
-                get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?"
+                get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?",
+                get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?)"
             },
             product: {
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
@@ -226,8 +227,13 @@ class User extends Database {
         fetched_product = await this.query(`UPDATE products FROM products WHERE hash = ?`, [hash])
     }
 
-    get_user_reviews() {
+    async get_user_reviews() {
+        let fetched_reviews = await this.query(this.queries.user.get_user_reviews, [this.discord_Id])
 
+        // DEBUG
+        // console.log(fetched_reviews)
+
+        return fetched_reviews;
     }
 
     edit_user_review() {
