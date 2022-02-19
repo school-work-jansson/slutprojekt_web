@@ -81,6 +81,13 @@ Jag har även pillat lite med session och cookies så att använadren inte blir 
 - https://github.com/Splidejs/splide
 eller 
 - https://github.com/kenwheeler/slick/
+Jag har planerat för att ifall det finns en uppladnings funktion av bilder av en produkt så ska det vara möjligt att ladda upp flera bilder så att produkten visar flera bilder i en "carousell"
+
+**19 / 02 / 22 -**
+Jag har nu converterat mina HTML filer till EJS för att kuna rendera med backend servern. Dvs att jag visar protypen när man navigerar runt med backenden på i bakgrunden. Jag har även gjort det möjligt att uppdatera sin profil, samt gjort det möjligt att se alla sina reviews på sin profil.
+
+Har även hållt på med databas schemat, ändrat tabell referenser och liknande.
+
 
 **1.1 Ändringar utifrån planeringen**
 
