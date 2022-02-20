@@ -31,7 +31,7 @@ class Database {
                 get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?)"
             },
             product: {
-                search: "SELECT p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
+                search: "SELECT p.hash, p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
                 post_product: "INSERT INTO products (`hash`, `name`, `description`) VALUES (?, ?, ?)",
                 remove_product: ""
@@ -300,9 +300,7 @@ class Product extends Database {
         }
 
     }
-
-    async get_product(hash) {
-        let fetched_product, fetched_reviews, return_error;
+    async fetch(hash) {
         fetched_product = await this.query(`SELECT * FROM products WHERE hash = ?`, [hash])
 
         if (!fetched_product && fetched_product.length < 1)
@@ -311,8 +309,29 @@ class Product extends Database {
             return fetched_product, fetched_reviews, return_error
         }
 
-
         fetched_reviews = await this.query(`SELECT * FROM reviews WHERE product_id=${fetched_product[0].id}`, "")
+
+        return fetched_product, fetched_reviews, return_error
+    }
+
+    async get_product(hash) {
+        let fetched_product, fetched_reviews, return_error;
+        fetched_product = await this.query(`SELECT pr.id, pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ?  `, [hash])
+
+        if (!fetched_product && fetched_product.length < 1)
+        {
+            return_error = "Product does not exist"
+            return fetched_product, fetched_reviews, return_error
+        }
+
+
+//         SELECT pr.product_id, r.rating, r.title, r.content, r.created_at
+// FROM public.product_reviews pr 
+// 	INNER JOIN products p ON ( pr.product_id = p.id  )  
+// 	INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+//         WHERE p.id = ?
+
+        fetched_reviews = await this.query(`SELECT * FROM reviews WHERE id=${fetched_product[0].id}`, fetched_product[0].id)
 
         return fetched_product, fetched_reviews, return_error
 
