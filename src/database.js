@@ -1,4 +1,6 @@
 import mysql from "mysql2";
+
+
 // https://www.w3schools.com/js/js_class_inheritance.asp
 
 // https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js
@@ -29,7 +31,7 @@ class Database {
                 get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?)"
             },
             product: {
-                search: "",
+                search: "SELECT p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
                 post_product: "INSERT INTO products (discord_id, name, description) VALUES (?, ?, ?)",
                 remove_product: ""
@@ -261,10 +263,10 @@ class Product extends Database {
 
     }
 
-    async search(search, lim) {
-        let result = await this.query(this.queries.product.search, [search, lim])
-
-        console.log(result)
+    async search(search, high_lim = 20, low_lim = 0) {
+        let result = await this.query(this.queries.product.search, [search, search,  high_lim, low_lim])
+        // console.log(result)
+        return result
         
     }
 

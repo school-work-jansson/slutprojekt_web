@@ -12,7 +12,7 @@ $('#search-input').on('keypress',  (e) => {
         
         last_input = search_value;
 
-        $.post("http://localhost:8080/api/search", {query: search_value}, (response) => {
+        $.post("http://localhost:8080/api/search", {seach_query: search_value}, (response) => {
             console.log(response);
         });
 
@@ -23,7 +23,7 @@ $('#search-input').on('keypress',  (e) => {
 
 
 function pagnitionSearch() {
-    $.post("http://localhost:8080/api/more_search", {query: search_value}, (response) => {
+    $.post("http://localhost:8080/api/more_search", {seach_query: search_value}, (response) => {
         console.log(response);
     });
 }

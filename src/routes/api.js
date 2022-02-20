@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router()
 
-import { User } from "../database";
+import { Product, User } from "../database";
 import { session_check } from "../middleware";
 
 // https://www.w3schools.com/nodejs/nodejs_email.asp
@@ -38,8 +38,14 @@ router.delete('/remove_user', session_check, (req, res) => {
     res.redirect('index')
 })
 
-router.post('/search', (req, res) => {
-    res.send("Recieved");
+router.post('/search', async (req, res) => {
+    // res.send("Recieved");
+
+    let product = new Product()
+    // console.log(req.body)
+    let result = await product.search(req.body.seach_query)
+    res.send(result)
+    
 })
 
 
