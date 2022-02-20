@@ -33,7 +33,7 @@ class Database {
             product: {
                 search: "SELECT p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
-                post_product: "INSERT INTO products (discord_id, name, description) VALUES (?, ?, ?)",
+                post_product: "INSERT INTO products (`hash`, `name`, `description`) VALUES (?, ?, ?)",
                 remove_product: ""
             },
             review: {
@@ -263,6 +263,18 @@ class Product extends Database {
 
     }
 
+    async generateHash() {
+        let hash = (Math.random() + 1).toString(36).substring(2);
+
+        let response = await this.query("SELECT hash from products where hash = ?", hash)
+
+        // recurssion :D Vet dock inte om det funkar D:
+        if (response[0].length > 0)
+            hash = await this.generateHash();
+
+        return hash
+    }
+
     async search(search, high_lim = 20, low_lim = 0) {
         let result = await this.query(this.queries.product.search, [search, search,  high_lim, low_lim])
         // console.log(result)
@@ -273,8 +285,10 @@ class Product extends Database {
     async post_product(form_body, discord_id) {
         try {
             // post_product: "INSERT INTO products (discord_id, title, content, timestamp) VALUES (?, ?, ?, ?)",
+            
+
             let product_options = [
-                discord_id,
+                this.generateHash(),
                 form_body.product_name,
                 form_body.product_description,
                 // new Date()

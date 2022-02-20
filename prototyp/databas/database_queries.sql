@@ -93,3 +93,7 @@ GROUP BY p.id;
 LIMIT ? OFFSET ?;
 
 SELECT p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;
+
+
+-- Post product
+INSERT INTO products (`hash`, `name`, `description`) VALUES (?, ?, ?)
