@@ -5,8 +5,8 @@
   "type": "module",
   "exports": "./src/server.js",
   "scripts": {
-    "test": "nodemon server.js",
-    "start": "node -r dotenv/config --experimental-modules --es-module-specifier-resolution=node src/server.js"
+    "start": "node -r dotenv/config --experimental-modules --es-module-specifier-resolution=node src/server.js",
+    "debug": "nodemon -- -r dotenv/config --experimental-modules --es-module-specifier-resolution=node src/server.js"
   },
   "repository": {
     "type": "git",
