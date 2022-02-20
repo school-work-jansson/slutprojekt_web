@@ -301,7 +301,8 @@ class Product extends Database {
 
     }
     async fetch(hash) {
-        fetched_product = await this.query(`SELECT * FROM products WHERE hash = ?`, [hash])
+        let fetched_product, fetched_reviews, return_error;
+        fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
 
         if (!fetched_product && fetched_product.length < 1)
         {
@@ -309,14 +310,23 @@ class Product extends Database {
             return fetched_product, fetched_reviews, return_error
         }
 
-        fetched_reviews = await this.query(`SELECT * FROM reviews WHERE product_id=${fetched_product[0].id}`, "")
 
-        return fetched_product, fetched_reviews, return_error
+        // SELECT r.rating, r.title, r.content, r.created_at, 
+        //           u.profile_picture, u.is_moderator, u.nickname
+        // FROM product_reviews pr 
+        //     INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+        //      INNER JOIN users u ON ( pr.user_id = u.id)
+        // WHERE pr.product_id = 100
+
+        fetched_reviews = await this.query(`SELECT r.rating, r.title, r.content, r.created_at, u.profile_picture, u.is_moderator, u.nickname FROM product_reviews pr INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN users u ON ( pr.user_id = u.id) WHERE pr.product_id = ?`, fetched_product[0].product_id)
+
+        return [fetched_product, fetched_reviews, return_error]
+
     }
 
     async get_product(hash) {
         let fetched_product, fetched_reviews, return_error;
-        fetched_product = await this.query(`SELECT pr.id, pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ?  `, [hash])
+        fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
 
         if (!fetched_product && fetched_product.length < 1)
         {
@@ -325,13 +335,14 @@ class Product extends Database {
         }
 
 
-//         SELECT pr.product_id, r.rating, r.title, r.content, r.created_at
-// FROM public.product_reviews pr 
-// 	INNER JOIN products p ON ( pr.product_id = p.id  )  
-// 	INNER JOIN reviews r ON ( pr.review_id = r.id  )  
-//         WHERE p.id = ?
+        // SELECT r.rating, r.title, r.content, r.created_at, 
+        //           u.profile_picture, u.is_moderator, u.nickname
+        // FROM product_reviews pr 
+        //     INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+        //      INNER JOIN users u ON ( pr.user_id = u.id)
+        // WHERE pr.product_id = 100
 
-        fetched_reviews = await this.query(`SELECT * FROM reviews WHERE id=${fetched_product[0].id}`, fetched_product[0].id)
+        fetched_reviews = await this.query(`SELECT r.rating, r.title, r.content, r.created_at, u.profile_picture, u.is_moderator, u.nickname FROM product_reviews pr INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN users u ON ( pr.user_id = u.id) WHERE pr.product_id = ?`, fetched_product[0].product_id)
 
         return fetched_product, fetched_reviews, return_error
 
