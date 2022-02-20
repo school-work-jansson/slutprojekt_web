@@ -89,6 +89,9 @@ Jag har nu converterat mina HTML filer till EJS för att kuna rendera med backen
 Har även hållt på med databas schemat, ändrat tabell referenser och liknande.
 
 
+**20 / 02 / 22 -**
+Idag så har jag hållt på lite med SQL queries som körs när användaren söker efter en produkt, så att den returnerar namnet, descriptionen och average rating. Detta i sin tur skickas till klienten och skrivs ut i konsolen. Senare så den datan skrivas ut på skärmen i form av cards. Under tiden jag även höll på med SQL så ville jag på något sätt testa så att det fungerade, så att jag gjorde ett python skript som genererar x antal produkter med y antal reviews med ett random rating så att jag kan verifera att det fungerar.
+
 **1.1 Ändringar utifrån planeringen**
 
 **2** **Funktionalitet**
