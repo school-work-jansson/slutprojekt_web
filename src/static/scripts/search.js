@@ -24,13 +24,55 @@ $('#search-input').on('keypress',  (e) => {
 
 
 function handleResponnse(responseObject) {
+    let cardsContent = "";
+
+    // itererar igenom hela respons objektet
     for (const key in responseObject) {
         if (Object.hasOwnProperty.call(responseObject, key)) {
-            const element = responseObject[key];
-            console.log(element, key)
+            const product = responseObject[key];
+            // Lägger till html till varabel
+            cardsContent += `
+            <div class="card">
+                <div class="card-image">
+                    <a href="#">
+                        <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg" crossorigin="anonymous" alt="Picture of product">
+                    </a>
+                </div>
+                <div>
+                    <div class="card-title">
+                        <h1><a href="#">${product.name}</a></h1> 
+                    </div>
+                    <div class="average-rating">
+                        ${generateStars(product.AverageRating)}
+                        <span>${product.AverageRating}/5</span>
+                    </div>
+                    <div class="description">
+                        <p>${product.description}</p>
+                        <a href="#">Visa mer...</a>
+                    </div>
+                </div>
+            </div> 
+            `
+            console.log(product, key)
             
         }
     }
+    // Pushar till cards div
+    $(".cards").html(cardsContent)
+}
+
+function generateStars(rating)
+{
+    rating = Math.round(rating)
+    let stars = ""
+    for (let index = 0; index < 5; index++) {
+        // const element = array[index];
+        if (rating > index)
+            stars += `<i class="rating__star fas fa-star"></i>`
+        else
+            stars += `<i class="rating__star far fa-star"></i>`
+    }
+    return stars
 }
 
 function pagnitionSearch() {
