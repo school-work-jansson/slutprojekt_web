@@ -29,7 +29,7 @@ class Database:
         print(databases)
         for x in databases:
             if os.getenv('DB_NAME') in x:
-                print("database exists already, remove it and then run this again.")
+                print("database already exists. skipping generation of database..")
                 self.cursor.execute(f"USE {os.getenv('DB_NAME')}")        
                 return True
 
@@ -92,7 +92,7 @@ class DataGeneration:
     def create_product(self, product_name, product_descripton,):
         sql = "INSERT INTO `products` (`name`, `description`) VALUES (%s, %s)"
         values = (product_name, product_descripton)
-        print(sql, values) ###
+        # print(sql, values) ###
         self.cursor.execute(sql, values)
         self.db.commit()
         
@@ -103,7 +103,7 @@ class DataGeneration:
         sql = "INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (%s, %s, %s)"
         values = (rating, review_title, review_content)
 
-        print(sql, values)
+        # print(sql, values)
         self.cursor.execute(sql, values)
         self.db.commit()
 
@@ -112,13 +112,14 @@ class DataGeneration:
 
     def create_test_product_reviews(self, review_id, product_id):
         sql = "INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) VALUES ((SELECT id FROM users WHERE discord_id = '322015089529978880'), %s, %s)"
-        print(sql)
+        # print(sql)
         self.cursor.execute(sql, (review_id, product_id))
 
     def generate(self):
+        print("Generating...")
         # Skapa 100 producter
         for i_product in range(100):
-            product_name = "poduct " + str(i_product)
+            product_name = "product " + str(i_product)
             product_desc = "description " + str(i_product)
             product_id = self.create_product(product_name, product_desc)
             
@@ -133,7 +134,7 @@ class DataGeneration:
                 
         self.db.commit()
 
-        print("Data has been generated", self.cursor.rowcount)
+        # print("Data has been generated", self.cursor.rowcount)
 
 
 d = DataGeneration()
