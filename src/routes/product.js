@@ -32,10 +32,7 @@ router.get('/p_review', (req, res) => {
     res.render('review')
 })
 
-router.post("/post_review", async (req, res) => {
 
-    
-});
 
 router.post('/post_product', session_check, async (req, res) => {
     let product = new Product();
