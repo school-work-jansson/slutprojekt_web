@@ -6,12 +6,13 @@ START TRANSACTION;
   SET @PRODUCT_ID =(SELECT LAST_INSERT_ID() );    
   INSERT 
     INTO `reviews` (`rating`, `title`, `content`, `created_at`) 
-    VALUES (5, 'Bäst', 'lorem ipsum', NOW());
+    VALUES (3, 'Bäst', 'lorem ipsum', NOW());
   SET @REVIEW_ID = (SELECT LAST_INSERT_ID() );    
   INSERT 
     INTO `product_reviews` (`user_id`, `review_id`, `product_id`) 
-    VALUES ((SELECT id FROM users WHERE discord_id = '322015089529978880'), @REVIEW_ID, @PRODUCT_ID);
+    VALUES ((SELECT id FROM users WHERE discord_id = '322015089529978880'), 2, 1);
 COMMIT;
+
 
 
 
@@ -57,15 +58,38 @@ SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at
 
 
 -- GET SEARCH ngt fel Variables funkar inte i limit eller OFFSET? Returnerar samma produkt 2 gånger
+-- SET @SEARCHVALUE:='tmp product';
+-- SET @LOWLIM:=0;
+-- SET @HIGHLIM:=100;
+-- SELECT 
+--   p.name, p.description,
+--   AVG(r.rating) as AverageRating
+-- FROM products p
+--   INNER JOIN product_reviews pr ON ( pr.product_id = p.id  ) 
+--   INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+-- WHERE (p.name = @SEARCHVALUE OR p.description = @SEARCHVALUE)
+-- GROUP BY p.id
+-- ORDER BY pr.id
+-- LIMIT 100 OFFSET 0;
+
+-- Dessa gör samma sak
 SET @SEARCHVALUE:='tmp product';
-SET @LOWLIM:=0;
-SET @HIGHLIM:=100;
 SELECT 
   p.name, p.description,
-  (SELECT AVG(rating) as AverageRating FROM reviews)
-FROM product_reviews pr
-  INNER JOIN reviews r ON ( pr.review_id = r.id  )  
-  INNER JOIN products p ON ( pr.product_id = p.id  ) 
-WHERE (p.name = @SEARCHVALUE OR p.description = @SEARCHVALUE)
-ORDER BY pr.id
-LIMIT 100 OFFSET 0;
+  AVG(r.rating) as AverageRating
+FROM products p, reviews r, product_reviews pr
+WHERE pr.product_id = p.id
+AND pr.review_id = r.id
+AND (p.name = @SEARCHVALUE OR p.description = @SEARCHVALUE)
+GROUP BY p.id;
+
+SELECT 
+  p.name, p.description, AVG(r.rating) as AverageRating
+FROM products p
+  INNER JOIN product_reviews pr ON pr.product_id = p.id 
+  INNER JOIN reviews r ON pr.review_id = r.id
+WHERE (p.name = ? OR p.description = ?)
+GROUP BY p.id;
+LIMIT ? OFFSET ?;
+
+SELECT p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;

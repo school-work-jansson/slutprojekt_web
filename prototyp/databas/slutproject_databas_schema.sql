@@ -33,17 +33,21 @@ CREATE TABLE `products` (
 
 CREATE TABLE `product_reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int NOT NULL REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `review_id` int NOT NULL REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `product_id`int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `user_id` int NOT NULL ,
+  `review_id` int NOT NULL,
+  `product_id`int NOT NULL,
+  FOREIGN KEY (`user_id`) REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`review_id`) REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`product_id`) REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 
 CREATE TABLE `reports` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_review` int NOT NULL REFERENCES product_reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  `user_review` int NOT NULL ,
   `resolved` boolean DEFAULT false,
-  `optional` varchar(255)
+  `optional` varchar(255),
+  FOREIGN KEY (`user_review`) REFERENCES reviews(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE `product_pictures` (
