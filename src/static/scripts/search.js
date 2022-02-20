@@ -15,6 +15,7 @@ $('#search-input').on('keypress',  (e) => {
         $.post("http://localhost:8080/api/search", {seach_query: search_value}, (response) => {
             // console.log(response[0].AverageRating);
             handleResponnse(response)
+            $(".search-result").html(`<span>Results: ${response.length}</span>`)
         });
 
        //Enable the textbox again if needed.
