@@ -1,9 +1,8 @@
 import mysql.connector
-import random
+import random, string
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
 
 class Database:
     def __init__(self):
@@ -17,9 +16,10 @@ class Database:
         self.cursor = self.db.cursor()
 
         if not self.database_exists():
+            self.init_database()
             input("Klicka enter när du har skapat en användare")
             print("Fortsätter...")
-            self.init_database()
+
         
         self.name = os.getenv('DB_NAME')
     
@@ -48,8 +48,6 @@ class Database:
             self.cursor.execute(query)
         
         self.db.commit()
-
-        return True
 
     def parse_schema_file(self):
         with open("prototyp/databas/slutproject_databas_schema.sql") as f:
@@ -88,10 +86,25 @@ class DataGeneration:
         )
         
         self.cursor = self.db.cursor()
+
+    def generate_hash(self):
+        
+        hash = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=7))
+
+        # (hash,) kommat var väldigt viktigt annars parsade den inte som tuple
+        self.cursor.execute("SELECT hash FROM `products` WHERE hash = %s", (hash,))
+
+        # print(hash)
+        if self.cursor.fetchall():
+            self.generate_hash()
+        
+        return hash
+        
     
     def create_product(self, product_name, product_descripton,):
-        sql = "INSERT INTO `products` (`name`, `description`) VALUES (%s, %s)"
-        values = (product_name, product_descripton)
+        sql = "INSERT INTO `products` (`hash`, `name`, `description`) VALUES (%s, %s, %s)"
+        hash = self.generate_hash()
+        values = (hash, product_name, product_descripton)
         # print(sql, values) ###
         self.cursor.execute(sql, values)
         self.db.commit()
@@ -143,4 +156,4 @@ d = DataGeneration()
 d.generate()
 
 
-
+# print(d.generate_hash())
