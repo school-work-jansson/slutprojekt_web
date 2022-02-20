@@ -128,8 +128,6 @@ export { router as userRoute };
 
 
 async function login_user(query_code) {
-        // Skapar ett objekt av User klassen
-        
 
         // Hämtar första datan från discord
         let tokens = await Discord.token_exchange(query_code)
@@ -139,8 +137,10 @@ async function login_user(query_code) {
         console.log("Client_data", client_data)
         // Kolla ifall användaren existerar finns den inte så skapar den en
         
+        // Skapar ett objekt av User klassen
         let user = new User(client_data.id);
 
+        // Ifall användaren inte finns skapa användaren
         if (await user.exists() == false) {
             await user.create(client_data, tokens.refresh_token);
             // return [null, false]

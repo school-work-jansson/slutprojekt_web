@@ -33,9 +33,9 @@ function handleResponnse(responseObject) {
     }
 }
 
-
 function pagnitionSearch() {
-    $.post("http://localhost:8080/api/more_search", {seach_query: search_value}, (response) => {
+    let search_value = $('#search-input').val();
+    $.post("http://localhost:8080/api/more_search", {seach_query: search_value, low_lim = 0, high_lim = 10}, (response) => {
         console.log(response);
     });
 }
