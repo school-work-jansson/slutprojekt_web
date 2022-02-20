@@ -15,6 +15,13 @@ import { session_check } from "../middleware";
 // })
 
 
+router.get('/:id', async (req, res) => {
+    let product = new Product();
+    let fetched_product, fetched_reviews = product.fetch(req.params.id);
+    
+    res.render('product', {product: fetched_product, reviews: fetched_reviews})
+})
+
 
 router.get('/p_product', session_check, (req, res) => {
     res.render('product')
