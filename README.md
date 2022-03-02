@@ -26,7 +26,8 @@ MAIL_PASSWORD=
 
 ```
 
-# Docker database 
+# Docker database
+`docker run --name {myql-slutprojekt-dev} --restart unless-stopped -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 -p 33060:33060 -v ~/docker-storage:/var/lib/mysql mysql`
 `docker run --name {image_name} --restart unless-stopped -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 -p 33060:33060 -v ~/test-mysql:/var/lib/mysql mysql`
-`docker exec -it {image_name} bash`
+`docker exec -it {mysql-slutprojekt-dev} bash`
 `mysql -u {USER} -p`
