@@ -10,8 +10,6 @@ CREATE TABLE `users` (
   `refresh_valid_until` timestamp NOT NULL
 );
 
-
-
 CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `rating` int NOT NULL,
