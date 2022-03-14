@@ -302,16 +302,16 @@ class Product extends Database {
         }
 
     }
+
     async fetch(hash) {
         let fetched_product, fetched_reviews, return_error;
         fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
 
-        if (!fetched_product && fetched_product.length < 1)
+        if (!fetched_product[0])
         {
             return_error = "Product does not exist"
-            return fetched_product, fetched_reviews, return_error
+            return [fetched_product, fetched_reviews, return_error]
         }
-
 
         // SELECT r.rating, r.title, r.content, r.created_at, 
         //           u.profile_picture, u.is_moderator, u.nickname
@@ -326,29 +326,7 @@ class Product extends Database {
 
     }
 
-    async get_product(hash) {
-        let fetched_product, fetched_reviews, return_error;
-        fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
 
-        if (!fetched_product && fetched_product.length < 1)
-        {
-            return_error = "Product does not exist"
-            return fetched_product, fetched_reviews, return_error
-        }
-
-
-        // SELECT r.rating, r.title, r.content, r.created_at, 
-        //           u.profile_picture, u.is_moderator, u.nickname
-        // FROM product_reviews pr 
-        //     INNER JOIN reviews r ON ( pr.review_id = r.id  )  
-        //      INNER JOIN users u ON ( pr.user_id = u.id)
-        // WHERE pr.product_id = 100
-
-        fetched_reviews = await this.query(`SELECT r.rating, r.title, r.content, r.created_at, u.profile_picture, u.is_moderator, u.nickname FROM product_reviews pr INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN users u ON ( pr.user_id = u.id) WHERE pr.product_id = ?`, fetched_product[0].product_id)
-
-        return fetched_product, fetched_reviews, return_error
-
-    }
 }
 
 // module.exports = User
