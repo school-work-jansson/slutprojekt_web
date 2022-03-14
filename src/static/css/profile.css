@@ -1,3 +1,9 @@
+.content {
+    margin-top: 5vw;
+    display: flex;
+    flex-direction: column;
+}
+
 .profile-image {
     width: 200px;
     height: auto;
@@ -6,8 +12,8 @@
 
 #profile-content {
     display: flex; 
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: center;  */
 }
 
 @media only screen and (min-width: 950px) {
@@ -15,15 +21,17 @@
     #profile-card {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;   
+        /* justify-content: center; */
+        /* align-items: center;   */
+        height: 350px; 
+        max-height: 750px;
+        overflow: auto; 
     }
     
     #profile-card-content {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        
+        /* align-items: center; */
     }
 
     #profile-content {
