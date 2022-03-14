@@ -139,7 +139,7 @@ class DataGeneration:
             # Varje produkt ska ha 20 reviews
             for i_review in range(20):
                 # rating = random.randrange(0, 5)
-                rating = random.randrange(4, 5)
+                rating = random.randrange(1, 5)
                 review_title = "review " + str(i_review)
                 review_content = "review desc " + str(i_review)
                 review_id = self.create_review(rating, review_title, review_content)
