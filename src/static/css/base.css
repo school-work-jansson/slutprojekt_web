@@ -233,7 +233,7 @@ header {
     background-size: cover;
 }
 
-.search-content {
+.main-content {
     margin-top: 5vw;
     display: flex;
     flex-direction: column;
@@ -248,6 +248,7 @@ header {
 
     margin-top: 25px;
     margin-bottom: 25px;
+    min-width: 500px;
 
     /* Shadow för att göra så att search boxen ser ut att stå ut */
     box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);

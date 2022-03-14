@@ -14,13 +14,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slutprojekt | webutveckling 2 & webserverprogrammering</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/product.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3e0ba644be.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="css/vendor/splide.min.css">
+    <link rel="stylesheet" href="/css/vendor/splide.min.css">
 </head>
 <body>
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
@@ -108,7 +108,7 @@
     
     <!-- https://app.haikei.app/ -->
 
-    <section class="content">
+    <section class="main-content">
         <div class="">
             <a href="/">Tillbaka</a>
         </div>
@@ -130,6 +130,7 @@
                 </div>
             </div>
             <div class="product-info">
+                <h1 id="review-title"><%= product[0].name %></h1> 
                 <div class="card-stars">
                     <div class="average-rating">
                         <i class="rating__star far fa-star"></i>
@@ -142,7 +143,7 @@
                     
                 </div>
                 <div class="description">
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+                    <p><%= product[0].description %></p>
                 </div>
             </div>
 
@@ -203,24 +204,26 @@
             </div>
 
         </div>
-
         <div class="review-cards">
+        <% for (const key in reviews) { %>
+
             <div class="card">
-                <h1 id="review-title">Review Title</h1> 
-                <div class="rating">
+                <h1 id="review-title"><%= reviews[key].title %></h1> 
+                <div class="average-rating">
                     <i class="rating__star far fa-star"></i>
                     <i class="rating__star far fa-star"></i>
                     <i class="rating__star far fa-star"></i>
                     <i class="rating__star far fa-star"></i>
                     <i class="rating__star far fa-star"></i>
+                    <span><%= reviews[key].rating %>/5</span>
                 </div>
-                <span id="review-name">Name</span>
-                <span id="review-date">Date</span>
-                <p id="review-content">Här kommer varje review (15 senaste och sedan kan man klicka visa mer) vara i from av ett card. Dessa reviews kommer laddas in automatiskt on page load och skickas från databsen</p>                
+                <span id="review-name"><%= reviews[key].nickname %></span>
+                <span id="review-date"><%= reviews[key].created_at %></span>
+                <p id="review-content"><%= reviews[key].content %></p>                
             </div> 
-    
-        </div>        
-        
+            
+        <% } %>
+        </div>
 
         <div class="pagnition">
             <!-- Pagnition [Show more] -->
@@ -234,15 +237,15 @@
         </div>
     </section>
     <!-- Fixa detta -->
-    <script src="scripts/base.js"></script>
-    <script src="scripts/product.js"></script>
-    <script src="scripts/scroll_button.js"></script>
-    <script src="scripts/copyright.js"></script> 
+    <script src="/scripts/base.js"></script>
+    <script src="/scripts/product.js"></script>
+    <script src="/scripts/scroll_button.js"></script>
+    <script src="/scripts/copyright.js"></script> 
     
     <!-- Outsource -->
 
     <!-- Script imported from https://splidejs.com/ (MIT LICENSE) -->
-    <script src="scripts/vendor/splide.min.js"></script>
+    <script src="/scripts/vendor/splide.min.js"></script>
     <script>
         new Splide( '#product-carousel', {
             type         : 'loop',
