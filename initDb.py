@@ -87,6 +87,8 @@ class DataGeneration:
         
         self.cursor = self.db.cursor()
 
+        self.lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec adipiscing tristique risus nec feugiat in. Maecenas sed enim ut sem viverra aliquet eget. Interdum velit euismod in pellentesque massa placerat. Venenatis urna cursus eget nunc scelerisque viverra mauris. Pretium lectus quam id leo in vitae turpis. Tincidunt vitae semper quis lectus nulla. Faucibus a pellentesque sit amet porttitor eget dolor morbi non. Et odio pellentesque diam volutpat commodo sed egestas. Amet consectetur adipiscing elit pellentesque habitant morbi."""
+
     def generate_hash(self):
         
         hash = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=7))
@@ -133,7 +135,7 @@ class DataGeneration:
         # Skapa 100 producter
         for i_product in range(100):
             product_name = "product " + str(i_product)
-            product_desc = "description " + str(i_product)
+            product_desc = "description " + str(i_product) + self.lorem
             product_id = self.create_product(product_name, product_desc)
             
             # Varje produkt ska ha 20 reviews
@@ -141,7 +143,7 @@ class DataGeneration:
                 # rating = random.randrange(0, 5)
                 rating = random.randrange(1, 5)
                 review_title = "review " + str(i_review)
-                review_content = "review desc " + str(i_review)
+                review_content = "review desc " + str(i_review) + self.lorem
                 review_id = self.create_review(rating, review_title, review_content)
 
                 self.create_test_product_reviews(review_id, product_id)
