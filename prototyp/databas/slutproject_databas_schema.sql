@@ -14,7 +14,7 @@ CREATE TABLE `reviews` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `rating` int NOT NULL,
   `title` varchar(255) NOT NULL,
-  `content` varchar(255),
+  `content` MEDIUMTEXT,
   `created_at` timestamp DEFAULT NOW() NOT NULL,
   `flagged` boolean DEFAULT false,
   `reports` int
@@ -24,7 +24,7 @@ CREATE TABLE `products` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `hash` varchar(255) UNIQUE NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `description` MEDIUMTEXT NOT NULL
 );
 
 
