@@ -277,7 +277,9 @@ class Product extends Database {
 
     async search(search, high_lim = 20, low_lim = 0) {
         let result = await this.query(this.queries.product.search, [search, search,  high_lim, low_lim])
-        // console.log(result)
+        
+        // avrunda upp då jag inte visar stjärnor i halva
+        result[0].AverageRating = Math.ceil(result[0].AverageRating)
         return result
         
     }
