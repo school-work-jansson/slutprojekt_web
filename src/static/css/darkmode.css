@@ -1,3 +1,11 @@
-p.dark-mode {
-    background-color: whitesmoke;
+p.dark-mode, h1.dark-mode, h2.dark-mode, span.dark-mode  {
+    color: whitesmoke;
+}
+
+body.dark-mode {
+    background-color: black;
+}
+
+.card.dark-mode {
+    background-color: rgb(255, 0, 0);
 }
