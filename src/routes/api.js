@@ -49,6 +49,7 @@ router.post('/search', async (req, res) => {
 })
 
 router.get("/getDarkmodeSetting", (req, res) => {
+    console.log("test");
     if (req.session.user_darkmode) {
         res.status(202).send(req.session.user_darkmode)
     }
@@ -57,6 +58,7 @@ router.get("/getDarkmodeSetting", (req, res) => {
 
         res.status(202).send(req.session.user_darkmode)
     }
+
     
 })
 
@@ -64,11 +66,11 @@ router.get("/getDarkmodeSetting", (req, res) => {
 // TODO: möjligen ändra så att den sparas i någon column i databasen istället för i session
 // så att man inte blir flashad så fort mitt i natten ifall servern startar om eller man inte varit inne på ett tag
 router.post("/toggleDarkmodeSetting", (req, res) => {
-    console.log("\nSet darkmode flag;", 
-                "\nGot:", req.session.user_darkmode, 
-                "\ntype:", typeof(req.session.user_darkmode), 
-                "\nNeeds conversion?:", (typeof(req.session.user_darkmode) == "string") ? " yes" : "no", 
-                )
+    // console.log("\nSet darkmode flag;", 
+    //             "\nGot:", req.session.user_darkmode, 
+    //             "\ntype:", typeof(req.session.user_darkmode), 
+    //             "\nNeeds conversion?:", (typeof(req.session.user_darkmode) == "string") ? " yes" : "no", 
+    //             )
     let dark_mode_setting = Boolean(req.body.dark_mode_setting)
     
     req.session.user_darkmode = !req.session.user_darkmode
