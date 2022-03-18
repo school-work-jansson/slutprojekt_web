@@ -1,4 +1,4 @@
-function set_prefered_darkmode_setting() {
+function set_prefered_darkmode_setting(darkmodeEnabled) {
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
     if (prefersDarkScheme.matches) {
@@ -7,33 +7,33 @@ function set_prefered_darkmode_setting() {
         console.log("Turn on darkmode");
 
     } else {
+
+        setDarkMode(darkmodeEnabled)
         // document.body.classList.remove("dark-theme");
         // Annars kolla session
     }
 }
 
 function toggle_dark_mode() {
+    update_dark_mode_setting();
+    let darkmodeEnabled = get_dark_mode_setting();
     // Hämta nuvarande darkmode setting från session backend
-    $.get("/api/getDarkmodeSetting", (response) => {
-        console.log(response, typeof(response))
-        
-        // call till funktion för att ändra darkmode setting i backend
-        update_dark_mode_setting();
-        
-        setDarkMode(response)
-    });
+    
+    // call till funktion för att ändra darkmode setting i backend
+    
+    setDarkMode(darkmodeEnabled)
 
 }
 
 // Modifierar DOM och lägger till eller tar bort klasser beronde på darkmode status
-function setDarkMode(response) {
-    if (response) {
+function setDarkMode(darkmodeEnabled) {
+    if (darkmodeEnabled) {
             
-        $("h1, p, h2, span, body").removeClass("dark-mode");
+        $("h1, p, h2, span, body, div, input, header").removeClass("dark-mode");
     }
     else {
         // document.body.classList.add("dark-mode");
-        $("p, h1, h2, span, body").addClass("dark-mode");
+        $("p, h1, h2, span, body, div, input, header").addClass("dark-mode");
 
     }
 }
@@ -44,12 +44,49 @@ function update_dark_mode_setting() {
     $.post("/api/toggleDarkmodeSetting") 
 }
 
-
-
-( $().ready(() => {
+function get_dark_mode_setting() {
+    let result = null;
     
-    console.log("on ready darkmode")
-    set_prefered_darkmode_setting()
+    $.ajax({
+       url: "/api/getDarkmodeSetting",
+       type: 'get',
+       dataType: 'json',
+       async: false,
+       success: (res) => {
+           result = res;
+       } 
+    });
+
+    console.log("get_dark_mode_setting result", result);
+
+    return result;
+}
+
+
+($().ready(() => {
+    
+    let darkmodeEnabled = get_dark_mode_setting();
+    
+    console.log("Website darkmode on ready handle; darkmode ->", darkmodeEnabled)
+    set_prefered_darkmode_setting(darkmodeEnabled)
+
+    // Vid DOM change så ska den uppdatera darkmode för de elementen
+    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    let observer = new MutationObserver((mutations, observer) =>  {
+        // fired when a mutation occurs
+        console.log("DOM change detected on website");
+        setDarkMode(darkmodeEnabled);
+            
+    });
+
+    // define what element should be observed by the observer
+    // and what types of mutations trigger the callback
+    // https://dom.spec.whatwg.org/#interface-mutationobserver
+    observer.observe(document, {
+        subtree: true,
+        childList: true
+    });
+
 }));
 
 ($('#dark_mode_button').click(() => {
@@ -57,23 +94,5 @@ function update_dark_mode_setting() {
 }));
 
 
-// Vid DOM change så ska den uppdatera darkmode för de elementen
-MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-var observer = new MutationObserver((mutations, observer) =>  {
-    // fired when a mutation occurs
-    // console.log(mutations, observer);
-    $.get("/api/getDarkmodeSetting", (response) => {
-        setDarkMode(response)
-    });
-    // ...
-});
-
-// define what element should be observed by the observer
-// and what types of mutations trigger the callback
-// https://dom.spec.whatwg.org/#interface-mutationobserver
-observer.observe(document, {
-//   subtree: true,
-  attributes: true
-});
 
 

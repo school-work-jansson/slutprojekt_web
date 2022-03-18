@@ -1,11 +1,20 @@
+/* darkmode pallete: https://www.color-hex.com/color-palette/85078 */
 p.dark-mode, h1.dark-mode, h2.dark-mode, span.dark-mode  {
     color: whitesmoke;
 }
 
 body.dark-mode {
-    background-color: black;
+    background-color: #12151c;
 }
 
 .card.dark-mode {
-    background-color: rgb(255, 0, 0);
+    background-color: #1b222c;
+}
+
+.footer.dark-mode {
+    background-color: #1b222c;
+}
+
+header.dark-mode {
+    background-color: #1b222c;
 }
