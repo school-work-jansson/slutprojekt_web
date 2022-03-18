@@ -18,10 +18,12 @@ body {
 
 h1, h2, h3, h4 {
     font-family: 'Bakbak One', cursive;
+    color: rgb(255, 51, 0);
 }
 
 p, a {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
 }
 
 
@@ -35,9 +37,6 @@ a, a:visited {
     font-size: 50px;
 } */
 
-.title {
-    
-}
 
 .fa-star {
     color: #dabd18b2;
@@ -66,7 +65,7 @@ a, a:visited {
 
 }
 
-/* FIXA DETTA */
+
 #page_loader {
 
     border: 16px solid #f3f3f300;
