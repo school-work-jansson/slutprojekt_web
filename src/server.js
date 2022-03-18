@@ -34,7 +34,7 @@ server.use(session({
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
   resave: false,
-  genid: (req) => {
+  genid: () => {
     return uuid() // use UUIDs for session IDs
   },
   // store: 
@@ -75,20 +75,8 @@ server.use(express.static(path.join(__dirname, 'static'))); // Static files as s
 server.set('views', path.join(__dirname, 'pages')); // SSR webpages (index, contact, profile, login)
 server.set('view engine', 'ejs');
 
-server.get('/', (req, res) => { 
-  // https://discord.com/developers/docs/reference#image-formatting
-  console.log(req.session.client_data)
-  console.log(req.session.cookie.expires, req.session.cookie.maxAge)
-  res.render('index', {user: req.session.client_data})
-})
-
-server.get('/test', (req, res) => { 
-  res.render('test')
-})
-
-// server.get('/about', (req, res) => { 
-//   res.send(`<p>${info.desc}</p>`);
-// })
+import { rootRoute } from './routes/root'
+server.use('/', rootRoute)
 
 import { mailRoute } from './routes/mail'
 server.use('/contact', mailRoute)
@@ -101,10 +89,6 @@ server.use('/p', productRoute)
 
 import { apiRoute } from "./routes/api"
 server.use('/api', apiRoute)
-
-// server.all('*', (req, res) => {
-//   res.render('404');
-// });
 
 // 404
 server.use((req, res, next) => {
