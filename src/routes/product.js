@@ -17,7 +17,7 @@ import { session_check } from "../middleware";
 
 router.get('/:hash', async (req, res, next) => {
     
-    if (!req.params.hash) return next();
+    if (!req.params.hash) return next("No product");
 
     let product = new Product();
     let [fetched_product, fetched_reviews, error] = await product.fetch(req.params.hash);
@@ -30,7 +30,7 @@ router.get('/:hash', async (req, res, next) => {
 
 router.get('/:hash/raw', async (req, res) => {
     
-    if (!req.params.hash) return next();
+    if (!req.params.hash) return next("No product");
 
     let product = new Product();
     let [fetched_product, fetched_reviews, error] = await product.fetch(req.params.hash);
