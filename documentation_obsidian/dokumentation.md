@@ -92,6 +92,16 @@ Har även hållt på med databas schemat, ändrat tabell referenser och liknande
 **20 / 02 / 22 -**
 Idag så har jag hållt på lite med SQL queries som körs när användaren söker efter en produkt, så att den returnerar namnet, descriptionen och average rating. Detta i sin tur skickas till klienten och skrivs ut i konsolen. Senare så den datan skrivas ut på skärmen i form av cards. Under tiden jag även höll på med SQL så ville jag på något sätt testa så att det fungerade, så att jag gjorde ett python skript som genererar x antal produkter med y antal reviews med ett random rating så att jag kan verifera att det fungerar.
 
+**14 / 03 / 22 -**
+	En produkt viss kan nu visas på /p/:product_hash med reviews och produkt information. Jag ändrade även product description och och review content till MEDIUMTEXT istället för varchar(255) eftersom att 255 bytes inte räcker till vid längre innehåll av en produkt eller en review.
+
+**18 / 03 / 22 -**
+	Jag har nu lagt till en funktion så att man kan sätta på darkmode på hemsidan. Denna "setting" sparas i sessionen vilket gör att användaren kan byta sida eller uppdatera den vilket resulterar. Däremot ifall servern på något sätt startas om eller ifall sessionen går ut så skulle användaren "setting" återställas till default värde. Därför vid vidare utveckling så skulle man kunna lägga till en till tabell för "user site settings" eller liknande där användares setting sparas oavsett session eller ifall servern startas om.
+	Nuvarande sida:
+	![[product_page_18_mars_2022.png]]
+![[index_18_mars_2022.png]]
+
+
 **1.1 Ändringar utifrån planeringen**
 
 **2** **Funktionalitet**
