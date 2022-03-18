@@ -3,23 +3,24 @@ function set_prefered_darkmode_setting(darkmodeEnabled) {
 
     if (prefersDarkScheme.matches) {
         // Om datorns har preferenser använd den
-        document.body.classList.add("dark-mode");
-        console.log("Turn on darkmode");
+        // document.body.classList.add("dark-mode");
+        console.log("Turn on darkmode detection");
+        setDarkMode(true)
 
     } else {
 
         setDarkMode(darkmodeEnabled)
-        // document.body.classList.remove("dark-theme");
+
         // Annars kolla session
     }
 }
 
-function toggle_dark_mode() {
+async function toggle_dark_mode() {
     // call till funktion för att ändra darkmode setting i backend
-    update_dark_mode_setting();
+    await update_dark_mode_setting();
 
     // Hämta nuvarande darkmode setting från session backend
-    let darkmodeEnabled = get_dark_mode_setting();
+    let darkmodeEnabled = await get_dark_mode_setting();
     
     // Ändra DOM till nuvarande darkmode settings
     setDarkMode(darkmodeEnabled)
@@ -28,26 +29,40 @@ function toggle_dark_mode() {
 
 // Modifierar DOM och lägger till eller tar bort klasser beronde på darkmode status
 function setDarkMode(darkmodeEnabled) {
-
+    let elements = "a, p, h1, h2, h3, h4, h5, h6 span, body, div, input, header, li";
     // Ändrar DOM
     if (darkmodeEnabled) {
-        $("a, p, h1, h2, h3, h4, span, body, div, input, header").addClass("dark-mode");
+        $("#dark_mode_button").html("<i class='fa-solid fa-sun' style='color:yellow;'></i>");
+        $(elements).addClass("dark-mode");
     }
     else {
-        $("a, p, h1, h2, h3, h4, span, body, div, input, header").removeClass("dark-mode");
+        $("#dark_mode_button").html("<i class='fa-solid fa-moon' style='color:white;'></i>")
+        $(elements).removeClass("dark-mode");
     }
 }
 
 
 // Call funktion till backend för att ändra darkmode
-function update_dark_mode_setting() {
-    $.post("/api/toggleDarkmodeSetting") 
+async function update_dark_mode_setting() {
+    let result = null;
+
+    $.ajax({
+        url: "/api/toggleDarkmodeSetting",
+        type: 'post',
+        dataType: 'json', // Hämta data i JSON format
+        async: false,
+        success: (res) => {
+            result = res;
+        } 
+    });
+    // return result
 }
 
-function get_dark_mode_setting() {
+async function get_dark_mode_setting() {
     let result = null;
     
     // Get request till backend för att hämta darkmode setting session värdet
+    // https://stackoverflow.com/questions/1639555/return-get-data-in-a-function-using-jquery
     $.ajax({
        url: "/api/getDarkmodeSetting",
        type: 'get',
@@ -64,9 +79,9 @@ function get_dark_mode_setting() {
 }
 
 
-($().ready(() => {
+($().ready(async () => {
     
-    let darkmodeEnabled = get_dark_mode_setting();
+    let darkmodeEnabled = await get_dark_mode_setting();
     
     console.log("Website darkmode on ready handle; darkmode ->", darkmodeEnabled)
     set_prefered_darkmode_setting(darkmodeEnabled)
@@ -75,7 +90,7 @@ function get_dark_mode_setting() {
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
     let observer = new MutationObserver((mutations, observer) =>  {
         // fired when a mutation occurs
-        console.log("DOM change detected on website");
+        console.log("DOM change detected on website; darkmode options = ", darkmodeEnabled);
         setDarkMode(darkmodeEnabled);
             
     });
@@ -83,16 +98,27 @@ function get_dark_mode_setting() {
     // define what element should be observed by the observer
     // and what types of mutations trigger the callback
     // https://dom.spec.whatwg.org/#interface-mutationobserver
-    observer.observe(document, {
-        subtree: true,
-        childList: true
+    // Hämta DOM noden (motsvarande var l = document.getElementById("#"))
+    observer.observe($(".main-content")[0], {
+        attributes:    true,
+        childList:     true,
+        characterData: true,
     });
 
 }));
 
 // När användaren klickar på darkmode knappen så ska den ändras
-($('#dark_mode_button').click(() => {
-    toggle_dark_mode()
+($('#dark_mode_button').click( async () => {
+    await toggle_dark_mode();
+
+    // $(this).val('Please wait..');
+    // $(this).attr('disabled', true);
+
+    // setTimeout(() => { 
+    //     $(this).attr('disabled', false);
+    //     $(this).val('Submit');
+    // }, 2000);
+    
 }));
 
 
