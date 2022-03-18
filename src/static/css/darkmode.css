@@ -1,5 +1,10 @@
 /* darkmode pallete: https://www.color-hex.com/color-palette/85078 */
-p.dark-mode, h1.dark-mode, h2.dark-mode, span.dark-mode  {
+p.dark-mode, 
+h1.dark-mode, 
+h2.dark-mode,
+h3.dark-mode, 
+h4.dark-mode, 
+span.dark-mode  {
     color: whitesmoke;
 }
 
@@ -17,4 +22,8 @@ body.dark-mode {
 
 header.dark-mode {
     background-color: #1b222c;
+}
+
+.navbar > li > a:hover.dark-mode {
+    border-bottom: 2px solid rgba(255, 20, 0, 0.75);
 }
