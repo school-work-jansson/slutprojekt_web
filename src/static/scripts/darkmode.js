@@ -15,26 +15,26 @@ function set_prefered_darkmode_setting(darkmodeEnabled) {
 }
 
 function toggle_dark_mode() {
-    update_dark_mode_setting();
-    let darkmodeEnabled = get_dark_mode_setting();
-    // Hämta nuvarande darkmode setting från session backend
-    
     // call till funktion för att ändra darkmode setting i backend
+    update_dark_mode_setting();
+
+    // Hämta nuvarande darkmode setting från session backend
+    let darkmodeEnabled = get_dark_mode_setting();
     
+    // Ändra DOM till nuvarande darkmode settings
     setDarkMode(darkmodeEnabled)
 
 }
 
 // Modifierar DOM och lägger till eller tar bort klasser beronde på darkmode status
 function setDarkMode(darkmodeEnabled) {
+
+    // Ändrar DOM
     if (darkmodeEnabled) {
-            
-        $("h1, p, h2, span, body, div, input, header").removeClass("dark-mode");
+        $("a, p, h1, h2, h3, h4, span, body, div, input, header").addClass("dark-mode");
     }
     else {
-        // document.body.classList.add("dark-mode");
-        $("p, h1, h2, span, body, div, input, header").addClass("dark-mode");
-
+        $("a, p, h1, h2, h3, h4, span, body, div, input, header").removeClass("dark-mode");
     }
 }
 
@@ -47,10 +47,11 @@ function update_dark_mode_setting() {
 function get_dark_mode_setting() {
     let result = null;
     
+    // Get request till backend för att hämta darkmode setting session värdet
     $.ajax({
        url: "/api/getDarkmodeSetting",
        type: 'get',
-       dataType: 'json',
+       dataType: 'json', // Hämta data i JSON format
        async: false,
        success: (res) => {
            result = res;
@@ -70,7 +71,7 @@ function get_dark_mode_setting() {
     console.log("Website darkmode on ready handle; darkmode ->", darkmodeEnabled)
     set_prefered_darkmode_setting(darkmodeEnabled)
 
-    // Vid DOM change så ska den uppdatera darkmode för de elementen
+    // Vid DOM change (tex sökning) så ska den uppdatera darkmode för de elementen
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
     let observer = new MutationObserver((mutations, observer) =>  {
         // fired when a mutation occurs
@@ -89,6 +90,7 @@ function get_dark_mode_setting() {
 
 }));
 
+// När användaren klickar på darkmode knappen så ska den ändras
 ($('#dark_mode_button').click(() => {
     toggle_dark_mode()
 }));
