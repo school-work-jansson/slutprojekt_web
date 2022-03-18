@@ -49,7 +49,6 @@ router.post('/search', async (req, res) => {
 })
 
 router.get("/getDarkmodeSetting", (req, res) => {
-    console.log("test");
     if (req.session.user_darkmode) {
         res.status(202).send(req.session.user_darkmode)
     }
