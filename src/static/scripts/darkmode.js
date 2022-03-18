@@ -29,7 +29,7 @@ async function toggle_dark_mode() {
 
 // Modifierar DOM och lägger till eller tar bort klasser beronde på darkmode status
 function setDarkMode(darkmodeEnabled) {
-    let elements = "a, p, h1, h2, h3, h4, h5, h6 span, body, div, input, header, li";
+    let elements = "a, p, h1, h2, h3, h4, h5, h6, span, body, div, input, header, li";
     // Ändrar DOM
     if (darkmodeEnabled) {
         $("#dark_mode_button").html("<i class='fa-solid fa-sun' style='color:yellow;'></i>");
@@ -100,25 +100,17 @@ async function get_dark_mode_setting() {
     // https://dom.spec.whatwg.org/#interface-mutationobserver
     // Hämta DOM noden (motsvarande var l = document.getElementById("#"))
     observer.observe($(".main-content")[0], {
-        attributes:    true,
+        // attributes:    true,
         childList:     true,
-        characterData: true,
+        // characterData: true,
+        subtree: true
     });
 
 }));
 
 // När användaren klickar på darkmode knappen så ska den ändras
 ($('#dark_mode_button').click( async () => {
-    await toggle_dark_mode();
-
-    // $(this).val('Please wait..');
-    // $(this).attr('disabled', true);
-
-    // setTimeout(() => { 
-    //     $(this).attr('disabled', false);
-    //     $(this).val('Submit');
-    // }, 2000);
-    
+    await toggle_dark_mode();    
 }));
 
 
