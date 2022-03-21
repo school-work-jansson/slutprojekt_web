@@ -101,6 +101,9 @@ Idag så har jag hållt på lite med SQL queries som körs när användaren sök
 	![[product_page_18_mars_2022.png]]
 ![[index_18_mars_2022.png]]
 
+**21 / 03 / 22 -**
+	Nu har jag fixat lite små buggar jag har även lagt till funktionen att man blir tillbaka skickad till den sidan man var på när man antingen loggar in eller ut så att man inte behöver navigera sig själv tillbaka till den sidan man var på.
+
 
 **1.1 Ändringar utifrån planeringen**
 
