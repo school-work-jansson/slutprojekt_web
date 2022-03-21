@@ -175,7 +175,7 @@ header {
         font-size: 18px;
         border: none;
         outline: none;
-        background-color: red;
+        background-color: rgba(255, 0, 0, 0.5);
         cursor: pointer;
         padding: 15px;
         border-radius: 15px;
@@ -216,15 +216,6 @@ header {
         border-bottom: 3px solid #00000098;
     }
     
-    /*     
-    .navbar > li::before {
-        content: "|";
-    }
-    .navbar > li::after {
-        content: "|";
-    } */
-
-
     #dark_mode_button {
     
         position: fixed;
@@ -234,13 +225,14 @@ header {
         font-size: 18px;
         border: none;
         outline: none;
-        background-color: red;
+        background-color: rgba(255, 0, 0, 0.5);
         cursor: pointer;
         padding: 15px;
         border-radius: 15px;
     }
 
 } 
+
 
 
 .jumbotron {
@@ -250,7 +242,7 @@ header {
     justify-content: center;
 
     width: 100vw;
-    min-height: 500px;
+    min-height: 350px;
     background-image: url(../images/jumbotron.svg);
  
     background-size: 100% 100%;
@@ -370,8 +362,8 @@ footer {
     font-size: 18px;
     border: none;
     outline: none;
-    background-color: red;
-    color: white;
+    background-color: rgba(255, 0, 0, 0.5);
+    color: whitesmoke;
     cursor: pointer;
     padding: 15px;
     border-radius: 15px;
