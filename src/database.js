@@ -303,6 +303,11 @@ class Product extends Database {
 
     }
 
+    async post_review(review_object) {
+        let result = 0;
+        return result;
+    }
+
     async fetch(hash) {
         let fetched_product, fetched_reviews, return_error;
         fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
