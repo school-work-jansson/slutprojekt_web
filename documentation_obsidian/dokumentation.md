@@ -101,8 +101,9 @@ Idag så har jag hållt på lite med SQL queries som körs när användaren sök
 	![[product_page_18_mars_2022.png]]
 ![[index_18_mars_2022.png]]
 
+
 **21 / 03 / 22 -**
-	Nu har jag fixat lite små buggar jag har även lagt till funktionen att man blir tillbaka skickad till den sidan man var på när man antingen loggar in eller ut så att man inte behöver navigera sig själv tillbaka till den sidan man var på.
+	Nu har jag fixat lite små buggar jag har även lagt till funktionen att man blir tillbaka skickad till den sidan man var på när man antingen loggar in eller ut så att man inte behöver navigera sig själv tillbaka till den sidan man var på. Jag upptäckte även under utveckling av min "about"  sida att Footern endast tryckts ner tidigare av innehållet. Vilket orsakade att ifall det var för lite innehåll på sidan så trycktes footern uppåt. Detta löste jag genom att lägga in mina tre huvud innehåll (headern, main-content och footern) i ett  main element. Detta för att göra det elementet till 100vh och göra en margin top: auto på min footer för att trycka ner den. En till bugg jag även hittat var att jag endast hade angett att det första sök resultatets "average rating" skulle avrundas. Vilket nu är fixat genom att loopa igenom hela resultatet från databasen och ändra varje columns average rating.
 
 
 **1.1 Ändringar utifrån planeringen**
