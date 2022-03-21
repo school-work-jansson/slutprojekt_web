@@ -93,7 +93,7 @@ async function get_dark_mode_setting() {
         console.log("DOM change detected", mutations[0], "on website; darkmode options = ", darkmodeEnabled);
 
         // Ifall knappen själv ändras så ska den inte orsaka en mutation
-        if (mutations[0].target == $("#dark_mode_button")[0]) return;
+        if ( mutations[0].target == $("#dark_mode_button")[0] ) return;
 
         darkmodeEnabled = await get_dark_mode_setting();
         
