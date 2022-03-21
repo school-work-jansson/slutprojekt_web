@@ -1,25 +1,3 @@
-let review_object = {
-    title: "",
-    content: "",
-    name: "",
-    date: getDate(),
-    rating: 0
-}
-
-
-$(() => {
-    handle_review_form()
-
-    $(() => {
-        $(".popup-button").click( () => {
-            $('.popup-background').show();
-        });
-        $('.close-popup-button').click( () => {
-            $('.popup-background').hide();
-        });
-    })();
-})
-
 function handle_review_form() {
 
     /* Star-rating Inspiration (https://codepen.io/Leoschmittk/pen/OJbQBgb) */
@@ -114,11 +92,35 @@ function update_preview_stars(rating)
 }
 
 function post_review(review) {
-    $.post("/post_review", review)
-    console.log(review_object)
+    // $.ajax()
+    $.post("/api/post_review", review)
+    console.log(review)
 }
 
 function getDate() {
     return new Date().toISOString()
 }
 
+
+
+let review_object = {
+    title: "",
+    content: "",
+    name: "",
+    date: getDate(),
+    rating: 0
+}
+
+
+$(() => {
+    handle_review_form()
+
+    
+    $(".popup-button").click( () => {
+        $('.popup-background').show();
+    });
+    $('.close-popup-button').click( () => {
+        $('.popup-background').hide();
+    });
+    
+})
