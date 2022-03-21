@@ -7,15 +7,31 @@ import { v4 as uuid } from 'uuid';
 
 import { __dirname } from "./utils";
 
-// import dotenv from "dotenv"
-// dotenv.config()
-// console.log(process.env)
-
-// måste användas för att requirea
-// import { createRequire } from 'module';
-// const require = createRequire(import.meta.url); 
+import { save_last_site_visited } from './middleware';
 
 const server = express()
+
+// Sätter CORS headers
+// import helmet from 'helmet';
+// server.use(helmet() 
+// );
+
+// {
+//   crossOriginResourcePolicy: { policy: "cross-origin" },
+//   contentSecurityPolicy: {
+//     directives: {
+//       "default-src": ["'self'"],
+//       "base-uri": "'self'",
+//       "font-src": ["'self'","https:","data:"],
+//       "frame-ancestors": ["'self'"],
+//       "img-src": ["'self'", "https://cdn.discordapp.com/", "https://media1.tenor.com/"],
+//       "object-src": ["'none'"],
+//       "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
+//       "script-src-attr": ["'self'", "https://code.jquery.com/","https://kit.fontawesome.com/"],
+//       "style-src": ["'self'", "https://fonts.googleapis.com/"],
+//     }
+//   }
+// }
 
 // https://github.com/chill117/express-mysql-session
 /* 
@@ -44,39 +60,12 @@ server.use(session({
   }
 }))
 
-
-// Sätter CORS headers
-// import helmet from 'helmet';
-// server.use(helmet() 
-// );
-
-// {
-//   crossOriginResourcePolicy: { policy: "cross-origin" },
-//   contentSecurityPolicy: {
-//     directives: {
-//       "default-src": ["'self'"],
-//       "base-uri": "'self'",
-//       "font-src": ["'self'","https:","data:"],
-//       "frame-ancestors": ["'self'"],
-//       "img-src": ["'self'", "https://cdn.discordapp.com/", "https://media1.tenor.com/"],
-//       "object-src": ["'none'"],
-//       "script-src": ["'self'","https://code.jquery.com/","https://kit.fontawesome.com/"],
-//       "script-src-attr": ["'self'", "https://code.jquery.com/","https://kit.fontawesome.com/"],
-//       "style-src": ["'self'", "https://fonts.googleapis.com/"],
-//     }
-//   }
-// }
-
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
-
 
 server.use(express.static(path.join(__dirname, 'static'))); // Static files as stylesheets and scripts
 server.set('views', path.join(__dirname, 'pages')); // SSR webpages (index, contact, profile, login)
 server.set('view engine', 'ejs');
-
-import { rootRoute } from './routes/root'
-server.use('/', rootRoute)
 
 import { mailRoute } from './routes/mail'
 server.use('/contact', mailRoute)
@@ -89,6 +78,9 @@ server.use('/p', productRoute)
 
 import { apiRoute } from "./routes/api"
 server.use('/api', apiRoute)
+
+import { rootRoute } from './routes/root'
+server.use('/', rootRoute)
 
 // 404
 server.use((req, res, next) => {
