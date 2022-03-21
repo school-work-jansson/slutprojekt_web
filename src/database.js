@@ -278,8 +278,12 @@ class Product extends Database {
     async search(search, high_lim = 20, low_lim = 0) {
         let result = await this.query(this.queries.product.search, [search, search,  high_lim, low_lim])
         
-        // avrunda upp då jag inte visar stjärnor i halva
-        result[0].AverageRating = Math.ceil(result[0].AverageRating)
+        // Avrunda upp "ALLA" resultat då inte stjärnorna visas i halva
+        for (let index = 0; index < result.length; index++) {
+            // console.log(result[index].AverageRating)
+            result[index].AverageRating = Math.round(result[index].AverageRating);
+        }
+        
         return result
         
     }
