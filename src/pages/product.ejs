@@ -26,83 +26,102 @@
 </head>
 <body>
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
+    <a id="dark_mode_button" href="javascript:void(0)"><i class="fa-solid fa-moon"></i></a>
+
+    <!-- Fixed position så att menybaren kommer följa med -->
     <header id="mobile">
-        <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
-                <div class="header-navbar">
-                    <div id="logo">
-                        <h1 style="color:red;">LOGO</h1>
-                    </div>
-                    <!-- <a href="#home" class="active">Logo</a> -->
-        
-                    <div class="mobile-button">
-                        <a href="javascript:void(0);" class="icon" onclick="navbar_button()">
-                            <i class="fa fa-bars fa-lg"></i>
-                        </a>
-                    </div>
-        
-                    <div id="profile-options">
-                        <div>
-                            <p>|<a href="/u/login/">login</a> | <a href="/u/signout">Logout</a>|</p>
-                        </div>
-                        <div>
-                            <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp">
-                        </div>
-                    </div>
-        
-                </div>
-        
-                <div class="mobile_navbar">
-                    <ul id="nav_links">
-                        <li>
-                            <a href="index.html">Hem</a>
-                        </li>
-                        <li>
-                            <a href="about.html">Om det här</a>
-                        </li>
-                        <li>
-                            <a href="contact.html">Kontakta</a>
-                        </li>
-                        <li>
-                            <a href="product.html">product page</a>
-                        </li>
-                        <li>
-                            <a href="review.html">review page</a>
-                        </li>
-                    </ul>
-                </div>
-            </header>
-        
-            <header id="desktop">
-                <div class="desktop_navbar">
-                    <div id="logo">
-                        <h1 style="color:red;">LOGO</h1>
-                    </div>
-                    <div id="navbar">
-                        <ul class="navbar">
-                            <li>
-                                <a href="index.html">Hem</a>
-                            </li>
-                            <li>
-                                <a href="about.html">Om det här</a>
-                            </li>
-                            <li>
-                                <a href="contact.html">Kontakta</a>
-                            </li>
-                            <li>
-                                <a href="product.html">product page</a>
-                            </li>
-                            <li>
-                                <a href="review.html">review page</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="profile-options">
-                        <!-- https://www.w3schools.com/howto/howto_js_popup_form.asp pop up för login -->
-                        <p>|<a href="/u/login/">login</a> | <a href="/u/signout">Logout</a>|</p>
-                        <img src="https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif" class="profile_picture" alt="pfp">
-                    </div>
-                </div>
-            </header>
+<!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
+        <div class="header-navbar">
+            <div id="logo">
+                <h1 style="color:red;">LOGO</h1>
+            </div>
+            <!-- <a href="#home" class="active">Logo</a> -->
+
+            <div class="mobile-button">
+                <a href="javascript:void(0);" class="icon" onclick="navbar_button()">
+                    <i class="fa fa-bars fa-lg"></i>
+                </a>
+            </div>
+
+            <div id="profile-options">
+                <% if (user) { %>
+                    <p>
+                        <a href="/u/logout">Logga ut</a>
+                    </p>
+                    <p>
+                        <a href="/u/profile/">Profil</a>
+
+                    </p>
+                    <a href="/u/profile">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile_picture" alt="Profile Pictre">
+                    </a>
+
+                <% } else { %>
+                    <a href="/u/login/discord">Logga in</a>
+                <% } %>
+            </div>
+
+        </div>
+
+        <div class="mobile_navbar">
+            <ul id="nav_links">
+                <li>
+                    <a href="/">Hem</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Kontakta</a>
+                </li>
+                <li>
+                    <a href="/p/">product page</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <header id="desktop">
+        <div class="desktop_navbar">
+            <div id="logo">
+                <h1 style="color:red;">LOGO</h1>
+            </div>
+            <div id="navbar">
+                <ul class="navbar">
+                    <li>
+                        <a href="/">Hem</a>
+                    </li>
+                    <li>
+                        <a href="/about">About</a>
+                    </li>
+                    <li>
+                        <a href="/contact">Kontakta</a>
+                    </li>
+                    <li>
+                        <a href="/p/">product page</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profile-options">
+                <!-- https://www.w3schools.com/howto/howto_js_popup_form.asp pop up för login -->
+                <% if (user) { %>
+                    <p>
+                        <a href="/u/logout">Logga ut</a>
+                    </p>
+                    <p>
+                        <a href="/u/profile/">Profil</a>
+
+                    </p>
+                    <a href="/u/profile">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile_picture" alt="Profile Pictre">
+                    </a>
+
+                <% } else { %>
+                    <a href="/u/login/discord">Logga in</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
 
     <section class="jumbotron">
         <h1>Bild kanske och logo</h1>
@@ -151,6 +170,7 @@
 
         </div>
 
+        <% if (user) { %>
         <div class="">
             <a class="popup-button">Skriv en review!</a>
         </div>  
@@ -206,6 +226,7 @@
             </div>
 
         </div>
+        <% } %>
         <div class="review-cards">
         <% for (const key in reviews) { %>
 
