@@ -1,0 +1,86 @@
+    <!-- Fixed position så att menybaren kommer följa med -->
+    <header id="mobile">
+        <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
+        <div class="header-navbar">
+            <div id="logo">
+                <a href="/"><h1 style="color:red;">LOGO</h1></a>
+            </div>
+            <!-- <a href="#home" class="active">Logo</a> -->
+
+            <div class="mobile-button">
+                <a href="javascript:void(0);" class="icon" onclick="navbar_button()">
+                    <i class="fa fa-bars fa-lg"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="mobile_navbar">
+            <ul id="nav_links">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+
+                <% if (user) { %>
+                <div>
+                    <li>
+                        <a href="/u/logout">Logout</a>
+                    </li>
+                    <li>
+                        <a href="/u/profile/">Profile</a> 
+                    </li>
+                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile_picture" alt="Profile Pictre">
+                </div>
+                <% } else { %>
+                    <a href="/u/login/discord">Logga in</a>
+                <% } %>
+                    
+
+            </ul>
+        </div>
+    </header>
+        
+    <header id="desktop">
+        <div class="desktop_navbar">
+            <div id="logo">
+                <a href="/"><h1 style="color:red;">LOGO</h1></a>
+            </div>
+            <div id="navbar">
+                <ul class="navbar">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/about">About</a>
+                    </li>
+                    <li>
+                        <a href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profile-options">
+                <!-- https://www.w3schools.com/howto/howto_js_popup_form.asp pop up för login -->
+                <% if (user) { %>
+                    <p>
+                        <a href="/u/logout">Logout</a>
+                    </p>
+                    <p>
+                        <a href="/u/profile/">Profile</a>
+
+                    </p>
+                    <a href="/u/profile">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile_picture" alt="Profile Pictre">
+                    </a>
+
+                <% } else { %>
+                    <a href="/u/login/discord">Logga in</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
