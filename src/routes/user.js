@@ -24,6 +24,35 @@ const Discord = new DiscordAuth()
 // https://stackoverflow.com/questions/60008473/how-to-check-if-user-is-logged-in-with-node-js-and-mongoose
 
 
+async function login_user(query_code) {
+
+    // Hämtar första datan från discord
+    let tokens = await Discord.token_exchange(query_code)
+
+    // Retrives clients data from discord
+    let client_data = await Discord.get_user_data(tokens)
+    console.log("Client_data", client_data)
+    // Kolla ifall användaren existerar finns den inte så skapar den en
+    
+    // Skapar ett objekt av User klassen
+    let user = new User(client_data.id);
+
+    // Ifall användaren inte finns skapa användaren
+    if (await user.exists() == false) {
+        await user.create(client_data, tokens.refresh_token);
+        // return [null, false]
+    }
+
+    // Laddar in user data
+    let loaded_data = await user.load_user()
+    
+    // kollar ifall refresh_token i databasen är samma som den discord skickar
+    await user.update_refresh_token(loaded_data.id, tokens.refresh_token)
+    // Sätt loaded_datas refresh_token till det nya
+
+    return [loaded_data, true]
+}
+
 
 router.get('/login/discord', (req, res) => {
     // Query string is deliverd from discord in the query
@@ -103,19 +132,14 @@ router.get('/refresh', session_check, async (req, res) => {
 
 router.get('/logout', session_check, (req, res) => { 
     console.log("User requested Signout")
-    let last_visited = req.session.last_visited;
     req.session.destroy((err) => {
         if (err) return res.send({err: err});
-        if (last_visited) {
-            // Ger möjlighet att redirecta till sidan som användaren var på innan
-            return res.redirect(last_visited);
-        }
-        else {
-            // Om det inte finns ngn last visited så går den bara tillbaka till /
-            return res.redirect('/');
-        }
+        
+        // Går tillbaka till Referer eller /
+        return res.redirect(req.header('Referer') || '/');
+        
     });
-})
+});
 
 router.get('/profile', session_check, async (req, res) => {
     console.log(req.session.client_data)
@@ -127,36 +151,6 @@ router.get('/profile', session_check, async (req, res) => {
 
     
     console.log(await user.get_refresh_token(req.session.client_data.id))
-})
+});
 
 export { router as userRoute };
-
-
-async function login_user(query_code) {
-
-        // Hämtar första datan från discord
-        let tokens = await Discord.token_exchange(query_code)
-
-        // Retrives clients data from discord
-        let client_data = await Discord.get_user_data(tokens)
-        console.log("Client_data", client_data)
-        // Kolla ifall användaren existerar finns den inte så skapar den en
-        
-        // Skapar ett objekt av User klassen
-        let user = new User(client_data.id);
-
-        // Ifall användaren inte finns skapa användaren
-        if (await user.exists() == false) {
-            await user.create(client_data, tokens.refresh_token);
-            // return [null, false]
-        }
-
-        // Laddar in user data
-        let loaded_data = await user.load_user()
-        
-        // kollar ifall refresh_token i databasen är samma som den discord skickar
-        await user.update_refresh_token(loaded_data.id, tokens.refresh_token)
-        // Sätt loaded_datas refresh_token till det nya
-
-        return [loaded_data, true]
-}
