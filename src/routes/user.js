@@ -57,8 +57,6 @@ async function login_user(query_code) {
 router.get('/login/discord', (req, res) => {
     // Query string is deliverd from discord in the query
     let query_code = req.query.code
-    
-    // let user = new User();
 
     // Om klienten redan har en activ session så behöver den inte 
     if (req.session.authenticated) {
@@ -70,6 +68,8 @@ router.get('/login/discord', (req, res) => {
     // Om det inte finns någon query_code så kommer inte klienten från discord
     if (!query_code)
     {   
+        console.log("referer: ", req.header('Referer'));
+        req.session.origin = req.header('Referer') || '/';
         console.log("No querycode. Redirect to discord", Discord.OAUTH_SCOPE);
         return res.redirect(Discord.OAUTH_SCOPE)
     }
@@ -100,9 +100,19 @@ router.get('/login/discord', (req, res) => {
 
         req.session.cookie.maxAge = (1000 * 60 * 24)
         req.session.authenticated = true;
-        // res.send({user_data: client_data, refresh: tokens.refresh_token});
-        
-        res.redirect('/')
+
+        // referer tillbaka till den sidan man va på nöär man har loggat in
+        if (req.session.origin) {
+            let origin = req.session.origin;
+            delete req.session.origin;
+
+            return res.redirect(origin);
+        }
+            
+        else {
+            return res.redirect('/');
+        }
+            
     })();
 
     
@@ -136,6 +146,7 @@ router.get('/logout', session_check, (req, res) => {
         if (err) return res.send({err: err});
         
         // Går tillbaka till Referer eller /
+        // https://stackoverflow.com/questions/13335881/redirecting-to-previous-page-after-authentication-in-node-js-using-passport-js
         return res.redirect(req.header('Referer') || '/');
         
     });
