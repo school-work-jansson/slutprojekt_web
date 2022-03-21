@@ -5,10 +5,10 @@ import { Product, User } from "../database";
 import { session_check } from "../middleware";
 
 import fs from "fs";
-import { count } from "console";
 
 
 router.get('/', (req, res) => { 
+    console.log("test");
     // https://discord.com/developers/docs/reference#image-formatting
     if (req.session.client_data) console.log(req.session.client_data);
 
