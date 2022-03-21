@@ -6,5 +6,15 @@ function session_check(req, res, next) {
 
 }
 
+function save_last_site_visited(req, res, next) {
+    if( req.query.origin )
+        req.session.last_visited = req.query.origin
+    else
+        req.session.last_visited = req.header('Referer')
 
-export { session_check }
+    console.log("org URL: ", req.session.last_visited, req.header('Referer'));
+
+    next();
+}
+
+export { session_check , save_last_site_visited }
