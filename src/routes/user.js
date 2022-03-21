@@ -12,14 +12,13 @@
 
 */
 
-
 import express from "express";
-const router = express.Router()
-// const user = require("../database")
 import { User } from "../database";
 import { DiscordAuth } from "../discord";
-import { session_check } from "../middleware";
+import { session_check, save_last_site_visited } from "../middleware";
 
+
+const router = express.Router()
 const Discord = new DiscordAuth()
 
 // https://stackoverflow.com/questions/60008473/how-to-check-if-user-is-logged-in-with-node-js-and-mongoose
@@ -104,12 +103,18 @@ router.get('/refresh', session_check, async (req, res) => {
 
 router.get('/logout', session_check, (req, res) => { 
     console.log("User requested Signout")
+    let last_visited = req.session.last_visited;
     req.session.destroy((err) => {
         if (err) return res.send({err: err});
-        return res.redirect('/');
-    })
-
-
+        if (last_visited) {
+            // Ger möjlighet att redirecta till sidan som användaren var på innan
+            return res.redirect(last_visited);
+        }
+        else {
+            // Om det inte finns ngn last visited så går den bara tillbaka till /
+            return res.redirect('/');
+        }
+    });
 })
 
 router.get('/profile', session_check, async (req, res) => {

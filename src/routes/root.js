@@ -8,7 +8,6 @@ import fs from "fs";
 
 
 router.get('/', (req, res) => { 
-    console.log("test");
     // https://discord.com/developers/docs/reference#image-formatting
     if (req.session.client_data) console.log(req.session.client_data);
 
