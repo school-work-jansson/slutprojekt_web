@@ -88,8 +88,9 @@ async function get_dark_mode_setting() {
 
     // Vid DOM change (tex sökning) så ska den uppdatera darkmode för de elementen
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    let observer = new MutationObserver((mutations, observer) =>  {
+    let observer = new MutationObserver( async (mutations, observer) =>  {
         // fired when a mutation occurs
+        darkmodeEnabled = await get_dark_mode_setting()
         console.log("DOM change detected on website; darkmode options = ", darkmodeEnabled);
         setDarkMode(darkmodeEnabled);
             
