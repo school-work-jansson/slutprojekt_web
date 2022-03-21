@@ -29,7 +29,7 @@ async function toggle_dark_mode() {
 
 // Modifierar DOM och lägger till eller tar bort klasser beronde på darkmode status
 function setDarkMode(darkmodeEnabled) {
-    let elements = "a, p, h1, h2, h3, h4, h5, h6, span, body, div, input, header, li";
+    let elements = "a, p, h1, h2, h3, h4, h5, h6, span, body, div, input, header, footer, li";
     // Ändrar DOM
     if (darkmodeEnabled) {
         $("#dark_mode_button").html("<i class='fa-solid fa-sun' style='color:yellow;'></i>");
@@ -55,7 +55,7 @@ async function update_dark_mode_setting() {
             result = res;
         } 
     });
-    // return result
+    return result
 }
 
 async function get_dark_mode_setting() {
@@ -89,9 +89,14 @@ async function get_dark_mode_setting() {
     // Vid DOM change (tex sökning) så ska den uppdatera darkmode för de elementen
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
     let observer = new MutationObserver( async (mutations, observer) =>  {
-        // fired when a mutation occurs
-        darkmodeEnabled = await get_dark_mode_setting()
-        console.log("DOM change detected on website; darkmode options = ", darkmodeEnabled);
+        
+        console.log("DOM change detected", mutations[0], "on website; darkmode options = ", darkmodeEnabled);
+
+        // Ifall knappen själv ändras så ska den inte orsaka en mutation
+        if (mutations[0].target == $("#dark_mode_button")[0]) return;
+
+        darkmodeEnabled = await get_dark_mode_setting();
+        
         setDarkMode(darkmodeEnabled);
             
     });

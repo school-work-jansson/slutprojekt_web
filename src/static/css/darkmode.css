@@ -22,7 +22,7 @@ body.dark-mode {
     background-color: #1b222c;
 }
 
-.footer.dark-mode {
+footer.dark-mode {
     background-color: #1b222c;
 }
 
@@ -34,3 +34,7 @@ header.dark-mode {
     border-bottom: 2px solid rgba(255, 20, 0, 0.75);
 }
 
+.pagnition_button.dark-mode{
+    color: whitesmoke;
+    border-color: whitesmoke;
+}
