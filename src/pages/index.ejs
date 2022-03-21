@@ -116,74 +116,77 @@
             </div>
         </div>
     </header>
-
-    <section class="jumbotron">
-        <h1>Bild kanske och logo</h1>
-    </section>
     
-    <!-- https://app.haikei.app/ -->
-
-    <section class="main-content">
-
-        <div class="card">
-            <p>Här kommer listan med produkter komma när du söker i form av "cards"</p>
-        </div>
-        <div class="search">
-            <h1>
-                Något speciellt du letar efter? 
-            </h1>
-            <!-- <form action="" method="post"> -->
-            <input id="search-input" type="text" placeholder="Sök här!">
-            <!-- </form> -->
-            <div class="search-result">
-                <span>Results: XXX</span>
-            </div>
-        </div>
-
-        <!-- När användaren söker så ska bara x antal visas och så ska man ha möjligheten att klicka på en mer knapp för att ladda in fler -->
-
-        <div class="cards">
-
+    <main>
+        <section class="jumbotron">
+            <h1>Bild kanske och logo</h1>
+        </section>
+        
+        <!-- https://app.haikei.app/ -->
+    
+        <section class="main-content">
+    
             <div class="card">
-                <div class="card-image">
-                    <a href="#">
-                        <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg" crossorigin="anonymous" alt="Picture of product">
-                    </a>
+                <p>Här kommer listan med produkter komma när du söker i form av "cards"</p>
+            </div>
+            <div class="search">
+                <h1>
+                    Något speciellt du letar efter? 
+                </h1>
+                <!-- <form action="" method="post"> -->
+                <input id="search-input" type="text" placeholder="Sök här!">
+                <!-- </form> -->
+                <div class="search-result">
+                    <span>Results: XXX</span>
                 </div>
-                <div>
-                    <div class="card-title">
-                        <h1><a href="#">Product Name</a></h1> 
-                    </div>
-                    <div class="average-rating">
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <span>1/5</span>
-                    </div>
-                    <div class="description">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
-                        <a href="#">Visa mer...</a>
-                    </div>
-                </div>
-            </div> 
+            </div>
     
-        </div>
-        
-
-        <div class="pagnition">
-            <!-- Pagnition [Show more] -->
-            <a href="javascript:void(0)" onclick="pagnitionSearch()" class="pagnition_button">Visa Mer!</a>
-        </div>
-    </section>
+            <!-- När användaren söker så ska bara x antal visas och så ska man ha möjligheten att klicka på en mer knapp för att ladda in fler -->
     
-    <section id="footer">
-        <div class="footer">
-            <p id="copyright">Copyright &copy; Linus J</p>
-        </div>
+            <div class="cards">
+    
+                <div class="card">
+                    <div class="card-image">
+                        <a href="#">
+                            <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg" crossorigin="anonymous" alt="Picture of product">
+                        </a>
+                    </div>
+                    <div>
+                        <div class="card-title">
+                            <h1><a href="#">Product Name</a></h1> 
+                        </div>
+                        <div class="average-rating">
+                            <i class="rating__star far fa-star"></i>
+                            <i class="rating__star far fa-star"></i>
+                            <i class="rating__star far fa-star"></i>
+                            <i class="rating__star far fa-star"></i>
+                            <i class="rating__star far fa-star"></i>
+                            <span>1/5</span>
+                        </div>
+                        <div class="description">
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus esse perspiciatis iusto voluptatum sit et sint est quidem, ratione atque beatae quaerat! At, eos in voluptatum illum quas soluta optio.</p>
+                            <a href="#">Visa mer...</a>
+                        </div>
+                    </div>
+                </div> 
         
-    </section>
+            </div>
+            
+    
+            <div class="pagnition">
+                <!-- Pagnition [Show more] -->
+                <a href="javascript:void(0)" onclick="pagnitionSearch()" class="pagnition_button">Visa Mer!</a>
+            </div>
+        </section>
+        
+        <footer>
+            <div>
+                <p id="copyright">Copyright &copy; Linus J</p>
+            </div>
+        </footer>
+    </main>
+    
+    
     <script src="scripts/base.js"></script>
     <script src="scripts/scroll_button.js"></script>
     <script src="scripts/copyright.js"></script>

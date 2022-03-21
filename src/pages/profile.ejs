@@ -102,74 +102,82 @@
         </div>
     </header>
 
-    <section class="jumbotron" style="background-image: url('https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif'); background-position: center;">
-        <h1 style="background-color: brown;color: aquamarine;">Bild kanske och logo</h1>
-    </section>
-    
-    <!-- https://app.haikei.app/ -->
-    <section class="content" id="profile-content">
-        <div class="review-cards">
-            <div>
-                <h1>Här har du dina postade reviews</h1>
-            </div>
 
-            <% for (const key in reviews) { %>
-            
-                <div class="card">
-                    <div>
-                        <div class="card-title">
-                            <h1><a href="#"><%= reviews[key].title %></a></h1> 
-                        </div>
-                        <div class="average-rating">
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <span><%= reviews[key].rating %>/5</span>
-                        </div>
-                        <div class="description">
-                            <p><%= reviews[key].content %></p>
-                            <a href="#">Visa produkt...</a>
-                        </div>
-                    </div>
-                </div> 
-            <% } %>
-            
-        </div>
+    <main>
 
-        <div class="card" id="profile-card">
-            <div class="title">
-                <h1>Redigera profilen</h1>
-            </div>
-            <div id="profile-card-content">
-                <div class="profile-image">
-                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile-image" alt="Profile Pictre">
-                    <h3>Nuvarande namn:</h3>
-                    <p><%= user.username %></p>
-                    <h3>Nuvarande epost:</h3>
-                    <p><%= (user.email != "") ? `${user.email}` : "Du har inte angivit en epostadress"; %></p>
-                </div>
-                <div>
-                    <form action="/api/update_profile" method="POST">
-                        <input type="text" name="username" placeholder="username">
-                        <input type="email" name="email" placeholder="email">
-                        <input type="submit" value="Uppdatera">
-                    </form>
-                    <span>Created at: 02102022</span>
-                </div>
-
-            </div>
-        </div> 
-    
-    </section>
-    
-    <section id="footer">
-        <div class="footer">
-            <p id="copyright">Copyright &copy; Linus J</p>
-        </div>
+        <section class="jumbotron" style="background-image: url('https://media1.tenor.com/images/8007930423bc8dcdcd61da470a182286/tenor.gif'); background-position: center;">
+            <h1 style="background-color: brown;color: aquamarine;">Bild kanske och logo</h1>
+        </section>
         
-    </section>
+        <!-- https://app.haikei.app/ -->
+        <section class="content" id="profile-content">
+            <div class="review-cards">
+                <div>
+                    <h1>Här har du dina postade reviews</h1>
+                </div>
+    
+                <% for (const key in reviews) { %>
+                
+                    <div class="card">
+                        <div>
+                            <div class="card-title">
+                                <h1><a href="#"><%= reviews[key].title %></a></h1> 
+                            </div>
+                            <div class="average-rating">
+                                <i class="rating__star far fa-star"></i>
+                                <i class="rating__star far fa-star"></i>
+                                <i class="rating__star far fa-star"></i>
+                                <i class="rating__star far fa-star"></i>
+                                <i class="rating__star far fa-star"></i>
+                                <span><%= reviews[key].rating %>/5</span>
+                            </div>
+                            <div class="description">
+                                <p><%= reviews[key].content %></p>
+                                <a href="#">Visa produkt...</a>
+                            </div>
+                        </div>
+                    </div> 
+                <% } %>
+                
+            </div>
+    
+            <div class="card" id="profile-card">
+                <div class="title">
+                    <h1>Redigera profilen</h1>
+                </div>
+                <div id="profile-card-content">
+                    <div class="profile-image">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" crossorigin="anonymous" class="profile-image" alt="Profile Pictre">
+                        <h3>Nuvarande namn:</h3>
+                        <p><%= user.username %></p>
+                        <h3>Nuvarande epost:</h3>
+                        <p><%= (user.email != "") ? `${user.email}` : "Du har inte angivit en epostadress"; %></p>
+                    </div>
+                    <div>
+                        <form action="/api/update_profile" method="POST">
+                            <input type="text" name="username" placeholder="username">
+                            <input type="email" name="email" placeholder="email">
+                            <input type="submit" value="Uppdatera">
+                        </form>
+                        <span>Created at: 02102022</span>
+                    </div>
+    
+                </div>
+            </div> 
+        
+        </section>
+        
+        <footer>
+            <div>
+                <p id="copyright">Copyright &copy; Linus J</p>
+            </div>
+        </footer>
+        
+    </main>
+
+
+
+    
     <script src="/scripts/base.js"></script>
     <script src="/scripts/scroll_button.js"></script>
     <script src="/scripts/copyright.js"></script>

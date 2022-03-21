@@ -2,15 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap');
 
 * {
-    
     margin: 0;
     box-sizing: border-box;
     /* font-family: Georgia, 'Times New Roman', Times, serif; */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
     scroll-behavior: smooth;
 }
 
 body {
     overflow-x: hidden;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 h1, h2, h3, h4 {
@@ -55,7 +62,6 @@ a, a:visited {
     z-index: 1000;
 }
 
-
 #page_loader {
 
     border: 16px solid #f3f3f300;
@@ -66,18 +72,18 @@ a, a:visited {
     
     -webkit-animation: spin 2.5s linear infinite; /* Safari */
     animation: spin 2.5s linear infinite;
-  }
+}
   
   /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
 
 header { 
     position: fixed;
@@ -110,6 +116,7 @@ header {
     list-style: none;
     width: 100%;
 }
+
 #nav_links, .navbar > li > a {
     text-decoration: none;
     font-weight: bolder;
@@ -242,8 +249,8 @@ header {
     align-items: center;
     justify-content: center;
 
-    width: 100;
-    height: 500px;
+    width: 100vw;
+    min-height: 500px;
     background-image: url(../images/jumbotron.svg);
  
     background-size: 100% 100%;
@@ -255,13 +262,21 @@ header {
 
 .main-content {
     margin-top: 5vh;
+    margin-bottom: 5vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 
 .card {
+
+    display: flex;
+    height: auto;
+    flex-direction: column;
+
     padding: 10px;
     
     border-radius: 15px;
@@ -277,19 +292,6 @@ header {
     -moz-box-shadow: 0px 0px 40px -10px rgba(0, 0, 0, 0.6);
 }
 
-/* .card {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    max-width: 50vw;
-} */
-/* .card {
-    display: flex;
-    height: auto;
-    flex-direction: column;
-    max-width: 35vw;
-} */
-
 .card-image img {
     max-width: 100%;
     height: auto;
@@ -297,18 +299,12 @@ header {
 
 @media only screen and (max-width: 950px) {
     .card {
-        display: flex;
-        height: auto;
-        flex-direction: row;
         max-width: 95vw;
     }
 }
 
 @media only screen and (min-width: 950px) {
     .card {
-        display: flex;
-        height: auto;
-        flex-direction: column;
         max-width: 35vw;
     }
 }
@@ -335,24 +331,16 @@ header {
     letter-spacing: 15px;
 }
 
-section#footer {
-    margin-top: 5vw;
-}
-
-.footer {
+footer {
+    margin-top: auto;
     display: flex;
-    flex-direction: column;
 
     align-items: center;
     justify-content: center;
 
-    height: 100px;
-
+    min-height: 100px;
     width: 100vw;
-    bottom: 0;
 
-    overflow: hidden;
-    
     background-color: #e3e3e3;
 }
 
@@ -391,9 +379,4 @@ section#footer {
   
 #goto-top:hover {
     background-color: #555;
-}
-
-
-.discord-button {
-    background-color:#5865F2;
 }

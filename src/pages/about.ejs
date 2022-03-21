@@ -19,6 +19,9 @@
     </div>
 
     <button onclick="topFunction()" id="goto-top" title="Go to top">Tillbaka till toppen</button>
+
+    
+
     <!-- Fixed position så att menybaren kommer följa med -->
     <header id="mobile">
 <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_mobile_navbar  Lägg till detta mobile navbar -->
@@ -114,28 +117,33 @@
         </div>
     </header>
 
-    <section class="jumbotron">
-        <h1>Bild kanske och logo</h1>
-    </section>
-    
-    <!-- https://app.haikei.app/ -->
-
-    <section class="main-content">
-        <div class="card">
-            <!-- <p>Här kommer listan med produkter komma när du söker i form av "cards"</p> -->
-            <a href="/about/projektplannering.md">projektplannering</a>
-            <a href="/about/dokumentation.md">dokumentation</a>
-            <a id="dark_mode_button" href="javascript:void(0)">darkmode</a>
-            <div id="content"></div>
-        </div>
+    <main>
+        <section class="jumbotron">
+            <h1>Bild kanske och logo</h1>
+        </section>
         
-    </section>
+        <!-- https://app.haikei.app/ -->
     
-    <section id="footer">
-        <div class="footer">
-            <p id="copyright">Copyright &copy; Linus J</p>
-        </div>
-    </section>
+        <section class="main-content">
+            <div class="card">
+                <!-- <p>Här kommer listan med produkter komma när du söker i form av "cards"</p> -->
+                <a href="/about/projektplannering.md">projektplannering</a>
+                <br>
+                <a href="/about/dokumentation.md">dokumentation</a>
+                <a id="dark_mode_button" href="javascript:void(0)">darkmode</a>
+                <div id="content"></div>
+            </div>
+            
+        </section>
+        
+        <footer>
+            <div>
+                <p id="copyright">Copyright &copy; Linus J</p>
+            </div>
+        </footer>
+    </main>
+    
+
 
     <script src="/scripts/base.js"></script>
     <script src="/scripts/scroll_button.js"></script>
