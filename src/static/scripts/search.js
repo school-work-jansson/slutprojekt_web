@@ -39,23 +39,6 @@ function handleResponnse(responseObject) {
     $(".cards").append(cardsContent)
 }
 
-function generateStars(rating)
-{
-    rating = Math.round(rating)
-    let stars = ""
-    for (let index = 0; index < 5; index++) {
-        // const element = array[index];
-        if (rating > index)
-            stars += `<i class="rating__star fas fa-star"></i>`
-        else
-            stars += `<i class="rating__star far fa-star"></i>`
-    }
-    return stars
-}
-
-
-
-
 $(() => {
     let last_input = ""; // ajabaja
     let low_lim = 1;    
