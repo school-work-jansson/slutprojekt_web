@@ -1,9 +1,15 @@
-
-
-
 function handleResponnse(responseObject) {
-    let cardsContent = "";
 
+    let firstProductImage = (product) => {
+        // Om arrayen av bilder större än 0
+        if (product.pictures.length > 0)
+            return product.pictures[0].url;
+        else 
+            return "https://upload.wikimedia.org/wikipedia/commons/b/ba/No_image_yet2.jpg"
+    }
+    
+    let cardsContent = "";
+    // console.log(responseObject.pictures)
     // itererar igenom hela respons objektet
     for (const key in responseObject) {
         if (Object.hasOwnProperty.call(responseObject, key)) {
@@ -12,8 +18,8 @@ function handleResponnse(responseObject) {
             cardsContent += `
             <div class="card">
                 <div class="card-image">
-                    <a href="#">
-                        <img src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg" crossorigin="anonymous" alt="Picture of product">
+                    <a href="/p?hash=${product.hash}">
+                        <img src="${firstProductImage(product)}" crossorigin="anonymous" alt="Picture of ${product.name}">
                     </a>
                 </div>
                 <div>

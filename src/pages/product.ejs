@@ -48,14 +48,25 @@
                 <div>
                     <div id="product-carousel" class="splide">
                         <div class="splide__track">
+                            <% if (product[0].pictures.length > 0) { %>
                             <ul class="splide__list">
-                                <li class="splide__slide">
+
+                                <% for (let index = 0; index < product[0].pictures.length; index++) { %>
+                                    <li class="splide__slide">
+                                        <img class="product-image" src="<%= product[0].pictures[index].url %>">
+                                    </li>
+                                <% } %>
+                                <!-- <li class="splide__slide">
                                     <img class="product-image" src="https://i0.wp.com/www.webbyfeed.com/wp-content/uploads/2020/08/shrek.jpg">
                                 </li>
                                 <li class="splide__slide">
                                     <img class="product-image" src="https://2.bp.blogspot.com/-Alyh9NCQTgY/VL77pFNp3GI/AAAAAAAAQAU/dk538mjy93g/s1600/14.jpg">
-                                </li>
+                                </li> -->
                             </ul>
+                            <% } else { %>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/No_image_yet2.jpg" crossorigin="anonymous" class="product-image" alt="Picture of <%= product.name %>">
+                            <% } %>
+
                         </div>
                     </div>
                 </div>

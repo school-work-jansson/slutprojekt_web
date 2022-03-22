@@ -35,6 +35,7 @@ class Database {
                 search: "SELECT p.hash, p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
                 get_product: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.product_picture, p.name, p.description FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  ) INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE (p.id = ?)",
                 post_product: "INSERT INTO products (`hash`, `name`, `description`) VALUES (?, ?, ?)",
+                product_pictures: "SELECT url FROM product_pictures WHERE product_id = (SELECT id FROM products WHERE hash = ?)",
                 remove_product: ""
             },
             review: {
@@ -269,8 +270,12 @@ class Product extends Database {
             for (let index = 0; index < result.length; index++) {
                 // console.log(result[index].AverageRating)
                 result[index].AverageRating = Math.round(result[index].AverageRating);
+
+                // Lägg till produktens pictures i "search resulten"
+                result[index].pictures = await this.query(this.queries.product.product_pictures, result[index].hash)
             }
-            
+            console.log(result) 
+
             return result    
         } catch (error) {
             console.log(error)
@@ -314,7 +319,7 @@ class Product extends Database {
             // let result1 = await this.query("INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (?, ?, ?)", [review_object.rating, review_object.title, review_object.content,])
             // let result2 = await this.query("INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() ), (SELECT id FROM products WHERE hash = ?))", [discord_id, review_object.hash])
             result = await this.query(this.queries.review.post_review, [review_object.rating, review_object.title, review_object.content, discord_id, review_object.hash ])
-
+            
             return result;    
         } catch (error) {
             console.log(error)
@@ -335,6 +340,9 @@ class Product extends Database {
             return [fetched_product, return_error]
         }
 
+        fetched_product[0].pictures = await this.query(this.queries.product.product_pictures, hash)
+
+        console.log(fetched_product)
         return [fetched_product, return_error]
 
     }
