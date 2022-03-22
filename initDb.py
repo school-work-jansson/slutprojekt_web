@@ -4,6 +4,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+import requests
+
+
+
 class Database:
     def __init__(self):
         self.db = mysql.connector.connect(
@@ -88,6 +92,17 @@ class DataGeneration:
         self.cursor = self.db.cursor()
 
         self.lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec adipiscing tristique risus nec feugiat in. Maecenas sed enim ut sem viverra aliquet eget. Interdum velit euismod in pellentesque massa placerat. Venenatis urna cursus eget nunc scelerisque viverra mauris. Pretium lectus quam id leo in vitae turpis. Tincidunt vitae semper quis lectus nulla. Faucibus a pellentesque sit amet porttitor eget dolor morbi non. Et odio pellentesque diam volutpat commodo sed egestas. Amet consectetur adipiscing elit pellentesque habitant morbi."""
+        self.imageLinks = self.random_pictures()
+    
+    def random_pictures(self):
+        x = requests.get('https://picsum.photos/v2/list')
+        pictures = []
+        array = x.json()
+
+        for obj in array:
+            pictures.append(obj["download_url"])
+
+        return pictures
 
     def generate_hash(self):
         
@@ -112,7 +127,20 @@ class DataGeneration:
         self.db.commit()
         
         self.cursor.execute("SELECT LAST_INSERT_ID()")
-        return self.cursor.fetchall()[0][0]
+
+        product_id = self.cursor.fetchall()[0][0]
+
+        return product_id
+
+    def insert_product_pictures(self, product_id):
+        image_sql = "INSERT INTO `product_pictures` (`product_id`, `url`) VALUES (%s, %s)"
+        for i in range(random.randrange(0, 5)):
+            url = self.imageLinks[random.randrange(0, len(self.imageLinks) )]
+            values = (product_id, url)
+            print(image_sql, values)
+            self.cursor.execute(image_sql, values)
+            self.db.commit()
+
 
     def create_review(self, rating, review_title, review_content):
         sql = "INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (%s, %s, %s)"
@@ -137,6 +165,8 @@ class DataGeneration:
             product_name = "product " + str(i_product)
             product_desc = "description " + str(i_product) + self.lorem
             product_id = self.create_product(product_name, product_desc)
+
+            self.insert_product_pictures(product_id)
             
             # Varje produkt ska ha 20 reviews
             for i_review in range(20):
