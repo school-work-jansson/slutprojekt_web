@@ -14,6 +14,7 @@ class Database {
             user: process.env.DB_USER,
             password: process.env.DB_PWD,
             database: process.env.DB_NAME,
+            multipleStatements: true
         }
         this.connection = mysql.createConnection(this.options);
 
@@ -38,7 +39,7 @@ class Database {
             },
             review: {
                 get_reviews: "SELECT * FROM reviews WHERE product_hash = ? ",
-                post_review: "START TRANSACTION; INSERT INTO `reviews` (`rating`, `title`, `content`, `created_at`) VALUES (?, ?, ?, ?); INSERT INTO `user_reviews` (`user_id`, `review_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() )); COMMIT;",
+                post_review: "START TRANSACTION; INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (?, ?, ?); INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() ), (SELECT id FROM products WHERE hash = ?)); COMMIT;",
                 remove_review: "",
                 edit_review: ""
             },
@@ -171,19 +172,6 @@ class User extends Database {
         }
     }
 
-    // Behövs dessa?
-    // async login(discord_id, refresh_token) {
-
-
-    // }
-
-
-
-    // logout() {
-
-    // }
-    //
-
     async update_refresh_token(discord_id, refresh_token, valid_until) {
         try {
             // Uppdatera refresh token
@@ -295,7 +283,6 @@ class Product extends Database {
     async post_product(form_body, discord_id) {
         try {
             // post_product: "INSERT INTO products (discord_id, title, content, timestamp) VALUES (?, ?, ?, ?)",
-            
 
             let product_options = [
                 this.generateHash(),
@@ -311,9 +298,31 @@ class Product extends Database {
 
     }
 
-    async post_review(review_object) {
-        let result = 0;
-        return result;
+    async post_review(review_object, discord_id) {
+        // START TRANSACTION; 
+        //     INSERT INTO `reviews` (`rating`, `title`, `content`) 
+        //         VALUES ('5', "Bästa någonsin", ''); 
+        //     INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) 
+        //         VALUES ((SELECT id FROM users WHERE discord_id = '322015089529978880'), (SELECT LAST_INSERT_ID() ), (SELECT id FROM products WHERE hash = 'pckXI3A')); 
+        // COMMIT;
+        console.log(review_object)
+        console.log([parseInt(review_object.rating, 10), review_object.title, review_object.content, review_object.date, discord_id, review_object.hash ])
+
+        let result;
+        try {
+            // START TRANSACTION; INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (?, ?, ?); INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() ), (SELECT id FROM products WHERE hash = ?)); COMMIT;
+            // let result1 = await this.query("INSERT INTO `reviews` (`rating`, `title`, `content`) VALUES (?, ?, ?)", [review_object.rating, review_object.title, review_object.content,])
+            // let result2 = await this.query("INSERT INTO `product_reviews` (`user_id`, `review_id`, `product_id`) values ((SELECT id FROM users WHERE discord_id = ?), (SELECT LAST_INSERT_ID() ), (SELECT id FROM products WHERE hash = ?))", [discord_id, review_object.hash])
+            result = await this.query(this.queries.review.post_review, [review_object.rating, review_object.title, review_object.content, discord_id, review_object.hash ])
+
+            return result;    
+        } catch (error) {
+            console.log(error)
+            return null 
+        }
+        
+
+        
     }
 
     async fetch_product(hash) {

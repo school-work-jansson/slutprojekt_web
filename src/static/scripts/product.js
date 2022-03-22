@@ -91,87 +91,53 @@ function update_preview_stars(rating)
 
 }
 
-function handleResponse(responseObject) {
-    let cardsContent = "";
-    console.log(responseObject)
-
-    responseObject.reviews.forEach(element => {
-        cardsContent += `
-            <div class="card">
-                <div>
-                    <div class="card-title">
-                        <h1 id="review-title" >${element.title}</h1> 
-                    </div>
-                    <div class="average-rating">
-                        ${generateStars(element.rating)}
-                        <span>${ element.rating }/5</span>
-                        <span id="review-date">${element.created_at}</span>
-                        <span id="review-name">${element.nickname}</span>
-                    </div>
-                    <div class="description">
-                        <p> ${ element.content } </p>
-                    </div>
-                </div>
-            </div> 
-            `
-    });
-
-    // Gamla card diven med data
-    // <div class="review-card">
-    //         <h1 id="review-title"><%= reviews[key].title %></h1> 
-    //         <div class="average-rating">
-    //             <i class="rating__star far fa-star"></i>
-    //             <i class="rating__star far fa-star"></i>
-    //             <i class="rating__star far fa-star"></i>
-    //             <i class="rating__star far fa-star"></i>
-    //             <i class="rating__star far fa-star"></i>
-    //             <span><%= reviews[key].rating %>/5</span>
-    //         </div>
-    //         <span id="review-name"><%= reviews[key].nickname %></span>
-    //         <span id="review-date"><%= reviews[key].created_at %></span>
-    //         <p id="review-content"><%= reviews[key].content %></p>                
-    // </div> 
-
-
-    // Pushar till cards div
-    $(".cards").append(cardsContent)
-}
-
 function post_review(review) {
     // $.ajax()
-    $.post("/api/post_review", review)
-    console.log(review)
+    let validated = validateReviewForm()
+    
+    if (!validated[0]) return $("#submit_result").html(`<h3>${validated[1]}<h3>`);
+
+    $.ajax({
+        url: `/api/post_review`,
+        type: 'POST',
+        data: review,
+        dataType: 'JSON', // Hämta data i JSON format
+        async: false,
+        success: (res) => {
+            console.log("post result", res)
+            if (res)
+                $("#submit_result").html(`<h3>Din recenssion är inskickad!<h3>`)
+            else
+                $("#submit_result").html(`<h3>Tyvärr var det något som inte riktigt fungerade där. Pröva gärna lite senare!<h3>`)
+        }
+    });
+
 }
 
 function getDate() {
     return new Date().toISOString()
 }
 
-let review_object = {
-    title: "",
-    content: "",
-    name: "",
-    date: getDate(),
-    rating: 0
+function validateReviewForm() {
+    if (review_object.title.length < 1)
+        return [false, "Du behöver ange en title"]
+    
+    return [true, null]
+
 }
 
-function generateStars(rating)
-{
-    rating = Math.round(rating)
-    let stars = ""
-    for (let index = 0; index < 5; index++) {
-        // const element = array[index];
-        if (rating > index)
-            stars += `<i class="rating__star fas fa-star"></i>`
-        else
-            stars += `<i class="rating__star far fa-star"></i>`
-    }
-    return stars
-}
 
 let productHash = () => {
     const params = new URLSearchParams(window.location.search);
     return params.get("hash");
+}
+
+let review_object = {
+    hash: productHash(),
+    title: "",
+    content: "",
+    date: getDate(),
+    rating: 0
 }
 
 function initial_reviews() {
@@ -180,7 +146,7 @@ function initial_reviews() {
         type: 'GET',
         dataType: 'json', // Hämta data i JSON format
         async: false,
-        success: (res) => {handleResponse(res)}
+        success: (res) => {console.log(res);handleReviewResponse(res);}
         // success: (res) => {
         //     result = res;
         // } 
@@ -189,6 +155,9 @@ function initial_reviews() {
 
 
 $(() => {
+
+
+
     handle_review_form()
 
     let low_lim = 0;
@@ -213,7 +182,7 @@ $(() => {
             high_lim += 10;
         }
     
-        handleResponse(result)
+        handleReviewResponse(result)
         
 
     });

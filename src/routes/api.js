@@ -94,31 +94,21 @@ router.post("/toggleDarkmodeSetting", (req, res) => {
 
 
 router.post("/post_review", session_check, async (req, res) => {
-    console.log("review data: ", req.body)
-    
     const pr = new Product()
-
-    res = await pr.post_review(req.body)
-
-    console.log(res)
-
+    let result = await pr.post_review(req.body, req.session.client_data.id)
+    return res.send(result.length > 0)
 });
 
 router.post('/pagnition_search', async (req, res) => {
     // console.log(req.body)
 
     switch (req.body.type) {
+        // Pagnation för sökresultat på huvudsidan
         case "product":
                 try {
                 
                     let product = new Product();
                     let result = await product.search(req.body.search_query, req.body.low_lim, req.body.high_lim);
-                    
-                    console.log("result from search with pagnition" , req.body.low_lim, req.body.high_lim )
-                    result.forEach(result => {
-                        console.log(result.hash)
-                    });
-
 
                     return res.send(result);        
                 } catch (error) {
@@ -127,23 +117,29 @@ router.post('/pagnition_search', async (req, res) => {
                 }
                 
             break;
-        
+        // Pagnation för reviews på en profil
         case "review":
             try {
                 let user = new User(req.session.client_data.id)
                 let user_reviews = await user.get_user_reviews(req.body.low_lim, req.body.high_lim)
+                
+                // DEBUG
+                // console.log(req.body.low_lim, req.body.high_lim)
 
-                return res.send(user_reviews)
+                return res.send({reviews: user_reviews})
             } catch (error) {
                 console.log(error);
                 return res.send(error);
             }
             break;
-
+        // pagnation för reviews på en produkt
         case "product_review":
             try {
                 let product = new Product();
                 let [fetched_reviews, review_error] = await product.fetch_product_reviews(req.body.search_query, req.body.low_lim, req.body.high_lim);
+                // DEBUG
+                // console.log(req.body.low_lim, req.body.high_lim)
+                
                 res.send({reviews: fetched_reviews});
                 
             } catch (error) {
@@ -180,12 +176,12 @@ router.get('/p_raw', async (req, res) => {
 });
 
 
-router.get('/get_user_reviews', async (req, res) => {
+router.get('/get_user_reviews', async (req, res, next) => {
     try {
         let user = new User(req.session.client_data.id)
         let user_reviews = await user.get_user_reviews()
     
-        res.status(202).send(user_reviews)    
+        res.status(202).send({reviews: user_reviews})    
     } catch (error) {
         console.log(error);
         return next(error);

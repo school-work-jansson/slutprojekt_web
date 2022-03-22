@@ -82,25 +82,15 @@
     
             <% if (user) { %>
             <div class="">
-                <a class="popup-button">Skriv en review!</a>
+                <a class="popup-button">Vad tycker du om <%= product[0].name %>?</a>
             </div>  
     
             <div class="popup-background">
                 <span class="helper"></span>
                 <div class="popup-window">
                     <div class="close-popup-button">&times;</div>
-                    <p>Skriv en review</p>
+                    <!-- <p></p> -->
                     <div id="review-form">
-                          
-                        <input type="text" id="title" placeholder="Title" class="review-input">
-                        <input type="text" id="name" placeholder="Name" class="review-input">
-                        <textarea cols="60" rows="10" id="content" placeholder="Content" class="review-input"></textarea>
-
-                        <!-- 
-                            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
-                            https://www.w3schools.com/howto/howto_css_star_rating.asp
-                        -->
-                
                         <div class="rating">
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
@@ -108,13 +98,19 @@
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
                         </div>
-                
+                        <input type="text" id="title" placeholder="Title" class="review-input">
+                        <textarea cols="60" rows="10" id="content" placeholder="Content" class="review-input"></textarea>
+
+                        <!-- 
+                            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
+                            https://www.w3schools.com/howto/howto_css_star_rating.asp
+                        -->
                         <input type="submit" id="send_review_button" value="Submit">
-                        
+                        <div id="submit_result"></div>
                     </div>
-                    <p>Förhandsvisning</p>
                     
                     <!-- Formatering ? -->
+                    <p>Förhandsvisning</p>
 
                     <div class="card">
                         <h1 id="preview-title"></h1> 
