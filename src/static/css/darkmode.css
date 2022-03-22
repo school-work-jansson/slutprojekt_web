@@ -38,3 +38,11 @@ header.dark-mode {
     color: whitesmoke;
     border-color: whitesmoke;
 }
+
+.popup-window.dark-mode {
+    background-color: #12151c;
+
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
