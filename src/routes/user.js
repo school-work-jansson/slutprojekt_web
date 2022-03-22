@@ -156,9 +156,9 @@ router.get('/profile', session_check, async (req, res) => {
     console.log(req.session.client_data)
     let user = new User(req.session.client_data.id)
 
-    let user_reviews = await user.get_user_reviews()
-    console.log(user_reviews)
-    res.render("profile", {user: req.session.client_data, reviews: user_reviews})
+    // let user_reviews = await user.get_user_reviews()
+    // console.log(user_reviews)
+    res.render("profile", {user: req.session.client_data})
 
     
     console.log(await user.get_refresh_token(req.session.client_data.id))

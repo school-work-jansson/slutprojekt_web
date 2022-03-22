@@ -35,29 +35,12 @@
                 <div>
                     <h1>Här har du dina postade reviews</h1>
                 </div>
-    
-                <% for (const key in reviews) { %>
-                
-                    <div class="card">
-                        <div>
-                            <div class="card-title">
-                                <h1><a href="#"><%= reviews[key].title %></a></h1> 
-                            </div>
-                            <div class="average-rating">
-                                <i class="rating__star far fa-star"></i>
-                                <i class="rating__star far fa-star"></i>
-                                <i class="rating__star far fa-star"></i>
-                                <i class="rating__star far fa-star"></i>
-                                <i class="rating__star far fa-star"></i>
-                                <span><%= reviews[key].rating %>/5</span>
-                            </div>
-                            <div class="description">
-                                <p><%= reviews[key].content %></p>
-                                <a href="#">Visa produkt...</a>
-                            </div>
-                        </div>
-                    </div> 
-                <% } %>
+
+                <div class="cards"></div>
+
+                <div class="pagnition">
+                    <a href="javascript:void(0)" class="pagnition_button">Visa Mer!</a>
+                </div>
                 
             </div>
     
@@ -95,10 +78,8 @@
         
     </main>
 
-
-
-    
     <script src="/scripts/base.js"></script>
+    <script src="/scripts/profile.js"></script>
     <script src="/scripts/scroll_button.js"></script>
     <script src="/scripts/copyright.js"></script>
     <script src="/scripts/darkmode.js"></script>

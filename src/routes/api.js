@@ -39,6 +39,8 @@ router.delete('/remove_user', session_check, (req, res) => {
     res.redirect('index');
 })
 
+
+
 router.post('/search', async (req, res) => {
     try {
 
@@ -127,7 +129,15 @@ router.post('/pagnition_search', async (req, res, next) => {
             break;
         
         case "review":
+            try {
+                let user = new User(req.session.client_data.id)
+                let user_reviews = await user.get_user_reviews(req.body.low_lim, req.body.high_lim)
 
+                return res.send(user_reviews)
+            } catch (error) {
+                console.log(error);
+                return next(error);
+            }
             break;
 
         default:
@@ -136,6 +146,21 @@ router.post('/pagnition_search', async (req, res, next) => {
     }    
 
     
+});
+
+
+router.get('/get_user_reviews', async (req, res) => {
+    try {
+        let user = new User(req.session.client_data.id)
+        let user_reviews = await user.get_user_reviews()
+    
+        res.status(202).send(user_reviews)    
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+    
+
 })
 
 export {router as apiRoute}

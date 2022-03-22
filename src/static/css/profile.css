@@ -16,6 +16,13 @@
     /* justify-content: center;  */
 }
 
+.review-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @media only screen and (min-width: 950px) {
     
     #profile-card {

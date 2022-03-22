@@ -105,7 +105,7 @@ $(() => {
         if (result.length > 0)
         {
             low_lim = high_lim + 1;
-            high_lim += 2;
+            high_lim += 5;
         }
             
     
