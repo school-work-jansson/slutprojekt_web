@@ -52,5 +52,5 @@ CREATE TABLE `reports` (
 CREATE TABLE `product_pictures` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `product_id` int NOT NULL REFERENCES products(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  `picture` varchar(255)
+  `url` MEDIUMTEXT NOT NULL
 );
