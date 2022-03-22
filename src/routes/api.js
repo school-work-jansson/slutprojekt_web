@@ -40,12 +40,18 @@ router.delete('/remove_user', session_check, (req, res) => {
 })
 
 router.post('/search', async (req, res) => {
-    // res.send("Recieved");
+    try {
 
-    let product = new Product();
-    // console.log(req.body)
-    let result = await product.search(req.body.seach_query);
-    return res.send(result);
+        let product = new Product();
+        
+        let result = await product.search(req.body.seach_query);
+
+        return res.send(result);    
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error)
+    }
+    
     
 })
 
@@ -95,5 +101,41 @@ router.post("/post_review", session_check, async (req, res) => {
     console.log(res)
 
 });
+
+router.post('/pagnition_search', async (req, res, next) => {
+    // console.log(req.body)
+
+    switch (req.body.type) {
+        case "product":
+                try {
+                
+                    let product = new Product();
+                    let result = await product.search(req.body.search_query, req.body.low_lim, req.body.high_lim);
+                    
+                    console.log("result from search with pagnition" , req.body.low_lim, req.body.high_lim )
+                    result.forEach(result => {
+                        console.log(result.hash)
+                    });
+
+
+                    return res.send(result);        
+                } catch (error) {
+                    console.log(error);
+                    return next(error);
+                }
+                
+            break;
+        
+        case "review":
+
+            break;
+
+        default:
+            return res.status(500).next("Pagnation error")
+            break;
+    }    
+
+    
+})
 
 export {router as apiRoute}

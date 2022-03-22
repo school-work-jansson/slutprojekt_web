@@ -28,7 +28,7 @@ class Database {
                 update_user: "UPDATE users SET nickname = COALESCE(NULLIF(?, ''), nickname), email = COALESCE(NULLIF(?, ''), email) WHERE discord_id = ?",
                 update_refresh_token: "UPDATE users SET refresh_token = ?, refresh_valid_until = ? WHERE discord_id = ?",
                 get_refresh_token: "SELECT refresh_token, refresh_valid_until FROM users WHERE discord_id = ?",
-                get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?)"
+                get_user_reviews: "SELECT u.profile_picture, u.nickname, r.rating, r.title, r.content, r.created_at, p.name FROM product_reviews pr INNER JOIN users u ON ( pr.user_id = u.id  )  INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN products p ON ( pr.product_id = p.id  )  WHERE (SELECT id FROM users WHERE discord_id = ?) LIMIT ? OFFSET ?"
             },
             product: {
                 search: "SELECT p.hash, p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE (p.name = ? OR p.description = ?) GROUP BY p.id LIMIT ? OFFSET ?;",
@@ -230,11 +230,8 @@ class User extends Database {
         fetched_product = await this.query(`UPDATE products FROM products WHERE hash = ?`, [hash])
     }
 
-    async get_user_reviews() {
-        let fetched_reviews = await this.query(this.queries.user.get_user_reviews, [this.discord_Id])
-
-        // DEBUG
-        // console.log(fetched_reviews)
+    async get_user_reviews(low_lim = 0, high_lim = 10) {
+        let fetched_reviews = await this.query(this.queries.user.get_user_reviews, [this.discord_Id, parseInt(high_lim, 10), parseInt(low_lim, 10)])
 
         return fetched_reviews;
     }
@@ -275,16 +272,23 @@ class Product extends Database {
         return hash
     }
 
-    async search(search, high_lim = 20, low_lim = 0) {
-        let result = await this.query(this.queries.product.search, [search, search,  high_lim, low_lim])
+    async search(search_query, low_lim = 0, high_lim = 1) {
+        try {
+            // console.log(this.queries.product.search, [search_query, search_query,  parseInt(high_lim, 10), parseInt(low_lim, 10)])
+            let result = await this.query(this.queries.product.search, [search_query, search_query,  parseInt(high_lim, 10), parseInt(low_lim, 10)])
         
-        // Avrunda upp "ALLA" resultat då inte stjärnorna visas i halva
-        for (let index = 0; index < result.length; index++) {
-            // console.log(result[index].AverageRating)
-            result[index].AverageRating = Math.round(result[index].AverageRating);
+            // Avrunda upp "ALLA" resultat då inte stjärnorna visas i halva
+            for (let index = 0; index < result.length; index++) {
+                // console.log(result[index].AverageRating)
+                result[index].AverageRating = Math.round(result[index].AverageRating);
+            }
+            
+            return result    
+        } catch (error) {
+            console.log(error)
+            return -1
         }
         
-        return result
         
     }
 
