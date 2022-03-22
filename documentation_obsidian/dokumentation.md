@@ -105,6 +105,9 @@ Idag så har jag hållt på lite med SQL queries som körs när användaren sök
 **21 / 03 / 22 -**
 	Nu har jag fixat lite små buggar jag har även lagt till funktionen att man blir tillbaka skickad till den sidan man var på när man antingen loggar in eller ut så att man inte behöver navigera sig själv tillbaka till den sidan man var på. Jag upptäckte även under utveckling av min "about"  sida att Footern endast tryckts ner tidigare av innehållet. Vilket orsakade att ifall det var för lite innehåll på sidan så trycktes footern uppåt. Detta löste jag genom att lägga in mina tre huvud innehåll (headern, main-content och footern) i ett  main element. Detta för att göra det elementet till 100vh och göra en margin top: auto på min footer för att trycka ner den. En till bugg jag även hittat var att jag endast hade angett att det första sök resultatets "average rating" skulle avrundas. Vilket nu är fixat genom att loopa igenom hela resultatet från databasen och ändra varje columns average rating.
 
+**22 / 03 / 22 -**
+Idag så har jag spenderat tid på att få Pagnation att fungera. Detta var nu något jag prioterade eftersom att jag insåg att när jag hade lagt in mängder med test data så tog det väldigt lång tid att ladda in sidan. Detta görs genom att skicka in en high_limit och low_limit till databasen med mysql's funktion Limit och offset som skickar tillbaka en viss mängd data med ett specifierad start index (offset). På så sätt kan jag hålla koll på dessa i frontend och sedan incrementa dem när jag väll klickar på visa mer knappen
+
 
 **1.1 Ändringar utifrån planeringen**
 
