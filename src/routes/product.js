@@ -4,33 +4,19 @@ import { session_check, save_last_site_visited } from "../middleware";
 
 const router = express.Router()
 
-router.get('/:hash', async (req, res, next) => {
-    
-    if (!req.params.hash) return next("No product");
+router.get('/', async (req, res, next) => {
+    // ?hash={hash}
+    if (!req.query.hash) return next("No product");
 
     let product = new Product();
-    let [fetched_product, fetched_reviews, error] = await product.fetch(req.params.hash);
-    
-    if (error) return next(error);
 
-    // console.log({product: fetched_product,  reviews: fetched_reviews});
+    let [fetched_product, product_error] = await product.fetch_product(req.query.hash);
+    let [fetched_reviews, review_error] = await product.fetch_product_reviews(req.query.hash);
+    
+    if (product_error) return next(product_error);
+    else if (review_error) return next(review_error);
+
     res.render('product', {user: req.session.client_data, product: fetched_product,  reviews: fetched_reviews})
-    // res.render('product', {product: fetched_product, reviews: fetched_reviews})
-})
-
-// Ifall man skulle vilja se rådatan så kan man lägga till /raw för att endast se objektet och inte någon html
-router.get('/:hash/raw', async (req, res) => {
-    
-    if (!req.params.hash) return next("No product");
-
-    let product = new Product();
-    let [fetched_product, fetched_reviews, error] = await product.fetch(req.params.hash);
-    
-    if (error != null) return next(error);
-    
-    // console.log({product: fetched_product,  reviews: fetched_reviews});
-    res.send({user: req.session.client_data, product: fetched_product,  reviews: fetched_reviews})
-    // res.render('product', {product: fetched_product, reviews: fetched_reviews})
 })
 
 router.post('/post_product', session_check, async (req, res) => {

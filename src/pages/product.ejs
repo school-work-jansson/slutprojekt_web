@@ -90,17 +90,11 @@
                     <div class="close-popup-button">&times;</div>
                     <p>Skriv en review</p>
                     <div id="review-form">
-                        <!-- 
-                            Om det användaren skickar är identiskt till något som redan är publicerat så ska det flaggas
-                            Om användaren använder massa svordommar i sin text så bör den också flaggas automatiskt
-                
-                            Om någonting flaggas så ska den inte publiceras utan den ska bli manuellt accepterad av en admin
-                            Detta fungerar inte för på en skalad nivå, tex om sidan skulle få 200.000 dagliga användare
-                          -->
                           
                         <input type="text" id="title" placeholder="Title" class="review-input">
                         <input type="text" id="name" placeholder="Name" class="review-input">
                         <textarea cols="60" rows="10" id="content" placeholder="Content" class="review-input"></textarea>
+
                         <!-- 
                             https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
                             https://www.w3schools.com/howto/howto_css_star_rating.asp
@@ -118,7 +112,9 @@
                         
                     </div>
                     <p>Förhandsvisning</p>
-                <!-- Formatering ? -->
+                    
+                    <!-- Formatering ? -->
+
                     <div class="card">
                         <h1 id="preview-title"></h1> 
                         <div class="rating">
@@ -136,34 +132,17 @@
     
             </div>
             <% } %>
-            <div class="review-cards">
-            <% for (const key in reviews) { %>
-    
-                <div class="review-card">
-                    <h1 id="review-title"><%= reviews[key].title %></h1> 
-                    <div class="average-rating">
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <i class="rating__star far fa-star"></i>
-                        <span><%= reviews[key].rating %>/5</span>
-                    </div>
-                    <span id="review-name"><%= reviews[key].nickname %></span>
-                    <span id="review-date"><%= reviews[key].created_at %></span>
-                    <p id="review-content"><%= reviews[key].content %></p>                
-                </div> 
-                
-            <% } %>
-            </div>
+
+            <!-- Fylls  av product.js -->
+            <div class="cards"></div>
     
             <div class="pagnition">
                 <!-- Pagnition [Show more] -->
-                <a href="javascript:void(0)" onclick="more_reviews(10)" class="pagnition_button">Visa Mer!</a>
+                <a href="javascript:void(0)" class="pagnition_button">Visa Mer!</a>
             </div>
         </section>
         
-        <footer id="footer">
+        <footer>
             <div>
                 <p id="copyright">Copyright &copy; Linus J</p>
             </div>

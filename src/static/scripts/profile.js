@@ -13,8 +13,9 @@ function handleResponnse(responseObject) {
                         <h1><a href="#">${review.title}</a></h1> 
                     </div>
                     <div class="average-rating">
-                    ${generateStars(review.rating)}
+                        ${generateStars(review.rating)}
                         <span>${ review.rating }/5</span>
+                        <span id="review-date">${reviews[key].created_at}</span>
                     </div>
                     <div class="description">
                         <p> ${ review.content } </p>
@@ -22,6 +23,24 @@ function handleResponnse(responseObject) {
                     </div>
                 </div>
             </div> 
+
+
+
+            // <div class="review-card">
+            //         <h1 id="review-title"><%= reviews[key].title %></h1> 
+            //         <div class="average-rating">
+            //             <i class="rating__star far fa-star"></i>
+            //             <i class="rating__star far fa-star"></i>
+            //             <i class="rating__star far fa-star"></i>
+            //             <i class="rating__star far fa-star"></i>
+            //             <i class="rating__star far fa-star"></i>
+            //             <span><%= reviews[key].rating %>/5</span>
+            //         </div>
+            //         <span id="review-name"><%= reviews[key].nickname %></span>
+            //         <span id="review-date"><%= reviews[key].created_at %></span>
+            //         <p id="review-content"><%= reviews[key].content %></p>                
+            // </div> 
+
             `
             console.log(review, key)
             
@@ -66,8 +85,7 @@ $(()  => {
     initial_reviews()
 
     $('.pagnition_button').click(() => {
-        let search_value = $('#search-input').val();
-        let result = pagination(null, low_lim, high_lim, "review");
+        let result = pagination(null, low_lim, high_lim, "product_review");
 
         // Om jag får tillbaka något resultat så vill jag öka pagnition low_lim 
         if (result.length > 0)

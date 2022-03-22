@@ -91,6 +91,52 @@ function update_preview_stars(rating)
 
 }
 
+function handleResponse(responseObject) {
+    let cardsContent = "";
+    console.log(responseObject)
+
+    responseObject.reviews.forEach(element => {
+        cardsContent += `
+            <div class="card">
+                <div>
+                    <div class="card-title">
+                        <h1 id="review-title" >${element.title}</h1> 
+                    </div>
+                    <div class="average-rating">
+                        ${generateStars(element.rating)}
+                        <span>${ element.rating }/5</span>
+                        <span id="review-date">${element.created_at}</span>
+                        <span id="review-name">${element.nickname}</span>
+                    </div>
+                    <div class="description">
+                        <p> ${ element.content } </p>
+                    </div>
+                </div>
+            </div> 
+            `
+    });
+
+    // Gamla card diven med data
+    // <div class="review-card">
+    //         <h1 id="review-title"><%= reviews[key].title %></h1> 
+    //         <div class="average-rating">
+    //             <i class="rating__star far fa-star"></i>
+    //             <i class="rating__star far fa-star"></i>
+    //             <i class="rating__star far fa-star"></i>
+    //             <i class="rating__star far fa-star"></i>
+    //             <i class="rating__star far fa-star"></i>
+    //             <span><%= reviews[key].rating %>/5</span>
+    //         </div>
+    //         <span id="review-name"><%= reviews[key].nickname %></span>
+    //         <span id="review-date"><%= reviews[key].created_at %></span>
+    //         <p id="review-content"><%= reviews[key].content %></p>                
+    // </div> 
+
+
+    // Pushar till cards div
+    $(".cards").append(cardsContent)
+}
+
 function post_review(review) {
     // $.ajax()
     $.post("/api/post_review", review)
@@ -101,8 +147,6 @@ function getDate() {
     return new Date().toISOString()
 }
 
-
-
 let review_object = {
     title: "",
     content: "",
@@ -111,10 +155,44 @@ let review_object = {
     rating: 0
 }
 
+function generateStars(rating)
+{
+    rating = Math.round(rating)
+    let stars = ""
+    for (let index = 0; index < 5; index++) {
+        // const element = array[index];
+        if (rating > index)
+            stars += `<i class="rating__star fas fa-star"></i>`
+        else
+            stars += `<i class="rating__star far fa-star"></i>`
+    }
+    return stars
+}
+
+let productHash = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("hash");
+}
+
+function initial_reviews() {
+    $.ajax({
+        url: `/api/p_raw?hash=${productHash()}`,
+        type: 'GET',
+        dataType: 'json', // Hämta data i JSON format
+        async: false,
+        success: (res) => {handleResponse(res)}
+        // success: (res) => {
+        //     result = res;
+        // } 
+    });
+}
+
 
 $(() => {
     handle_review_form()
 
+    let low_lim = 0;
+    let high_lim = 10;
     
     $(".popup-button").click( () => {
         $('.popup-background').show();
@@ -122,5 +200,23 @@ $(() => {
     $('.close-popup-button').click( () => {
         $('.popup-background').hide();
     });
+
+    initial_reviews()
+
+    $('.pagnition_button').click(() => {
+        let result = pagination(productHash(), low_lim, high_lim, "product_review");
+
+        // Om jag får tillbaka något resultat så vill jag öka pagnition low_lim 
+        if (result.reviews.length > 0)
+        {
+            low_lim = high_lim + 1;
+            high_lim += 10;
+        }
+    
+        handleResponse(result)
+        
+
+    });
+
     
 })

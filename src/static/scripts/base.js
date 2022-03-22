@@ -15,7 +15,8 @@ function navbar_button(){
 let pagination_type = (type_of_pagnition) => {        
     type = {
         review: "review",
-        product: "product"
+        product: "product",
+        product_review: "product_review"
     }
     return type[type_of_pagnition]
 }

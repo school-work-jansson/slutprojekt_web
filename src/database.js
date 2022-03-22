@@ -316,27 +316,43 @@ class Product extends Database {
         return result;
     }
 
-    async fetch(hash) {
-        let fetched_product, fetched_reviews, return_error;
+    async fetch_product(hash) {
+        let fetched_product, return_error;
         fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
 
-        if (!fetched_product[0])
+        if (fetched_product.length < 1)
         {
             return_error = "Product does not exist"
-            return [fetched_product, fetched_reviews, return_error]
+            return [fetched_product, return_error]
         }
 
-        // SELECT r.rating, r.title, r.content, r.created_at, 
-        //           u.profile_picture, u.is_moderator, u.nickname
-        // FROM product_reviews pr 
-        //     INNER JOIN reviews r ON ( pr.review_id = r.id  )  
-        //      INNER JOIN users u ON ( pr.user_id = u.id)
-        // WHERE pr.product_id = 100
+        return [fetched_product, return_error]
 
-        fetched_reviews = await this.query(`SELECT r.rating, r.title, r.content, r.created_at, u.profile_picture, u.is_moderator, u.nickname FROM product_reviews pr INNER JOIN reviews r ON ( pr.review_id = r.id  ) INNER JOIN users u ON ( pr.user_id = u.id) WHERE pr.product_id = ?`, fetched_product[0].product_id)
+    }
 
-        return [fetched_product, fetched_reviews, return_error]
+    async fetch_product_reviews(hash, low_lim=0, high_lim=10) {
+        try {
+            let fetched_reviews, return_error;
+            // SELECT r.rating, r.title, r.content, r.created_at, 
+            //           u.profile_picture, u.is_moderator, u.nickname
+            // FROM product_reviews pr 
+            //     INNER JOIN reviews r ON ( pr.review_id = r.id  )  
+            //      INNER JOIN users u ON ( pr.user_id = u.id)
+            //      INNER JOIN products p ON (pr.product_id = p.id)
+            // WHERE p.hash = "03jk55b";
+            
+            fetched_reviews = await this.query(`SELECT r.rating, r.title, r.content, r.created_at, u.profile_picture, u.is_moderator, u.nickname FROM product_reviews pr INNER JOIN reviews r ON ( pr.review_id = r.id  )  INNER JOIN users u ON ( pr.user_id = u.id) INNER JOIN products p ON (pr.product_id = p.id) WHERE p.hash = ?  GROUP BY pr.id LIMIT ? OFFSET ?`, [hash,  parseInt(high_lim, 10), parseInt(low_lim, 10)])
+            
+            if(fetched_reviews.length < 1)
+            {
+                return_error = "No reviews on this product"
+            }
 
+            return [fetched_reviews, return_error]
+            
+        } catch (error) {
+            
+        }
     }
 
 

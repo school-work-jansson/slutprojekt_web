@@ -104,7 +104,7 @@ router.post("/post_review", session_check, async (req, res) => {
 
 });
 
-router.post('/pagnition_search', async (req, res, next) => {
+router.post('/pagnition_search', async (req, res) => {
     // console.log(req.body)
 
     switch (req.body.type) {
@@ -123,7 +123,7 @@ router.post('/pagnition_search', async (req, res, next) => {
                     return res.send(result);        
                 } catch (error) {
                     console.log(error);
-                    return next(error);
+                    return res.send(error);
                 }
                 
             break;
@@ -136,16 +136,47 @@ router.post('/pagnition_search', async (req, res, next) => {
                 return res.send(user_reviews)
             } catch (error) {
                 console.log(error);
-                return next(error);
+                return res.send(error);
             }
             break;
 
+        case "product_review":
+            try {
+                let product = new Product();
+                let [fetched_reviews, review_error] = await product.fetch_product_reviews(req.body.search_query, req.body.low_lim, req.body.high_lim);
+                res.send({reviews: fetched_reviews});
+                
+            } catch (error) {
+                console.log(error);
+                return res.send(error);
+            }
+            break;
+        
+        
         default:
-            return res.status(500).next("Pagnation error")
+            return res.status(500).send("Pagnation error")
             break;
     }    
 
     
+});
+
+// Ifall man skulle vilja se rådatan så kan man lägga till /raw för att endast se objektet och inte någon html
+router.get('/p_raw', async (req, res) => {
+    
+    // Returnera ett tomt objekt ifall det inte specifieras en hash
+    if (!req.query.hash) return res.status(404).send({});
+
+    let product = new Product();
+
+    let [fetched_product, product_error] = await product.fetch_product(req.query.hash);
+    let [fetched_reviews, review_error] = await product.fetch_product_reviews(req.query.hash);
+    
+    if (product_error) return next(product_error);
+    else if (review_error) return next(review_error);
+    
+    // console.log({product: fetched_product,  reviews: fetched_reviews});
+    res.send({product: fetched_product,  reviews: fetched_reviews})
 });
 
 

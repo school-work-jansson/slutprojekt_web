@@ -26,7 +26,7 @@ function handleResponnse(responseObject) {
                     </div>
                     <div class="description">
                         <p>${product.description}</p>
-                        <a href="/p/${product.hash}">Visa mer...</a>
+                        <a href="/p?hash=${product.hash}">Visa mer...</a>
                     </div>
                 </div>
             </div> 
