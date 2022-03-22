@@ -253,6 +253,8 @@ header {
 }
 
 .main-content {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
     display: flex;
     flex-direction: column;
     align-items: center;
