@@ -198,3 +198,36 @@ input {
     }
     
 }
+
+#review-content-div {
+    white-space: normal;
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow: auto;    
+}
+
+.editable:empty:before {
+    content: attr(data-placeholder);
+    opacity: 60%;
+}
+
+#submit-review-button
+{
+    width: 100px;
+    height: 35px;
+    border: none;
+    outline: none;
+    background: #2f2f2f;
+    color: whitesmoke;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 0 6px 20px -5px rgba(0,0,0,0.4);
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#submit-review-button.active
+{
+    background-color: limegreen;
+    transition: 1s;
+}

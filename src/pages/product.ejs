@@ -87,56 +87,41 @@
                 </div>
     
             </div>
-    
-            <% if (user) { %>
-            <div class="">
-                <a class="popup-button">Vad tycker du om <%= product[0].name %>?</a>
-            </div>  
-    
-            <div class="popup-background">
-                <span class="helper"></span>
-                <div class="popup-window">
-                    <div class="close-popup-button">&times;</div>
-                    <!-- <p></p> -->
-                    <div id="review-form">
-                        <div class="rating">
+            
+            <div>
+                <% if (user) { %>
+                    <h3>Vill du betygsätta <%= product[0].name %>?</h3>
+
+                    <div class="card"> 
+                        <!-- Kommer fyllas av response data -->
+                        <div id="submit_result"><span></span></div>
+        
+                        <div>
+                            <!-- https://htmldom.dev/placeholder-for-a-contenteditable-element/ -->
+                            <h1 class="editable" contenteditable="true" id="__review-title" data-placeholder="Titel . . ."></h1>
+                        </div>
+                        <div class="rating" style="user-select: none;">
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
                             <i class="rating__star rating-changable far fa-star"></i>
                         </div>
-                        <input type="text" id="title" placeholder="Title" class="review-input">
-                        <textarea cols="60" rows="10" id="content" placeholder="Content" class="review-input"></textarea>
-
-                        <!-- 
-                            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_star_rating 
-                            https://www.w3schools.com/howto/howto_css_star_rating.asp
-                        -->
-                        <input type="submit" id="send_review_button" value="Submit">
-                        <div id="submit_result"></div>
+                        <div id="review-content-div">
+                            <p class="editable wordwrap" style="max-width:inherit;" contenteditable="true" id="__review-content" data-placeholder="Recenssions innehåll"></p>
+                        </div>
+        
+                        <button id="submit-review-button">
+                            <p>Publicera!</p>
+                        </button>
+        
                     </div>
                     
-                    <!-- Formatering ? -->
-                    <p>Förhandsvisning</p>
+                <% } else { %>
+                    <h3>Logga in för att betygsätta <%= product[0].name %></h3>
+                <% } %>
+            </div>  
 
-                    <div class="card">
-                        <h1 id="preview-title"></h1> 
-                        <div class="rating">
-                            <i class="preview__rating__star far fa-star"></i>
-                            <i class="preview__rating__star far fa-star"></i>
-                            <i class="preview__rating__star far fa-star"></i>
-                            <i class="preview__rating__star far fa-star"></i>
-                            <i class="preview__rating__star far fa-star"></i>
-                        </div>
-                        <span id="preview-name"></span>
-                        <span id="preview-date"></span>
-                        <p id="preview-content"></p>
-                    </div> 
-                </div>
-    
-            </div>
-            <% } %>
 
             <!-- Fylls  av product.js -->
             <div class="cards"></div>

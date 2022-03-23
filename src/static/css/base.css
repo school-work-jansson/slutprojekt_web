@@ -10,6 +10,16 @@
     scroll-behavior: smooth;
 }
 
+/* Prevent contenteditable adding <div> on ENTER */
+*[contenteditable="true"]
+{
+    /* display: inline-block; */
+    white-space: normal;
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
 body {
     overflow-x: hidden;
 }
@@ -38,6 +48,9 @@ a, a:visited {
 
 .fa-star {
     color: #dabd18b2;
+    
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .rating-changable {
@@ -76,13 +89,13 @@ a, a:visited {
   
   /* Safari */
 @-webkit-keyframes spin {
-0% { -webkit-transform: rotate(0deg); }
-100% { -webkit-transform: rotate(360deg); }
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
 }
 
 @keyframes spin {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 header { 
@@ -269,12 +282,13 @@ header {
     height: auto;
     flex-direction: column;
 
-    padding: 10px;
+    padding: 20px;
     
     border-radius: 15px;
 
     margin-top: 25px;
     margin-bottom: 25px;
+
     min-width: 25vw;
     max-width: 100vw;
 
@@ -375,12 +389,12 @@ footer {
 
 .wordwrap
 {
-/* wrap long text and urls */
-/* white-space: pre; CSS 2.0
-white-space: pre-wrap; 
-white-space: pre-line; 
-white-space: -pre-wrap; 
-white-space: -o-pre-wrap; 
-white-space: -moz-pre-wrap; Mozilla */
-word-wrap: break-word; 
+    /* wrap long text and urls */
+    /* white-space: pre; */
+    /* white-space: pre-wrap;  */
+    /* white-space: pre-line;  */
+    /* white-space: -pre-wrap; 
+    white-space: -o-pre-wrap; 
+    white-space: -moz-pre-wrap;  */
+    word-wrap: break-word; 
 } 
