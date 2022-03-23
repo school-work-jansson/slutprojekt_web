@@ -62,6 +62,9 @@ function handle_review_form() {
     let submit_button = $("#submit-review-button");
     let title_element = $('#title, #__review-title')
     let content_element = $("#__review-content");
+    let submit_result = $("#submit_result span");
+
+    let isSent;
 
     // Listner som preventar att titeln blir längre än 55 chars
     $(title_element).on('keydown paste', (event) => { //Prevent on paste as well
@@ -87,31 +90,52 @@ function handle_review_form() {
     /* Användaren klickar på submit */
     submit_button.click(() => {
         console.log("submiting", review_object);
-        submit_button.addClass("active");
-        post_review(review_object)
+        
+
+        let result = post_review(review_object);
+        console.log(result)
+        if (result) {
+
+            submit_button.addClass("active");
+            submit_result.text(`Din recenssion är inskickad!`)
+
+            title_element.prop('contenteditable', false);
+            content_element.prop('contenteditable', false);
+
+            submit_button.prop('disabled', true);
+
+            isSent = result;
+        }
+        else {
+            submit_result.text(`Tyvärr var det något som inte riktigt fungerade där. Pröva gärna lite senare!`)
+        }
+
     })
 
     // på något sätt fungerar detta för att ändra mängden stjärnor
     // När en användare clickar på en stjärna
+    
     $(stars).each((star_index) => {
         $(stars[star_index]).click(() => {
             let i = star_index;
             review_object.rating = (star_index + 1) // Index av den stjärnan som användaren klickar på plus ett
 
-            if ( !$(stars[star_index]).hasClass(star_whole) )
-            {
-                for (i; i >= 0; --i)
-                    $(stars[i]).attr("class", star_whole)
-                
-            }   
-            else {
-                for (i; i < stars.length; i++)
-                    $(stars[i]).attr("class", star_none)
-                
+            if (!isSent) {
+                if ( !$(stars[star_index]).hasClass(star_whole) )
+                {
+                    for (i; i >= 0; --i)
+                        $(stars[i]).attr("class", star_whole)
+                    
+                }   
+                else {
+                    for (i; i < stars.length; i++)
+                        $(stars[i]).attr("class", star_none)
+                    
+                }    
             }
 
-        })
-    })
+        });
+    });
 
 }
 
@@ -119,7 +143,7 @@ function handle_review_form() {
 function post_review(review) {
     // $.ajax()
     let validated = validateReviewForm()
-    
+    let result;
     if (!validated[0]) return $("#submit_result span").text(`${validated[1]}`);
 
     $.ajax({
@@ -130,18 +154,11 @@ function post_review(review) {
         async: false,
         success: (res) => {
             console.log("post result", res)
-            if (res) {
-
-                $("#submit_result span").text(`Din recenssion är inskickad!`)
-                $("#review-form input, #review-form textarea").prop('disabled', true);
-
-            }
-            else {
-                $("#submit_result").html(`<h3>Tyvärr var det något som inte riktigt fungerade där. Pröva gärna lite senare!<h3>`)
-            }
+            result = res
                 
         }
     });
+    return result;
 
 }
 
