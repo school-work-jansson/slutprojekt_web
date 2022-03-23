@@ -95,7 +95,17 @@ router.post("/toggleDarkmodeSetting", (req, res) => {
 
 router.post("/post_review", session_check, async (req, res) => {
     const pr = new Product()
+    
+
+    // Kolla när användaren senast lagt upp en review med hashen av produkten
+    // Har det gått en viss tid sen användaren postat sist på den produkten så kan användaren posta reviewn
+    // Detecta "repeating" karaktärer, Kolla så att längden av titlen, och content är kortare än Maximala tillåtna längden i databasen
+    // 
+    
     let result = await pr.post_review(req.body, req.session.client_data.id)
+
+
+
     return res.send(result.length > 0)
 });
 
