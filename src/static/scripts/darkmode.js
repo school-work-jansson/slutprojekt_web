@@ -4,7 +4,7 @@ function set_prefered_darkmode_setting(darkmodeEnabled) {
     if (prefersDarkScheme.matches) {
         // Om datorns har preferenser använd den
         // document.body.classList.add("dark-mode");
-        console.log("Turn on darkmode detection");
+        // console.log("Turn on darkmode detection");
         setDarkMode(true)
 
     } else {
@@ -73,7 +73,7 @@ async function get_dark_mode_setting() {
        } 
     });
 
-    console.log("get_dark_mode_setting result", result);
+    // console.log("get_dark_mode_setting result", result);
 
     return result;
 }
@@ -90,7 +90,7 @@ async function get_dark_mode_setting() {
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
     let observer = new MutationObserver( async (mutations, observer) =>  {
         
-        console.log("DOM change detected", mutations[0], "on website; darkmode options = ", darkmodeEnabled);
+        // console.log("DOM change detected", mutations[0], "on website; darkmode options = ", darkmodeEnabled);
 
         // Ifall knappen själv ändras så ska den inte orsaka en mutation
         if ( mutations[0].target == $("#dark_mode_button")[0] ) return;
