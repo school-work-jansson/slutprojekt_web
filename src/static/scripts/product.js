@@ -1,32 +1,4 @@
-// TODO: Kanske skriva om den här koden va?
-
-function contentEditable() {
-    const ele = document.getElementById('__review-title');
-
-
-
-    // Get the placeholder attribute
-    const placeholder = ele.getAttribute('data-placeholder');
-    $("#__review-title").keypress(() => {
-        if($("#__review-title").text.length >= 10) Event.preventDefault();
-    })
-    
-
-
-
-    // Set the placeholder as initial content if it's empty
-    ele.innerHTML === '' && (ele.innerHTML = placeholder);
-    ele.addEventListener('focus', function (e) {
-        const value = e.target.innerHTML;
-        value === placeholder && (e.target.innerHTML = '');
-    });
-
-    ele.addEventListener('blur', function (e) {
-        const value = e.target.innerHTML;
-        value === '' && (e.target.innerHTML = placeholder);
-    });
-}
-
+/* Kanske användas */
 function validKeycodes(code) {
     switch (code) {
         case 65:
@@ -53,7 +25,6 @@ function validKeycodes(code) {
 
 
 function handle_review_form() {
-    // contentEditable()
 
     /* Star-rating Inspiration (https://codepen.io/Leoschmittk/pen/OJbQBgb) */
     let stars = $('.rating__star.rating-changable').map((_, element) => {return element}).get()    // Mappar alla raiting__star iconerna till en array
@@ -174,14 +145,11 @@ function validateReviewForm() {
 
 }
 
-
-let productHash = () => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("hash");
-}
-
 let review_object = {
-    hash: productHash(),
+    hash: productHash = () => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("hash");
+    },
     title: "",
     content: "",
     date: getDate(),
@@ -194,10 +162,7 @@ function initial_reviews() {
         type: 'GET',
         dataType: 'json', // Hämta data i JSON format
         async: false,
-        success: (res) => {console.log(res);handleReviewResponse(res);}
-        // success: (res) => {
-        //     result = res;
-        // } 
+        success: (res) => {handleReviewResponse(res);}
     });
 }
 
@@ -210,6 +175,7 @@ $(() => {
 
     let low_lim = 0;
     let high_lim = 10;
+    let pagnationResult, pagnationResultOLD;
     
     $(".popup-button").click( () => {
         $('.popup-background').show();
@@ -221,16 +187,18 @@ $(() => {
     initial_reviews()
 
     $('.pagnition_button').click(() => {
-        let result = pagination(productHash(), low_lim, high_lim, "product_review");
+        console.log(low_lim, high_lim)
 
-        // Om jag får tillbaka något resultat så vill jag öka pagnition low_lim 
-        if (result.reviews.length > 0)
-        {
-            low_lim = high_lim + 1;
-            high_lim += 10;
-        }
+        // Om förra gångens resultat är mindre än 1 så returnar vi
+        if (pagnationResultOLD && pagnationResultOLD.reviews.length < 1) return;
+
+        low_lim = high_lim + 1;
+        high_lim += 10;
+
+        pagnationResult = pagination(productHash(), low_lim, high_lim, "product_review");
+        pagnationResultOLD = pagnationResult;
     
-        handleReviewResponse(result)
+        handleReviewResponse(pagnationResult)
         
 
     });
