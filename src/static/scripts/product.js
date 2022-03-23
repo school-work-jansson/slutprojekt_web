@@ -106,7 +106,15 @@ function post_review(review) {
         success: (res) => {
             console.log("post result", res)
             if (res)
+            {
+
                 $("#submit_result").html(`<h3>Din recenssion är inskickad!<h3>`)
+                $("#review-form input, #review-form textarea").prop('disabled', true);
+
+                // setTimeout(() => {
+
+                // }, 5000)
+            }
             else
                 $("#submit_result").html(`<h3>Tyvärr var det något som inte riktigt fungerade där. Pröva gärna lite senare!<h3>`)
         }

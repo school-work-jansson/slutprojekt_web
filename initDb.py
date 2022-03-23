@@ -163,7 +163,7 @@ class DataGeneration:
         # Skapa 100 producter
         for i_product in range(100):
             product_name = "product " + str(i_product)
-            product_desc = "description " + str(i_product) + self.lorem
+            product_desc = "description " + str(i_product) + (self.lorem)
             product_id = self.create_product(product_name, product_desc)
 
             self.insert_product_pictures(product_id)
@@ -173,7 +173,7 @@ class DataGeneration:
                 # rating = random.randrange(0, 5)
                 rating = random.randrange(1, 5)
                 review_title = "review " + str(i_review)
-                review_content = "review desc " + str(i_review) + self.lorem
+                review_content = "review desc " + str(i_review) + (self.lorem * 10000)
                 review_id = self.create_review(rating, review_title, review_content)
 
                 self.create_test_product_reviews(review_id, product_id)

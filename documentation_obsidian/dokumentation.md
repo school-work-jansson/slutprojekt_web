@@ -133,6 +133,10 @@ Under projektets gång så har jag både använt mig utav linting program för b
 Frontenden har jag validerat på w3 schools validator, för html och css validering...
 
 **3.2 Test på personer ur målgruppen**
+Under test ur målgruppen så har jag fokuserat på att testpersonen ska navigera till en specifik sida på hemsidan och göra en viss grej. De ska navigera till produkt 75 och lägga upp en 3 stjärnig review med valfri titel och innehåll. Sedan ska personen även ändra mellan darkmode och lightmode. Personen ska även gå in på profilen och ändra valfria uppgifter till något annat än det är nu. Sedan ska de svara på följande frågor:
+1. Är det något du saknar från funktionalliteten av sidan?
+2. Hur lätt skulle du säga från 1 till 5 att göra testerna du gjorde innan?
+3. Var det något som du uppfattade som oklart hur du skulle göra?
 
 **3.3 Övriga tester**
 
