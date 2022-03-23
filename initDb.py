@@ -173,7 +173,7 @@ class DataGeneration:
                 # rating = random.randrange(0, 5)
                 rating = random.randrange(1, 5)
                 review_title = "review " + str(i_review)
-                review_content = "review desc " + str(i_review) + (self.lorem * 10000)
+                review_content = "review desc " + str(i_review) + (self.lorem)
                 review_id = self.create_review(rating, review_title, review_content)
 
                 self.create_test_product_reviews(review_id, product_id)
