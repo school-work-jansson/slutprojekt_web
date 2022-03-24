@@ -6,6 +6,93 @@
 
 # **1 Utförande**
 
+**1.1 Ändringar utifrån planeringen**
+
+**2** **Funktionalitet**
+
+**3 Testning**
+
+**3.1 Tester i olika webläsare**
+
+**3.2 Validering av koden**
+
+Under projektets gång så har jag både använt mig utav linting program för backend och frontend som talar om ifall det är något slarvfel osv som jag gör. Backenden crashar även (Validera koden på ngt sätt) ifall det är något syntax fel man skrivit.
+
+- https://www.eversql.com/sql-syntax-check-validator/
+
+Frontenden har jag validerat på w3 schools validator, för html och css validering...
+
+**3.2 Test på personer ur målgruppen**
+Under test ur målgruppen så har jag fokuserat på att testpersonen ska navigera till en specifik sida på hemsidan och göra en viss grej. De ska navigera till en produkt och lägga upp en review med valfri titel, innehåll och betygg. Sedan ska personen även ändra mellan darkmode och lightmode. Personen ska även gå in på profilen och ändra valfria uppgifter till något annat än det är nu. Sedan ska de svara på följande frågor:
+	1. Är det något du saknar av funktionaliteten på hemsidan? 
+	2. Hur lätt skulle du säga att göra uppgifterna ovan från 1-5? 
+	3. Var det något som du uppfattade som oklart hur du skulle göra?
+
+##### Person 1
+1. Är det något du saknar från funktionalliteten av sidan?
+	- Mer stabilitet på hemsidan. Mer feedback för vad användaren gör fel, som att man måste vara inloggad för att lämna recensioner. Bättre sök funktion/ett sätt att visa alla produkter. 
+2. Hur lätt skulle du säga från 1 till 5 att göra testerna du gjorde innan?
+	- Den första är omöjlig om man inte vet vad produkterna heter :( resten var ganska intuative, dock så tog det en stund att lista ut att man skulle vara inloggad 
+3. Var det något som du uppfattade som oklart hur du skulle göra?
+	- Sök efter produkt
+
+##### Person 2
+1. Är det något du saknar från funktionalliteten av sidan?
+	- en till sida där man kan se alla produkter för att det är svårt att hitta produkterna om man inte vet vad de heter. 
+2. Hur lätt skulle du säga från 1 till 5 att göra testerna du gjorde innan?
+	- första var svår eftersom man visste inte vad man skulle söka på, så skulle säga en 4 på svårhetsskalan. 
+3. Var det något som du uppfattade som oklart hur du skulle göra?
+	- att logga in för att skriva reviews.
+
+##### Person 3
+1. Är det något du saknar från funktionalliteten av sidan?
+	- Kanske redan nämnts men utveckla sökfunktionen så man kan hitta liknande resultat till den input man angivit
+2. Hur lätt skulle du säga från 1 till 5 att göra testerna du gjorde innan?
+	- Utifrån skalan skulle jag ge hemsidan en 4
+3. Var det något som du uppfattade som oklart hur du skulle göra?
+	- Tydligare knapp för att skapa en recension, och inte en textlänk formulerad som en fråga, lite svårt att fatat först
+
+
+**3.3 Övriga tester**
+
+**3.4 Ändringar utifrån testresultatet**
+Utifrån testet från person 2 och 3, fråga 3 så var det svårt att förstå över hur man skulle skriva en recension. Detta har jag ändrat från en text man klickar på för en popup med formuläret till att man ser formuläret direkt om man är inloggad. Om man inte är inloggad så ser man texten "Du måste logga in för att skriva en produkt"
+
+**4 Lagar och säkerhet**
+
+**4.1 Upphovsrätt och GDPR**
+När användaren loggar in på hemsidan så berättar discord för användaren att servern kommer ha tillgång till användarens, discord användarnamn, epostadress, profilbild och banner. 
+
+Användaren har även full kontroll över sitt användarnamn och epostadress på hemsidan genom att de kan gå in på sin profil och ändra det till önskat alternativ ifall de inte skulle vilja att servern vet dessa. Servern sparar heller inte någon data på användaren vid ändring av dessa information. 
+
+Profilbilden hanteras direkt av discord och sparas heller inte på servern. Ifall användaren skulle vilja ändra denna så kan den ändras på användarens discordprofil.
+
+  
+**4.3 Säkerhet**
+
+Under projektets gång så vägde jag mellan att använda mig av egen lösenord hantering och logga in med en ”third pary” tex Discord eller Google. För att göra sidan mer säker eftersom att jag inte behöver hålla några lösenord säkra och minskar därav risken att konton blir kapade.
+
+
+Vid använding av färdiggjorda bibliotek i backend och gråntent så har jag även använt mig utav öppen källkod vilket ökar trovärdiheten för den kod jag har använt från andra personer. Detta minskar riskan för kryphål eftersom det är så pass många som har laddat ner de bibliotek jag har använt och som även kan flagg till ifall det är något som inte stämmer, tex att det skulle ligga något fult i bakgrunden som skulle skada mitt projekt.
+
+
+
+**5 Utvärdering och reflektion**
+Ett problem som uppstod under projektets gång var med att Discord’s användar ID levereras som 64bitars tal i requesten till discord och detta klarar inte javascript av utan den avrundar vid en specifik storlek på talet, det finns datatypen BigInt i javscript som är gjord för att lösa detta problem men jag fick inte det att fungera. Från den slutsats och tanken att jag inte ville att det skulle på något sätt inte fungera genom att den gör en oönskad avrunding ändå så har jag istället gjort så att jag bara hanterar discord idt som en string/varchar i både databasen och backend för att undvika att det blir något fel. 
+
+**5.1 Projektplaneringen**
+
+**5.2 Möjliga förbättringar**
+
+**5.3 Betyg**
+Utifrån resultatet av projektet så skulle jag säga att jag har uppnått A nivå i både webserverprogramering och webutveckling 2. Då jag både är väldigt nöjd med sidan, då de är responsiva. Allt ifrån att sidan's menybar ändras beroende på storlek på skärmen och att element om positioneras beroende på storlek på skärm. 
+
+Sidan har även egen gjorda skript för att göra användavänligheten bättre och göra sidan mer säker. Till exempel pagnitionfunktionen som gör så att inte användaren laddar in alla "cards" samtidigt utan man klickar på en knapp för att visa mer. Även darkmode funktionen vilket gör att ifall användaren behöver, om de skulle vara i en mörk miljö med lite belyssning till exmpel så underlättar det för ögonen. 
+
+Skripten hjälper även att skydda backend genom att till exmpel låsa formuläret för recenssioner när användaren har publicerat sin recenssion vilket gör att användaren inte kan spamma publicera knappen. Sida skickar inte heller flera requests i sök funktionen om användaren inte ändrar innehållet i sökrutan.
+
+**7 Loggbok**
+
 **12 / 01 / 22 –**
 
 Idag så satt jag och jobbade både på frontend och projektplaneringen. Då jag va lite seg i huvudet så blev det lite blandat. Jag la till lite i projektplaneringen för att komma ihåg ideér jag kom på och kollade lite på sökrutor till insipiraton. Funktionerna / ideérna jag kommit på skulle jag kunna implementera tex avancerad sökning. Men jag vill få in kärnkomponenterna först så som att faktiskt göra sökningar i databasen innan jag lägger till avancerad sökning som jag även inte tror är så jobbigt. Kom även på att jag skulle kunna lägga till en funktion så användaren får välja att göra ett konto som ligger i databasen eller om man vill göra ett konto med hjälp av tex discord eller google som man senare loggar in med. Detta gör det mycket lättare för användaren då de egentligen bara behöver klicka på en knapp för att logga in och jag inte behöver lagra lösenord. Jag har även lagt till en att göra lista på github så jag senare kommer lättare kunna ha koll på vad som jag kommer behöva göra och vad som jag håller på med för bättre koll på projektet.
@@ -115,51 +202,5 @@ Sedan efter la jag även till funktionen för bilder. Rättare sagt, när jag ge
 Vid en vidare utveckling av projektet så skulle man kunna ha en egen server, med frontend och backend för att kunna ladda upp nya produkter istället för ett skript som manuellt genererar data. Eller så lägger man bara till en funktion på den nuvarande sidan för att användare själv skulle kunna lägga upp nya produkter plus recenssioner på dessa produkter. Men i dagsläget så fungerar python skriptet bra för att simulera funktionaliteten. 
 
 
-**1.1 Ändringar utifrån planeringen**
-
-**2** **Funktionalitet**
-
-**3 Testning**
-
-**3.1 Tester i olika webläsare**
-
-**3.2 Validering av koden**
-
-Under projektets gång så har jag både använt mig utav linting program för backend och frontend som talar om ifall det är något slarvfel osv som jag gör. Backenden crashar även (Validera koden på ngt sätt) ifall det är något syntax fel man skrivit.
-
-- https://www.eversql.com/sql-syntax-check-validator/
-
-
-Frontenden har jag validerat på w3 schools validator, för html och css validering...
-
-**3.2 Test på personer ur målgruppen**
-Under test ur målgruppen så har jag fokuserat på att testpersonen ska navigera till en specifik sida på hemsidan och göra en viss grej. De ska navigera till produkt 75 och lägga upp en 3 stjärnig review med valfri titel och innehåll. Sedan ska personen även ändra mellan darkmode och lightmode. Personen ska även gå in på profilen och ändra valfria uppgifter till något annat än det är nu. Sedan ska de svara på följande frågor:
-1. Är det något du saknar från funktionalliteten av sidan?
-2. Hur lätt skulle du säga från 1 till 5 att göra testerna du gjorde innan?
-3. Var det något som du uppfattade som oklart hur du skulle göra?
-
-**3.3 Övriga tester**
-
-**3.4 Ändringar utifrån testresultatet**
-
-**4 Lagar och säkerhet**
-
-**4.1 Upphovsrätt och GDPR**
-
-  
-  
-
-**4.3 Säkerhet**
-
-Under projektets gång så vägde jag mellan att använda mig av egen lösenord hantering och logga in med en ”third pary” tex Discord eller Google. För att göra sidan mer säker eftersom att jag inte behöver hålla några lösenord säkra och minskar därav risken att konton blir kapade.
-
-Backend och frontend så har jag även använt mig utav öppen källkod vilket ökar trovärdiheten för den kod jag har använt från andra personer. Detta minskar riskan för kryphål eftersom det är så pass många som har laddat ner de bibliotek jag har använt och som även kan flagg till ifall det är något som inte stämmer, tex att det skulle ligga något fult i bakgrunden som skulle skada mitt projekt.
-
-**5 Utvärdering**
-- Detta projekt hade ett litet problem med inloggnings funktionen av discord. Javscript har inte stöd för 64Bitars tal vilket discord's användar ID består av. detta gör att jag lätt inte kunde hantera dessa ID's som integers utan var tvungen att lagra dem som antingen BigInt() [vilket jag inte fick att fungera] eller strängar. 
-
-**5.1 Projektplaneringen**
-
-**5.2 Möjliga förbättringar**
-
-**6 Betyg**
+**23 / 03 / 22 -**
+Jag har nu efter feedback från andra ändrat mitt recenssions formulär. Jag hittade att man kunde göra ett element "editable" vilket gjorde det möjligt för mig att göra formuläret mer responsivt och "stylish" mha css. Utöver det så har jag även gjort så att formuläret låser sig när användaren har skickat in en "accepterad" recenssion vilket gör att det inte går att spamma publicera knappen. Jag har även refaktorerat frontend skriptet som hanterar forumläret och ska även fortsätta göra det framöver då det är väldigt mycket spagetti kod som jag skrev i början av projektet som placeholder när jag ville simulera en förhandsvisning av recenssionen, däremot nu när jag har ett contentEditable element så behöver jag inte förhandsvisningen, utan man får en inblick i hur recensionen ser ut när man väll skriver den.
