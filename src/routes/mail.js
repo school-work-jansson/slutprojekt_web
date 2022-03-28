@@ -14,12 +14,9 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-
 router.get('/', (req, res) => { 
-    res.render(`contact`, {})
-
-})
-
+    res.send("Vid kontakt maila: <a href='mailto:linus.jansson2000@gmail.com'>här</a>");
+});
 
 router.post('/send_message', (req, res) => { 
 

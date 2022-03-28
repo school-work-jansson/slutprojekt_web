@@ -275,6 +275,13 @@ header {
     flex: 1;
 }
 
+/* .cards {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
 
 .card {
 
@@ -305,7 +312,7 @@ header {
 
 @media only screen and (max-width: 950px) {
     .card {
-        max-width: 95vw;
+        max-width: 70vw;
     }
 }
 
