@@ -86,6 +86,7 @@ router.get('/login/discord', (req, res) => {
             avatar: loaded_data.profile_picture,
             username: loaded_data.nickname,
             email: loaded_data.email,
+            created_at: loaded_data.created_at
         }
     
         
