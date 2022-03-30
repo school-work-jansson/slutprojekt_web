@@ -214,19 +214,11 @@ class User extends Database {
         }
     }
 
-    async create_user_review(product_hash, content) {
-        // ?? Vad fan gjorde jag här
-        fetched_product = await this.query(`UPDATE products FROM products WHERE hash = ?`, [hash])
-    }
 
     async get_user_reviews(low_lim = 0, high_lim = 10) {
         let fetched_reviews = await this.query(this.queries.user.get_user_reviews, [this.discord_Id, parseInt(high_lim, 10), parseInt(low_lim, 10)])
 
         return fetched_reviews;
-    }
-
-    edit_user_review() {
-
     }
 
     remove_user_review(review_id) {
@@ -243,10 +235,6 @@ class User extends Database {
 class Product extends Database {
     constructor() {
         super()
-    }
-
-    getReviews() {
-
     }
 
     async generateHash() {
