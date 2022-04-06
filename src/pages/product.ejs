@@ -72,12 +72,16 @@
                     <div class="card-stars">
                         <!-- Fixa detta så att det fungerar med average rating osv (Ta från skriptet och ändra ba om det till EJS) --> 
                         <div class="average-rating">
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <i class="rating__star far fa-star"></i>
-                            <span>1/5</span>
+
+                        <% for (let index = 0; index < 5; index++) { %>
+                            <% if (product[0].AverageRating > index) { %>
+                                <i class="rating__star fas fa-star"></i>
+                            <% } else { %>
+                                <i class="rating__star far fa-star"></i>
+                            <% } %>
+                        <% } %>
+                            <span><%= product[0].AverageRating %>/5</span>
+
                         </div>
                         
                     </div>

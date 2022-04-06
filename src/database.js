@@ -320,7 +320,10 @@ class Product extends Database {
 
     async fetch_product(hash) {
         let fetched_product, return_error;
-        fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
+        // fetched_product = await this.query(`SELECT pr.product_id, p.name, p.description FROM product_reviews pr INNER JOIN products p ON ( pr.product_id = p.id  ) WHERE p.hash = ? LIMIT 1`, [hash])
+        
+        fetched_product = await this.query(`SELECT p.hash, p.name, p.description, AVG(r.rating) as AverageRating FROM products p INNER JOIN product_reviews pr ON pr.product_id = p.id INNER JOIN reviews r ON pr.review_id = r.id WHERE p.hash = ? LIMIT 1`, [hash])
+        
 
         if (fetched_product.length < 1)
         {
@@ -328,6 +331,7 @@ class Product extends Database {
             return [fetched_product, return_error]
         }
 
+        fetched_product[0].AverageRating = Math.round(fetched_product[0].AverageRating);
         fetched_product[0].pictures = await this.query(this.queries.product.product_pictures, hash)
 
         console.log(fetched_product)

@@ -65,7 +65,7 @@ function handleReviewResponse(responseObject) {
                 </div>
                 <div class="description">
                     <p> ${ element.content } </p>
-                    ${ (element.hash) ? '<a href="/p?hash=${element.hash}">Gå till produkt...</a>' : "" }
+                    ${ (element.hash) ? '<a href="/p?hash=' + element.hash + '">Gå till produkt...</a>' : "" }
                 </div>
             </div>
         </div> 
