@@ -88,29 +88,31 @@ async function get_dark_mode_setting() {
 
     // Vid DOM change (tex sökning) så ska den uppdatera darkmode för de elementen
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    let observer = new MutationObserver( async (mutations, observer) =>  {
+    let observer = new MutationObserver( async (mutations) =>  {
         
         // console.log("DOM change detected", mutations[0], "on website; darkmode options = ", darkmodeEnabled);
-
+    
         // Ifall knappen själv ändras så ska den inte orsaka en mutation
         if ( mutations[0].target == $("#dark_mode_button")[0] ) return;
-
+    
         darkmodeEnabled = await get_dark_mode_setting();
         
         setDarkMode(darkmodeEnabled);
             
     });
-
+    
     // define what element should be observed by the observer
     // and what types of mutations trigger the callback
     // https://dom.spec.whatwg.org/#interface-mutationobserver
     // Hämta DOM noden (motsvarande var l = document.getElementById("#"))
-    observer.observe($(".main-content")[0], {
-        // attributes:    true,
-        childList:     true,
-        // characterData: true,
-        subtree: true
-    });
+    if ($(".main-content, #profile-content")[0]) {
+        observer.observe($(".main-content, #profile-content")[0], {
+            // attributes:    true,
+            childList:     true,
+            // characterData: true,
+            subtree: true
+        });
+    }
 
 }));
 
